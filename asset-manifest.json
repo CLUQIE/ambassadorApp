@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.js": "/ambassadorApp/static/js/main.f89f1d75.chunk.js",
+    "main.js.map": "/ambassadorApp/static/js/main.f89f1d75.chunk.js.map",
+    "runtime-main.js": "/ambassadorApp/static/js/runtime-main.2f928d8f.js",
+    "runtime-main.js.map": "/ambassadorApp/static/js/runtime-main.2f928d8f.js.map",
+    "static/css/2.4911f66b.chunk.css": "/ambassadorApp/static/css/2.4911f66b.chunk.css",
+    "static/js/2.54050b09.chunk.js": "/ambassadorApp/static/js/2.54050b09.chunk.js",
+    "static/js/2.54050b09.chunk.js.map": "/ambassadorApp/static/js/2.54050b09.chunk.js.map",
+    "index.html": "/ambassadorApp/index.html",
+    "precache-manifest.6ab005f1852c98f567e91c687eda806d.js": "/ambassadorApp/precache-manifest.6ab005f1852c98f567e91c687eda806d.js",
+    "service-worker.js": "/ambassadorApp/service-worker.js",
+    "static/css/2.4911f66b.chunk.css.map": "/ambassadorApp/static/css/2.4911f66b.chunk.css.map",
+    "static/js/2.54050b09.chunk.js.LICENSE.txt": "/ambassadorApp/static/js/2.54050b09.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2f928d8f.js",
+    "static/css/2.4911f66b.chunk.css",
+    "static/js/2.54050b09.chunk.js",
+    "static/js/main.f89f1d75.chunk.js"
+  ]
+}
