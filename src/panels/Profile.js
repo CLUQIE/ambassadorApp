@@ -1,7 +1,6 @@
 import React from 'react';
-import { Avatar, RichCell, Header, Group, FormLayout, PanelHeader, Panel, Textarea, Input, FixedLayout, FormLayoutGroup, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
+import { Avatar, RichCell, Group, FormLayout, PanelHeader, Panel, Input, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
 import Icon28ServicesOutline from '@vkontakte/icons/dist/28/services_outline';
-import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';

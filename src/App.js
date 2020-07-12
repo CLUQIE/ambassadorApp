@@ -44,8 +44,8 @@ const App = () => {
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Home id='home'  go={go} />
-			<Events id='events' go={go} />
+			<Home id='home'  fetchedUser={fetchedUser} go={go} />
+			<Events id='events' fetchedUser={fetchedUser} go={go} />
 			<Info id='info' go={go} />
 			<Achivements id='achivements' go={go} />
 			<Profile id='profile' fetchedUser={fetchedUser} go={go} />

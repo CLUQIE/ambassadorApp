@@ -1,43 +1,102 @@
 import React from 'react';
-import { FormLayout, Div, Input, Group, Button, PanelHeader, Panel, Textarea, Select, File, FormLayoutGroup } from '@vkontakte/vkui';
-import Icon24Camera from '@vkontakte/icons/dist/24/camera';
+import {postRequest} from "./functions/fetch.js"
+import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select } from '@vkontakte/vkui';
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 
-function sendRequest(method, url, body=null) {
-	const headers = {
-		'Content-Type': 'application/json'
+
+
+
+const Home = ({fetchedUser, id, go }) => {
+
+ const [nameEvent, setNameEvent] = React.useState();
+ const [place, setPlace] = React.useState();
+ const [date, setDate] = React.useState();
+ const [companyRole, setCompanyRole] = React.useState();
+ const [links, setLinks] = React.useState();
+ const [participants, setParticipants] = React.useState();
+ const [participationForm, SetParticipationForm] = React.useState();
+ const [eventForm, SetEventForm] = React.useState();
+ const [eventType, SetEventType] = React.useState();
+ const [description, SetDescription] = React.useState();
+ const [notes, SetNotes] = React.useState();
+ const [callback, setCallback] = React.useState();
+
+	const onChangeNameEvent = (event) => {
+		setNameEvent(event.target.value)
 	}
-	return fetch(url, { method: method, headers: headers }).then(response => {
-		return response.text()
-	})
-}
-// body: JSON.stringify(body),
 
-const body = {
-	nameEvent: "MeetupForYou",
-	date: "01.03.2022",
-	participants: 50,
-	description: "Hello world",
-	ambassador: "Miron",
-	university: "RSU",
-	estimation: {
-		organisation: 4,
-		infoSupport: 3,
-		materialSupport: 5,
-		callback: 3
+	const onChangePlace = (event) => {
+		setPlace(event.target.value)
 	}
-}
 
+	const onChangeDate = (event) => {
+		setDate(event.target.value)
+	}
 
-const Home = ({ id, go }) => {
+	const onChangeCompanyRole = (event) => {
+		setCompanyRole(event.target.value)
+	}
+	const onChangeCallback = (event) => {
+		setCallback(event.target.value)
+	}
 
-	console.log('Work 2')
-	sendRequest('GET', requestURL, body)
+	const onChangeParticipants = (event) => {
+		setParticipants(event.target.value)
+	}
+
+	const onChangeLinks = (event) => {
+		setLinks(event.target.value)
+	}
+
+	const onChangeParticipationForm = (event) => {
+		SetParticipationForm(event.target.value)
+	}
+
+	const onChangeEventForm = (event) => {
+		SetEventForm(event.target.value)
+	}
+
+	const onChangeEventType = (event) => {
+		SetEventType(event.target.value)
+	}
+
+	const onChangeDescription = (event) => {
+		SetDescription(event.target.value)
+	}
+
+	const onChangeNotes = (event) => {
+		SetNotes(event.target.value)
+	}
+
+	const onClickForm = () => {
+		console.log('onClickForm triggered')
+		console.log(participationForm)
+		let body = JSON.stringify({
+			participationForm: participationForm ,
+			eventForm: eventForm,
+			nameEvent: nameEvent,
+			eventPlace: place, 
+			date: date,
+			eventType: eventType,
+			description: description,
+			companyRole: companyRole,
+			participants: participants,
+			participantsCallback: callback,
+			uploadsLinks: '',
+			publicationLinks: links,
+			notes: notes,
+			ambassador: fetchedUser.first_name+' '+fetchedUser.last_name,
+			university: 'МГУ'
+		   })
+		postRequest('POST', requestURL, body)
 		.then(data => console.log(data))
 		.catch(err => console.log(err))
+	
+	}
 
+	console.log(fetchedUser)
 
 	return (
 
@@ -46,46 +105,46 @@ const Home = ({ id, go }) => {
 			<PanelHeader>Форма отчета</PanelHeader>
 			{/* {fetchedUser && */}
 			<Group>
-				<form action="#" method="GET">
 					<FormLayout>
-						
-						<Input type="text" name="name" top="Название мероприятия" required/>
-						<Input type="text" name="university" top="Учебное заведение" />
-						<Select top="Формат участиия" placeholder=" ">
-              				<option value="infosupport">Информационная поддержка</option>
-              				<option value="ownorgananization">Собственная организация</option>
-							<option value="partofevent">Часть партнерского мероприятия</option>
+						{/* <Input type="text" name="ambassador" top="Имя Фамилия" required 
+							status={value ? 'valid' : 'error'}
+							bottom={value ? '' : 'Введите обязательное поле!'}
+						/> */}
+						<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" />
+						<Input onChange={onChangePlace} type="text" name="university" top="Место проведения" />
+						<Select onChange={onChangeParticipationForm} top="Формат участия" placeholder=" ">
+              				<option value="Информационная поддержка">Информационная поддержка</option>
+              				<option value="Собственная организация">Собственная организация</option>
+							<option value="Часть партнерского мероприятия">Часть партнерского мероприятия</option>
            				</Select>
-					   	<Select top="Формат мероприятия" placeholder=" " required>
-              				<option value="online">Онлайн</option>
-              				<option value="yarmarka">Ярмарка вакансий</option>
-							<option value="forum">Форум</option>
-							<option value="offline">Другие оффлайн</option>
+					   	<Select onChange={onChangeEventForm} top="Формат мероприятия" placeholder=" ">
+              				<option value="Онлайн">Онлайн</option>
+              				<option value="Ярмарка вакансий">Ярмарка вакансий</option>
+							<option value="Форум">Форум</option>
+							<option value="Другие оффлайн">Другие оффлайн</option>
            				</Select>
-						<Input type="text" name="data" top="Дата проведения" />
-						<Select top="Тип мероприятия" placeholder=" " required>
-              				<option value="game">Игра</option>
-              				<option value="lecture">Лекция</option>
-							<option value="masterclass">Мастер класс</option>
-							<option value="stend">Стенд</option>
-							<option value="other">Другое</option>
+						<Input onChange={onChangeDate} type="text" name="data" top="Дата проведения" />
+						<Select onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " >
+              				<option value="Игра">Игра</option>
+              				<option value="Лекция">Лекция</option>
+							<option value="Мастер класс">Мастер класс</option>
+							<option value="Стенд">Стенд</option>
+							<option value="Другое">Другое</option>
            				</Select>
-						<Textarea name="description" top="Краткое описание" />
-						<Input type="text" name="participants" top="Роль компании" />
-						<Input type="text" name="participants" top="Отзывы участников" />
-						<Input type="number" name="participants" top="Количество участников" required/>
-						<File style={{ backgroundColor: '#fc2c38' }} top="Фотографии с мероприятия" before={<Icon24Camera />} controlSize="l">
+						<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" />
+						<Input onChange={onChangeCompanyRole} type="text" name="participants" top="Роль компании" />
+						<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников" />
+						<Input onChange={onChangeParticipants} type="number" name="participants" top="Количество участников" />
+						{/* <File style={{ backgroundColor: '#fc2c38' }} top="Фотографии с мероприятия" before={<Icon24Camera />} controlSize="l">
           					Открыть галерею
-        				</File>
-						<Textarea top="Ссылки" />
-						<Textarea top="Заметки" />
+        				</File> */}
+						<Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" />
+						<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
+
+						<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
 					</FormLayout>
-					<Div>
-						<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={go} data-to="events">Добавить</Button>
-					</Div>
-				</form>
 			</Group>
-			{/* onClick={go} data-to="events"  */}
+
 		</Panel>
 	)
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Avatar, Cell, Header, Group, Button, PanelHeader, Panel, Textarea, PanelHeaderButton, FixedLayout, FormLayoutGroup, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
+import { Cell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
 import Icon28ServicesOutline from '@vkontakte/icons/dist/28/services_outline';
-import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -20,16 +19,16 @@ const Info = ({ id, go }) => {
             </PanelHeader>
 			<Group>
                     <Cell expandable>
+                        Инструменты
+                    </Cell>
+                    <Cell expandable>
+                        Важные документы
+                    </Cell>
+                    <Cell expandable>
                         Презентации
                     </Cell>
                     <Cell expandable>
-                        Фирменный стиль
-                    </Cell>
-                    <Cell expandable>
-                        Облако
-                    </Cell>
-                    <Cell expandable>
-                        Курсы от Skillbox
+                        Что-то еще
                     </Cell>
 			</Group>
 
