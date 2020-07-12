@@ -1,34 +1,77 @@
 import React from 'react';
-import { Avatar, RichCell, Group, FormLayout, PanelHeader, Panel, Input, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
-import Icon28ServicesOutline from '@vkontakte/icons/dist/28/services_outline';
+import {postRequest} from "./functions/fetch.js"
+import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Div, Header, Cell,PanelHeaderButton}  from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
+import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
+import Icon28WriteOutline from '@vkontakte/icons/dist/28/write_outline';
 
 
+const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 
 
 const Profile = ({ fetchedUser, id, go }) => {
-    
+
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [user, setUser] = React.useState();
+
+    if(fetchedUser != null){
+        const vkID = JSON.stringify({"vkID":fetchedUser.id})
+        postRequest('POST', requestURL, vkID)
+		.then(data => {console.log(data); setUser(data[0]); setIsLoading(false)})
+		.catch(err => console.log(err))
+    }
+   
+    console.log(fetchedUser)
+
+    if (isLoading===true){
+        return (
+          <Panel id={id}>
+              <ScreenSpinner />
+              <Div style={{textAlign: 'center'}}></Div>
+          </Panel>
+          )
+    }
+
 	return (
+   
     
 		<Panel id={id}>
 
-			<PanelHeader>
+			<PanelHeader
+            // left={<Icon28WriteOutline data-to="editprofile" onClick={go}/>}>
+            left={<PanelHeaderButton><Icon28WriteOutline style={{color: "#fc2c38"}} onClick={go} data-to="editprofile"/></PanelHeaderButton>}>
                 Профиль
             </PanelHeader>
             {fetchedUser && 
-			<Group>
+            <div>
                 <RichCell
-                before={<Avatar size={72}  />}>
-                Name Name
+                        before={<Avatar size={72}  src={fetchedUser.photo_100} />}>
+                        {user.fullName}
+                        <br/>
                 </RichCell>
-                <FormLayout>
-                    <Input type="text" name="dateofbirth" top="Дата рождениия" required />
-                    <Input type="text" name="dateofbirth" top="Учебное заведение" required />
-                    <Input type="text" name="dateofbirth" top="Номер телефона" required />
-                </FormLayout>
-			</Group>
+                <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
+                    <Cell indicator={fetchedUser.city.title} >
+                        Город
+                    </Cell>
+                    <Cell indicator={user.university} >
+                        Учебное заведение
+                    </Cell>
+                    <Cell indicator={user.birthday} >
+                        Дата рождения
+                    </Cell>
+                    <Cell indicator={user.phoneNumber} >
+                        Номер телефона
+                    </Cell>
+                </Group>  
+                  
+                    {/* <SimpleCell multiline>
+                        <InfoRow header="Город">
+                            {fetchedUser.city.title}
+                        </InfoRow>
+                    </SimpleCell> */}
+            </div>
             }
 
             <Epic>
@@ -37,11 +80,11 @@ const Profile = ({ fetchedUser, id, go }) => {
                     <Icon28NewsfeedOutline/>
                 </TabbarItem>
 
-                <TabbarItem  onClick={go} data-to="achivements" text="Достижения">
-                    <Icon28ServicesOutline />
+                <TabbarItem  onClick={go} data-to="achivements" text="Рейтинг">
+                    <Icon28FireOutline />
                 </TabbarItem>
 
-                <TabbarItem onClick={go} data-to="info" text="Информация">
+                <TabbarItem onClick={go} data-to="info" text="База знаний">
                     <Icon28BrainOutline />
                 </TabbarItem>
 

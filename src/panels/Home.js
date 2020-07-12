@@ -1,6 +1,6 @@
 import React from 'react';
 import {postRequest} from "./functions/fetch.js"
-import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select } from '@vkontakte/vkui';
+import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select, PanelHeaderBack } from '@vkontakte/vkui';
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
@@ -102,7 +102,9 @@ const Home = ({fetchedUser, id, go }) => {
 
 		<Panel id={id}>
 
-			<PanelHeader>Форма отчета</PanelHeader>
+			<PanelHeader
+			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="events"/>}
+			>Форма отчета</PanelHeader>
 			{/* {fetchedUser && */}
 			<Group>
 					<FormLayout>

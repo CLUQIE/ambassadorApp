@@ -1,12 +1,12 @@
 import React from 'react';
 import {postRequest} from "./functions/fetch.js"
-import {excelReport} from "./functions/excelReport"
-import { Avatar, Div, Banner, Group, Button, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner, PanelHeaderBack} from '@vkontakte/vkui';
-import Icon28ServicesOutline from '@vkontakte/icons/dist/28/services_outline';
+// import {excelReport} from "./functions/excelReport"
+import { Avatar, Div, Banner, Group, Button, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner} from '@vkontakte/vkui';
 import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
+import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
 
@@ -18,9 +18,11 @@ const Events = ({fetchedUser, id, go }) => {
     const [request, setrequest] = React.useState(true);
     const [eventsData, setEventsData] = React.useState();
 
-    const onClickReport = () => {
-		excelReport(eventsData)
-	}
+    
+
+    // const onClickReport = () => {
+	// 	excelReport(eventsData)
+	// }
 
   
         if(request){
@@ -33,7 +35,7 @@ const Events = ({fetchedUser, id, go }) => {
             .catch(err => console.log(err))
         }
 
-      if (isLoading==true){
+      if (isLoading===true){
           return (
             <Panel id={id}>
                 <ScreenSpinner />
@@ -46,8 +48,9 @@ const Events = ({fetchedUser, id, go }) => {
             <Panel id={id}>
     
                 <PanelHeader 
-                    left={<Icon28AddOutline onClick={onClickReport}/>}
-                    right={<PanelHeaderButton><Icon28AddOutline style={{color: "#fc2c38"}} onClick={go} data-to="home" /></PanelHeaderButton>}>
+                    // left={<Icon28AddOutline onClick={onClickReport}/>}
+                    left={<PanelHeaderButton><Icon28AddOutline style={{color: "#fc2c38"}} onClick={go} data-to="home"/></PanelHeaderButton>}>
+                    {/* right={<PanelHeaderButton><Icon28AddOutline style={{color: "#fc2c38"}} onClick={go} data-to="home" /></PanelHeaderButton>}> */}
                     Мероприятия
                 </PanelHeader>
                 <Group>
@@ -64,17 +67,17 @@ const Events = ({fetchedUser, id, go }) => {
                     </Div>
                 </Group>
     
-                <Epic>
+                <Epic style={{marginTop: '100px'}}>
                     <Tabbar>
                     <TabbarItem style={{color:"#fc2c38"}} onClick={go} data-to="events" text="Мероприятия">
                         <Icon28NewsfeedOutline style={{color:"#fc2c38"}}/>
                     </TabbarItem>
     
-                    <TabbarItem onClick={go} data-to="achivements" text="Достижения">
-                        <Icon28ServicesOutline/>
+                    <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
+                        <Icon28FireOutline/>
                     </TabbarItem>
     
-                    <TabbarItem onClick={go} data-to="info" text="Информация">
+                    <TabbarItem onClick={go} data-to="info" text="База знаний">
                         <Icon28BrainOutline/>
                     </TabbarItem>
     

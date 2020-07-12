@@ -8,17 +8,21 @@ import Events from './panels/Events';
 import Info from './panels/Info';
 import Achivements from './panels/Achivements';
 import Profile from './panels/Profile';
+import Eventsmentor from './panels/eventsMentor';
+import Editprofile from './panels/editProfile';
 
 const ROUTES = {
 	HOME: 'home',
 	EVENTS: 'events',
 	INFO: 'info',
 	ACHIVEMENTS: 'achivements',
-	PROFILE: 'profile'
+	PROFILE: 'profile',
+	EVENTSMENTOR: 'eventsmentor',
+	EDITPROFILE: 'editprofile'
 };
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState(ROUTES.EVENTS);
+	const [activePanel, setActivePanel] = useState(ROUTES.PROFILE);
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
@@ -42,15 +46,33 @@ const App = () => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
 
-	return (
-		<View activePanel={activePanel} popout={popout}>
-			<Home id='home'  fetchedUser={fetchedUser} go={go} />
-			<Events id='events' fetchedUser={fetchedUser} go={go} />
-			<Info id='info' go={go} />
-			<Achivements id='achivements' go={go} />
-			<Profile id='profile' fetchedUser={fetchedUser} go={go} />
-		</View>
-	);
+	const role = 'ambassador';
+	// const role = 'ambassador';
+
+
+	if (role === 'ambassador'){
+		return (
+			<View activePanel={activePanel} popout={popout}>
+				<Home id='home'  fetchedUser={fetchedUser} go={go} />
+				<Events id='events' fetchedUser={fetchedUser} go={go} />
+				<Info id='info' go={go} />
+				<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
+				<Profile id='profile' fetchedUser={fetchedUser} go={go} />
+				<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
+			</View>
+		);
+	}
+	else if(role === 'mentor'){
+		// setActivePanel(ROUTES.EVENTSMENTOR);
+		return (
+			<View activePanel={activePanel} popout={popout}>
+				<Profile id='profile' fetchedUser={fetchedUser} go={go} />
+				{/* <Events id='events' fetchedUser={fetchedUser} go={go} /> */}
+				<Eventsmentor id='eventsmentor' fetchedUser={fetchedUser} go={go} />
+			</View>
+		);
+	}
+
 }
 
 export default App;

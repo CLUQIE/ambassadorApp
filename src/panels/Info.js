@@ -1,9 +1,10 @@
 import React from 'react';
 import { Cell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
-import Icon28ServicesOutline from '@vkontakte/icons/dist/28/services_outline';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
+import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
+import Icon28CopyOutline from '@vkontakte/icons/dist/28/copy_outline';
 
 
 
@@ -18,16 +19,16 @@ const Info = ({ id, go }) => {
                 База знаний
             </PanelHeader>
 			<Group>
-                    <Cell expandable>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
                         Инструменты
                     </Cell>
-                    <Cell expandable>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
                         Важные документы
                     </Cell>
-                    <Cell expandable>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
                         Презентации
                     </Cell>
-                    <Cell expandable>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
                         Что-то еще
                     </Cell>
 			</Group>
@@ -38,11 +39,11 @@ const Info = ({ id, go }) => {
                     <Icon28NewsfeedOutline/>
                 </TabbarItem>
 
-                <TabbarItem onClick={go} data-to="achivements" text="Достижения">
-                    <Icon28ServicesOutline/>
+                <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
+                    <Icon28FireOutline/>
                 </TabbarItem>
 
-                <TabbarItem style={{color:"#fc2c38"}} onClick={go} data-to="info" text="Информация">
+                <TabbarItem style={{color:"#fc2c38"}} onClick={go} data-to="info" text="База знаний">
                     <Icon28BrainOutline style={{color:"#fc2c38"}}/>
                 </TabbarItem>
 

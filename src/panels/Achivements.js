@@ -1,58 +1,43 @@
 import React from 'react';
-import { Card, CardGrid, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group} from '@vkontakte/vkui';
-import Icon28ServicesOutline from '@vkontakte/icons/dist/28/services_outline';
+import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, Avatar} from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
+import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 
 
 
-
-const Achivements = ({ id, go }) => {
+const Achivements = ({fetchedUser, id, go }) => {
 
 	return (
 
 		<Panel id={id}>
 
 			<PanelHeader>
-                Достижения
+                Рейтинг
             </PanelHeader>
+            {fetchedUser && 
 			<Group>
-            <CardGrid>
-                <Card size="s">
-                    <div style={{ height: 96 }} />
-                </Card>
-                <Card size="s">
-                    <div style={{ height: 96 }} />
-                </Card>
-                <Card size="s">
-                    <div style={{ height: 96 }} />
-                </Card>
-            </CardGrid>
-            <CardGrid>
-                <Card size="s">
-                    <div style={{ height: 96 }} />
-                </Card>
-                <Card size="s">
-                    <div style={{ height: 96 }} />
-                </Card>
-                <Card size="s">
-                    <div style={{ height: 96 }} />
-                </Card>
-            </CardGrid>
-			</Group>
-
+              {/* <Header mode="secondary">Что-то</Header> */}
+              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'154 балла'}description="Mail.ru Group">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
+              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'121 балл'}description="Команда ВКонтакте">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
+              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'109 баллов'}description="МГУ">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
+              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'108 баллов'}description="Бауманка">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
+              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'99 балла'}description="ИТМО">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
+              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'0 баллов'}description="РГУ им. А.Н. Косыгина">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
+            </Group>
+            }
             <Epic>
                 <Tabbar>
                 <TabbarItem onClick={go} data-to="events" text="Мероприятия">
                     <Icon28NewsfeedOutline/>
                 </TabbarItem>
 
-                <TabbarItem style={{color:"#fc2c38"}} onClick={go} data-to="achivements" text="Достижения">
-                    <Icon28ServicesOutline style={{color:"#fc2c38"}}/>
+                <TabbarItem style={{color:"#fc2c38"}} onClick={go} data-to="achivements" text="Рейтинг">
+                    <Icon28FireOutline style={{color:"#fc2c38"}}/>
                 </TabbarItem>
 
-                <TabbarItem onClick={go} data-to="info" text="Информация">
+                <TabbarItem onClick={go} data-to="info" text="База знаний">
                     <Icon28BrainOutline />
                 </TabbarItem>
 
