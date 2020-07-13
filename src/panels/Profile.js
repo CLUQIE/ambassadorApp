@@ -1,11 +1,13 @@
 import React from 'react';
 import {postRequest} from "./functions/fetch.js"
-import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Div, Header, Cell,PanelHeaderButton}  from '@vkontakte/vkui';
+import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Div, Header, Cell,PanelHeaderButton, Banner, Button, Counter, SimpleCell}  from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 import Icon28WriteOutline from '@vkontakte/icons/dist/28/write_outline';
+import Icon28LikeOutline from '@vkontakte/icons/dist/28/like_outline';
+import Icon16Like from '@vkontakte/icons/dist/16/like';
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
@@ -45,12 +47,14 @@ const Profile = ({ fetchedUser, id, go }) => {
                 Профиль
             </PanelHeader>
             {fetchedUser && 
-            <div>
-                <RichCell
+            <div style={{marginBottom: 100}}>
+                <Group>
+                    <RichCell
                         before={<Avatar size={72}  src={fetchedUser.photo_100} />}>
                         {user.fullName}
                         <br/>
-                </RichCell>
+                    </RichCell>
+                </Group>
                 <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
                     <Cell indicator={fetchedUser.city.title} >
                         Город
@@ -64,7 +68,32 @@ const Profile = ({ fetchedUser, id, go }) => {
                     <Cell indicator={user.phoneNumber} >
                         Номер телефона
                     </Cell>
-                </Group>  
+                </Group> 
+                <Group header={<Header mode="secondary">Статистика</Header>}>
+                    <Banner
+                        mode="image"
+                        header="Мои достижения"
+                        subheader="Разблокировано 9 из 36"
+                        background={
+                        <div
+                            style={{
+                                backgroundColor: '#65c063',
+                                backgroundImage: 'url(https://sun9-59.userapi.com/7J6qHkTa_P8VKRTO5gkh6MizcCEefz04Y0gDmA/y6dSjdtPU4U.jpg)',
+                                backgroundPosition: 'right bottom',
+                                backgroundSize: 320,
+                                backgroundRepeat: 'no-repeat',
+                                    }}
+                        />
+                        }
+                        actions={<Button mode="overlay_primary">Подробнее</Button>}
+                    />
+                    <SimpleCell>
+                        <Cell before={<Avatar style={{ background: 'var(--destructive)' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>17</Counter>}>Проведено мероприятий</Cell>
+                    </SimpleCell>
+                    <SimpleCell>
+                        <Cell before={<Avatar style={{ background: 'var(--destructive)' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>5</Counter>}>Какая-то статистика</Cell>
+                    </SimpleCell>
+                </Group> 
                   
                     {/* <SimpleCell multiline>
                         <InfoRow header="Город">
@@ -75,7 +104,7 @@ const Profile = ({ fetchedUser, id, go }) => {
             }
 
             <Epic>
-                <Tabbar>
+                <Tabbar style={{marginTop: '100px'}}>
                 <TabbarItem onClick={go} data-to="events" text="Мероприятия">
                     <Icon28NewsfeedOutline/>
                 </TabbarItem>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {postRequest} from "./functions/fetch.js"
-import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack } from '@vkontakte/vkui';
+import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link } from '@vkontakte/vkui';
 
 
 
@@ -73,7 +73,7 @@ const Editprofile = ({fetchedUser, id, go }) => {
                         <Input onChange={onChangeUniversity} type="text" name="dateofbirth" top="Учебное заведение" required />
                         <Input onChange={onChangePhone} type="text" name="dateofbirth" top="Телефон" required />
                         <Input onChange={onChangeBirthday} type="text" name="dateofbirth" top="Дата рождения" required />
-
+						<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 						<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 					</FormLayout>
 			</Group>
