@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f8e15d4967a4f4c917676a926ec69fe0",
+    "revision": "593f7bdb9efff2d595c2b873bd7b89fe",
     "url": "/ambassadorApp/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ambassadorApp/static/js/2.4860c0d0.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a1b83226c9ffd7e7627b",
-    "url": "/ambassadorApp/static/js/main.958e1bed.chunk.js"
+    "revision": "fa918fd0207fefc80f36",
+    "url": "/ambassadorApp/static/js/main.29b1aee5.chunk.js"
   },
   {
     "revision": "17a43eb23f4255587cc8",
