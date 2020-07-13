@@ -1,9 +1,6 @@
 import React from 'react';
-import {  Card, CardGrid, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem,  PanelHeaderBack} from '@vkontakte/vkui';
-import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
-import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
-import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
-import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
+import {  Card, CardGrid, Group, PanelHeader, Panel,  PanelHeaderBack} from '@vkontakte/vkui';
+
 
 const avatars = {
     bestclub: 'http://pngimg.com/uploads/bitcoin/bitcoin_PNG31.png',

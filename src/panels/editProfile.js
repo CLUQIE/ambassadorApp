@@ -70,8 +70,8 @@ const Editprofile = ({fetchedUser, id, go }) => {
 			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile"/>}>Редактирование профиля</PanelHeader>
 			<Group>
 					<FormLayout>
-						<Input type="text" name="lastname" top="Фамилия" required />
-						<Input type="text" name="firstname" top="Имя" required />
+						<Input value = {fetchedUser.last_name} type="text" name="lastname" top="Фамилия" required />
+						<Input value = {fetchedUser.first_name} type="text" name="firstname" top="Имя" required />
 						<Input onChange={onChangeMiddleName} type="text" name="middlename" top="Отчество" required />
 						<Input type="text" name="lastnamelat" top="Фамилия на латинице" required />
 						<Input type="text" name="firstnamelat" top="Имя на латинице" required />
@@ -82,7 +82,7 @@ const Editprofile = ({fetchedUser, id, go }) => {
 
 
 						
-						<Input type="text" name="city" top="Город" required />
+						<Input value = {fetchedUser.city.title} type="text" name="city" top="Город" required />
                         <Input onChange={onChangeUniversity} type="text" name="university" top="Учебное заведение" required />
 						<Input type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
 						<Input type="text" name="fiorector" top="ФИО ректора" required />
@@ -95,25 +95,25 @@ const Editprofile = ({fetchedUser, id, go }) => {
 							<option value="1 курс магистратура">1 курс магистратура</option>
 							<option value="2 курс магистратура">2 курс магистратура</option>
 							<option value="1 курс бакалавриат">Аспирант</option>
-							<option value="отрудник ВУЗа">Сотрудник ВУЗа</option>
+							<option value="сотрудник ВУЗа">Сотрудник ВУЗа</option>
            				</Select>
 						<Input type="text" name="facultatifull" top="Факультет полный" required />
 						<Input type="text" name="facultatiless" top="Факультет кратко" required />
 						<Input type="text" name="speciality" top="Специальность" required />
 						<Input type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
 						<Select  top="Размер одежды" placeholder=" ">
-              				<option value="1 курс бакалавриат">XS мужской</option>
-              				<option value="2 курс бакалавриат">S мужской</option>
-							<option value="3 курс бакалавриат">M мужской</option>
-							<option value="4 курс бакалавриат">L мужской</option>
-							<option value="1 курс магистратура">XL мужской</option>
-							<option value="2 курс магистратура">XXL мужской</option>
-							<option value="1 курс бакалавриат">XXS женский</option>
-							<option value="отрудник ВУЗа">XS женский</option>
-							<option value="отрудник ВУЗа">S женский</option>
-							<option value="отрудник ВУЗа">M женский</option>
-							<option value="отрудник ВУЗа">L женский</option>
-							<option value="отрудник ВУЗа">XL женский</option>
+              				<option value="XS мужской">XS мужской</option>
+              				<option value="S мужской">S мужской</option>
+							<option value="M мужской">M мужской</option>
+							<option value="L мужской">L мужской</option>
+							<option value="XL мужской">XL мужской</option>
+							<option value="XXL мужской">XXL мужской</option>
+							<option value="XXS женский">XXS женский</option>
+							<option value="XS женский">XS женский</option>
+							<option value="S женский">S женский</option>
+							<option value="M женский">M женский</option>
+							<option value="L женский">L женский</option>
+							<option value="XL женский">XL женский</option>
            				</Select>
                         <Input onChange={onChangePhone}  defaultValue="+7 123 344 15 48" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" required />
 						<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
