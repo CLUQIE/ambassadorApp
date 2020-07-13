@@ -6,9 +6,7 @@ import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 
 const avatars = {
-
     bestclub: 'http://pngimg.com/uploads/bitcoin/bitcoin_PNG31.png',
-
 };
 
 
@@ -101,25 +99,6 @@ const Badge = ({ id, go }) => {
                     </Card>
                 </CardGrid>
             </Group>
-            <Epic>
-                <Tabbar>
-                <TabbarItem onClick={go} data-to="events" text="Мероприятия">
-                    <Icon28NewsfeedOutline/>
-                </TabbarItem>
-
-                <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
-                    <Icon28FireOutline/>
-                </TabbarItem>
-
-                <TabbarItem style={{color:"#fc2c38"}} onClick={go} data-to="info" text="База знаний">
-                    <Icon28BrainOutline style={{color:"#fc2c38"}}/>
-                </TabbarItem>
-
-                <TabbarItem onClick={go} data-to="profile" text="Профиль">
-                    <Icon28UserOutline width={32} height={32}/>
-                </TabbarItem>
-                </Tabbar>  
-            </Epic>
 
 		</Panel>
 	)
