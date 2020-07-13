@@ -38,8 +38,11 @@ const Events = ({fetchedUser, id, go }) => {
       if (isLoading===true){
           return (
             <Panel id={id}>
+            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                 <ScreenSpinner style={{ marginTop: '50%' }}/>
-                <Div style={{textAlign: 'center', marginTop: 100}}></Div>
+            </div>
+                {/* <ScreenSpinner style={{ marginTop: '50%' }}/>
+                <Div style={{textAlign: 'center', marginTop: 100}}></Div> */}
             </Panel>
             )
       }

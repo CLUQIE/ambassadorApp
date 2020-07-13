@@ -1,6 +1,6 @@
 import React from 'react';
 import {postRequest} from "./functions/fetch.js"
-import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Div, Header, Cell,PanelHeaderButton, Banner, Button, Counter, SimpleCell}  from '@vkontakte/vkui';
+import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell,PanelHeaderButton, Banner, Button, Counter, SimpleCell}  from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -29,8 +29,11 @@ const Profile = ({ fetchedUser, id, go }) => {
     if (isLoading===true){
         return (
           <Panel id={id}>
-              <ScreenSpinner style={{ marginTop: '50%' }}/>
-              <Div style={{textAlign: 'center'}}></Div>
+            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                <ScreenSpinner style={{ marginTop: '50%' }}/>
+            </div>
+              {/* <ScreenSpinner style={{ marginTop: '50%' }}/>
+              <Div style={{textAlign: 'center'}}></Div> */}
           </Panel>
           )
     }
