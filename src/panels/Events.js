@@ -41,8 +41,6 @@ const Events = ({fetchedUser, id, go }) => {
             <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                 <ScreenSpinner style={{ marginTop: '50%' }}/>
             </div>
-                {/* <ScreenSpinner style={{ marginTop: '50%' }}/>
-                <Div style={{textAlign: 'center', marginTop: 100}}></Div> */}
             </Panel>
             )
       }

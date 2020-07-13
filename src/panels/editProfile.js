@@ -1,6 +1,6 @@
 import React from 'react';
 import {postRequest} from "./functions/fetch.js"
-import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link } from '@vkontakte/vkui';
+import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link, Select } from '@vkontakte/vkui';
 
 
 
@@ -14,8 +14,9 @@ const Editprofile = ({fetchedUser, id, go }) => {
     if(fetchedUser != null){
         const vkID = JSON.stringify({"vkID":fetchedUser.id})
         postRequest('POST', requestURL, vkID)
-		.then(data => {console.log(data); setUser(data[0])})
+		.then(data => { setUser(data[0])})
 		.catch(err => console.log(err))
+		// console.log(data);
     }
 
  const [user, setUser] = React.useState();
@@ -42,7 +43,7 @@ const Editprofile = ({fetchedUser, id, go }) => {
 	}
 
 	const onClickForm = () => {
-		console.log('onClickForm triggered')
+		// console.log('onClickForm triggered')
 		let body = JSON.stringify({
             _id: user._id,
             vkID: user.vkID,
@@ -55,8 +56,8 @@ const Editprofile = ({fetchedUser, id, go }) => {
             university: university
         })
 		postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
-		.then(data => console.log(data))
-		.catch(err => console.log(err))
+		// .then(data => console.log(data))
+		// .catch(err => console.log(err))
 	
 	}
 
@@ -69,10 +70,52 @@ const Editprofile = ({fetchedUser, id, go }) => {
 			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile"/>}>Редактирование профиля</PanelHeader>
 			<Group>
 					<FormLayout>
-						<Input onChange={onChangeMiddleName} type="text" name="dateofbirth" top="Отчество" required />
-                        <Input onChange={onChangeUniversity} type="text" name="dateofbirth" top="Учебное заведение" required />
-                        <Input onChange={onChangePhone} type="text" name="dateofbirth" top="Телефон" required />
-                        <Input onChange={onChangeBirthday} type="text" name="dateofbirth" top="Дата рождения" required />
+						<Input type="text" name="lastname" top="Фамилия" required />
+						<Input type="text" name="firstname" top="Имя" required />
+						<Input onChange={onChangeMiddleName} type="text" name="middlename" top="Отчество" required />
+						<Input type="text" name="lastnamelat" top="Фамилия на латинице" required />
+						<Input type="text" name="firstnamelat" top="Имя на латинице" required />
+						<Input type="text" name="email" top="Личная почта" required />
+
+						
+						<Input onChange={onChangeBirthday} type="date" defaultValue="01.01.1900" name="dateofbirth" top="Дата рождения" required />
+
+
+						
+						<Input type="text" name="city" top="Город" required />
+                        <Input onChange={onChangeUniversity} type="text" name="university" top="Учебное заведение" required />
+						<Input type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
+						<Input type="text" name="fiorector" top="ФИО ректора" required />
+						<Input type="text" name="emailrector" top="Электронный адрес ректора" required />
+						<Select  top="Статус в ВУЗе" placeholder=" ">
+              				<option value="1 курс бакалавриат">1 курс бакалавриат</option>
+              				<option value="2 курс бакалавриат">2 курс бакалавриат</option>
+							<option value="3 курс бакалавриат">3 курс бакалавриат</option>
+							<option value="4 курс бакалавриат">4 курс бакалавриат</option>
+							<option value="1 курс магистратура">1 курс магистратура</option>
+							<option value="2 курс магистратура">2 курс магистратура</option>
+							<option value="1 курс бакалавриат">Аспирант</option>
+							<option value="отрудник ВУЗа">Сотрудник ВУЗа</option>
+           				</Select>
+						<Input type="text" name="facultatifull" top="Факультет полный" required />
+						<Input type="text" name="facultatiless" top="Факультет кратко" required />
+						<Input type="text" name="speciality" top="Специальность" required />
+						<Input type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
+						<Select  top="Размер одежды" placeholder=" ">
+              				<option value="1 курс бакалавриат">XS мужской</option>
+              				<option value="2 курс бакалавриат">S мужской</option>
+							<option value="3 курс бакалавриат">M мужской</option>
+							<option value="4 курс бакалавриат">L мужской</option>
+							<option value="1 курс магистратура">XL мужской</option>
+							<option value="2 курс магистратура">XXL мужской</option>
+							<option value="1 курс бакалавриат">XXS женский</option>
+							<option value="отрудник ВУЗа">XS женский</option>
+							<option value="отрудник ВУЗа">S женский</option>
+							<option value="отрудник ВУЗа">M женский</option>
+							<option value="отрудник ВУЗа">L женский</option>
+							<option value="отрудник ВУЗа">XL женский</option>
+           				</Select>
+                        <Input onChange={onChangePhone}  defaultValue="+7 123 344 15 48" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" required />
 						<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 						<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 					</FormLayout>

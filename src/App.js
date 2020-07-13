@@ -10,6 +10,7 @@ import Achivements from './panels/Achivements';
 import Profile from './panels/Profile';
 import Eventsmentor from './panels/eventsMentor';
 import Editprofile from './panels/editProfile';
+import Badge from './panels/Badge';
 
 const ROUTES = {
 	HOME: 'home',
@@ -18,7 +19,8 @@ const ROUTES = {
 	ACHIVEMENTS: 'achivements',
 	PROFILE: 'profile',
 	EVENTSMENTOR: 'eventsmentor',
-	EDITPROFILE: 'editprofile'
+	EDITPROFILE: 'editprofile',
+	BADGE: 'badge'
 };
 
 const App = () => {
@@ -59,6 +61,7 @@ const App = () => {
 				<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
 				<Profile id='profile' fetchedUser={fetchedUser} go={go} />
 				<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
+				<Badge id='badge' go={go} />
 			</View>
 		);
 	}

@@ -20,11 +20,11 @@ const Profile = ({ fetchedUser, id, go }) => {
     if(fetchedUser != null){
         const vkID = JSON.stringify({"vkID":fetchedUser.id})
         postRequest('POST', requestURL, vkID)
-		.then(data => {console.log(data); setUser(data[0]); setIsLoading(false)})
+		.then(data => { setUser(data[0]); setIsLoading(false)})
 		.catch(err => console.log(err))
     }
    
-    console.log(fetchedUser)
+    // console.log(fetchedUser)
 
     if (isLoading===true){
         return (
@@ -53,10 +53,35 @@ const Profile = ({ fetchedUser, id, go }) => {
                 <Group>
                     <RichCell
                         before={<Avatar size={72}  src={fetchedUser.photo_100} />}>
-                        {user.fullName}
+                        <span style={{fontSize: '18px'}}>{user.fullName}</span>
                         <br/>
                     </RichCell>
                 </Group>
+                <Group header={<Header mode="secondary">Статистика</Header>}>
+                    <Banner
+                        mode="image"
+                        header="Мои достижения"
+                        subheader="Разблокировано 0 из 36"
+                        background={
+                        <div
+                            style={{
+                                backgroundColor: '#fc2c38',
+                                // backgroundImage: 'url(https://i.imgur.com/6yyTLZO.jpg)',
+                                // backgroundPosition: 'right bottom',
+                                backgroundSize: 320,
+                                backgroundRepeat: 'no-repeat',
+                                    }}
+                        />
+                        }
+                        actions={<Button onClick={go} data-to="badge" style={{background:'white',  color:"#fc2c38"}} mode="overlay_primary">Подробнее</Button>}
+                    />
+                    <SimpleCell>
+                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>2</Counter>}>Проведено мероприятий</Cell>
+                    </SimpleCell>
+                    <SimpleCell>
+                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>1</Counter>}>Какая-то статистика</Cell>
+                    </SimpleCell>
+                </Group> 
                 <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
                     <Cell indicator={fetchedUser.city.title} >
                         Город
@@ -71,31 +96,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                         Номер телефона
                     </Cell>
                 </Group> 
-                <Group header={<Header mode="secondary">Статистика</Header>}>
-                    <Banner
-                        mode="image"
-                        header="Мои достижения"
-                        subheader="Разблокировано 10 из 36"
-                        background={
-                        <div
-                            style={{
-                                backgroundColor: '#65c063',
-                                backgroundImage: 'url(https://sun9-59.userapi.com/7J6qHkTa_P8VKRTO5gkh6MizcCEefz04Y0gDmA/y6dSjdtPU4U.jpg)',
-                                backgroundPosition: 'right bottom',
-                                backgroundSize: 320,
-                                backgroundRepeat: 'no-repeat',
-                                    }}
-                        />
-                        }
-                        actions={<Button mode="overlay_primary">Подробнее</Button>}
-                    />
-                    <SimpleCell>
-                        <Cell before={<Avatar style={{ background: 'var(--destructive)' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>17</Counter>}>Проведено мероприятий</Cell>
-                    </SimpleCell>
-                    <SimpleCell>
-                        <Cell before={<Avatar style={{ background: 'var(--destructive)' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>5</Counter>}>Какая-то статистика</Cell>
-                    </SimpleCell>
-                </Group> 
+                
                   
                     {/* <SimpleCell multiline>
                         <InfoRow header="Город">
