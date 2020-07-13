@@ -75,7 +75,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                     <Banner
                         mode="image"
                         header="Мои достижения"
-                        subheader="Разблокировано 9 из 36"
+                        subheader="Разблокировано 10 из 36"
                         background={
                         <div
                             style={{
