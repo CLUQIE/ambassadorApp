@@ -6,7 +6,6 @@ import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 import Icon28WriteOutline from '@vkontakte/icons/dist/28/write_outline';
-import Icon28LikeOutline from '@vkontakte/icons/dist/28/like_outline';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 
 
@@ -30,8 +29,8 @@ const Profile = ({ fetchedUser, id, go }) => {
     if (isLoading===true){
         return (
           <Panel id={id}>
-              <ScreenSpinner />
-              <Div style={{textAlign: 'center', marginTop: 100}}></Div>
+              <ScreenSpinner style={{ marginTop: '50%' }}/>
+              <Div style={{textAlign: 'center'}}></Div>
           </Panel>
           )
     }

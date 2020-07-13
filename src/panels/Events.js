@@ -38,7 +38,7 @@ const Events = ({fetchedUser, id, go }) => {
       if (isLoading===true){
           return (
             <Panel id={id}>
-                <ScreenSpinner />
+                <ScreenSpinner style={{ marginTop: '50%' }}/>
                 <Div style={{textAlign: 'center', marginTop: 100}}></Div>
             </Panel>
             )
