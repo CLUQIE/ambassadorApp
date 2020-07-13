@@ -1,5 +1,5 @@
 import React from 'react';
-import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, Avatar} from '@vkontakte/vkui';
+import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, Avatar, Select, FormLayout} from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -16,6 +16,23 @@ const Achivements = ({fetchedUser, id, go }) => {
 			<PanelHeader>
                 Рейтинг
             </PanelHeader>
+            <FormLayout>
+                <Select  top="Месяц" placeholder=" ">
+                            <option value="Год">Год</option>
+              				<option value="Январь">Январь</option>
+              				<option value="Февраль">Февраль</option>
+                            <option value="Март">Март</option>
+                            <option value="Апрель">Апрель</option>
+                            <option value="Май">Май</option>
+                            <option value="Июнь">Июнь</option>
+                            <option value="Июль">Июль</option>
+                            <option value="Август">Август</option>
+                            <option value="Сентябрь">Сентябрь</option>
+                            <option value="Октябрь">Октябрь</option>
+                            <option value="Ноябрь">Ноябрь</option>
+                            <option value="Декабрь">Декабрь</option>
+           	    </Select>
+            </FormLayout>
             {fetchedUser && 
 			<Group>
               {/* <Header mode="secondary">Что-то</Header> */}
