@@ -31,7 +31,7 @@ const Profile = ({ fetchedUser, id, go }) => {
         return (
           <Panel id={id}>
               <ScreenSpinner />
-              <Div style={{textAlign: 'center'}}></Div>
+              <Div style={{textAlign: 'center', marginTop: 100}}></Div>
           </Panel>
           )
     }
