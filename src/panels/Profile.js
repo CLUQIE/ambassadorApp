@@ -16,11 +16,16 @@ const Profile = ({ fetchedUser, id, go }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
+    const [eventsData, setEventsData] = React.useState();
 
     if(fetchedUser != null){
         const vkID = JSON.stringify({"vkID":fetchedUser.id})
         postRequest('POST', requestURL, vkID)
-		.then(data => { setUser(data[0]); setIsLoading(false)})
+        
+		.then(data => { 
+            setEventsData(data)
+            setUser(data[0]); 
+            setIsLoading(false)})
 		.catch(err => console.log(err))
     }
    
@@ -57,7 +62,9 @@ const Profile = ({ fetchedUser, id, go }) => {
                         <br/>
                     </RichCell>
                 </Group>
+                
                 <Group header={<Header mode="secondary">Статистика</Header>}>
+                
                     <Banner
                         mode="image"
                         header="Мои достижения"
@@ -75,9 +82,12 @@ const Profile = ({ fetchedUser, id, go }) => {
                         }
                         actions={<Button onClick={go} data-to="badge" style={{background:'white',  color:"#fc2c38"}} mode="overlay_primary">Подробнее</Button>}
                     />
+                    
                     <SimpleCell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>2</Counter>}>Проведено мероприятий</Cell>
+                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} 
+                        indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>Проведено мероприятий</Cell>
                     </SimpleCell>
+                    
                     <SimpleCell>
                         <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>1</Counter>}>Какая-то статистика</Cell>
                     </SimpleCell>
@@ -95,6 +105,17 @@ const Profile = ({ fetchedUser, id, go }) => {
                     <Cell indicator={user.phoneNumber} >
                         Номер телефона
                     </Cell>
+                    <Cell indicator={user.personalEmail} >
+                        Email
+                    </Cell>
+                    <Cell indicator={user.statusInUniversity} >
+                        Статус
+                    </Cell>
+                    <Cell indicator={user.clothingSize} >
+                        Размер одежды
+                    </Cell>
+                    
+                    
                 </Group> 
                 
                   

@@ -23,7 +23,24 @@ const Editprofile = ({fetchedUser, id, go }) => {
  const [middleName, setMiddleName] = React.useState();
  const [university, setUniversity] = React.useState();
  const [phone, setPhone] = React.useState();
+ const [latinsecondname, setLatinSecondName] = React.useState();
+ const [latinfirstname, setLatinFirstName] = React.useState();
+ const [personalemail, setPersonalEmail] = React.useState();
  const [birthday, setBirthday] = React.useState();
+ const [universitypostaladdress, setUniversityPostalAddress] = React.useState();
+ const [rectorfullname, setRectorFullName] = React.useState();
+ const [rectorpostaladdress, setRectorPostalAddress] = React.useState();
+ const [statusinuniversity, setStatusInUniversity] = React.useState();
+ const [facultyfull, setFacultyFull] = React.useState();
+ const [facultyshortly, setFacultyShortly] = React.useState();
+ const [specialty, setSpecialty] = React.useState();
+ const [personalpostaladdress, setPersonalPostalAddress] = React.useState();
+ const [clothingsize, setClothingSize] = React.useState();
+ const [lastname, setLastName] = React.useState();
+ const [firstname, setFirstName] = React.useState();
+ const [town, setTown] = React.useState();
+ 
+ 
 
 
 	const onChangeMiddleName = (event) => {
@@ -38,22 +55,94 @@ const Editprofile = ({fetchedUser, id, go }) => {
 		setPhone(event.target.value)
 	}
 
+	const onChangeLatinSecondName = (event) => {
+		setLatinSecondName(event.target.value)
+	}
+
+	const onChangeLatinFirstName = (event) => {
+		setLatinFirstName(event.target.value)
+	}
+
+	const onChangePersonalEmail = (event) => {
+		setPersonalEmail(event.target.value)
+	}
+
 	const onChangeBirthday = (event) => {
 		setBirthday(event.target.value)
+	}
+
+	const onChangeUniversityPostalAddress = (event) => {
+		setUniversityPostalAddress(event.target.value)
+	}
+
+	const onChangeRectorFullName = (event) => {
+		setRectorFullName(event.target.value)
+	}
+
+	const onChangeRectorPostalAddress = (event) => {
+		setRectorPostalAddress(event.target.value)
+	}
+
+	const onChangeStatusInUniversity = (event) => {
+		setStatusInUniversity(event.target.value)
+	}
+
+	const onChangeFacultyFull = (event) => {
+		setFacultyFull(event.target.value)
+	}
+
+	const onChangeFacultyShortly = (event) => {
+		setFacultyShortly(event.target.value)
+	}
+
+	const onChangeSpecialty = (event) => {
+		setSpecialty(event.target.value)
+	}
+
+	const onChangePersonalPostalAddress = (event) => {
+		setPersonalPostalAddress(event.target.value)
+	}
+
+	const onChangeClothingSize = (event) => {
+		setClothingSize(event.target.value)
+	}
+
+	const onChangeLastName = (event) => {
+		setLastName(event.target.value)
+	}
+
+	const onChangeFirstName = (event) => {
+		setFirstName(event.target.value)
+	}
+
+	const onChangeTown = (event) => {
+		setTown(event.target.value)
 	}
 
 	const onClickForm = () => {
 		// console.log('onClickForm triggered')
 		let body = JSON.stringify({
             _id: user._id,
-            vkID: user.vkID,
-            role: "ambassador",
-            avatar: " ",
-            achievements: "Никто не пришел!,Встреча с подписчиками!,Купил конфеты всем!",
+			vkID: user.vkID,
+			avatar: " ",
+			achievements: " ",
             phoneNumber: phone,
             birthday: birthday,
-            fullName: fetchedUser.last_name+' '+fetchedUser.first_name+' '+middleName,
-            university: university
+			fullName: lastname+' '+firstname+' '+middleName,
+			latinFullName: latinsecondname+' '+latinfirstname,
+			personalEmail: personalemail,
+			town: town,
+			university: university,
+			universityPostalAddress: universitypostaladdress,
+			rectorFullName: rectorfullname,
+			rectorPostalAddress: rectorpostaladdress,
+			statusInUniversity: statusinuniversity,
+			facultyFull: facultyfull,
+			facultyShortly: facultyshortly,
+			specialty: specialty,
+			personalPostalAddress: personalpostaladdress,
+			clothingSize: clothingsize
+			// role: "ambassador",
         })
 		postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
 		// .then(data => console.log(data))
@@ -67,27 +156,22 @@ const Editprofile = ({fetchedUser, id, go }) => {
 		<Panel id={id}>
 
 			<PanelHeader
-			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile"/>}>Редактирование профиля</PanelHeader>
+			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile" onMouseUp={go}/>}>Редактирование профиля</PanelHeader>
 			<Group>
 					<FormLayout>
-						<Input value = {fetchedUser.last_name} type="text" name="lastname" top="Фамилия" required />
-						<Input value = {fetchedUser.first_name} type="text" name="firstname" top="Имя" required />
+						<Input onChange={onChangeLastName} value = {fetchedUser.last_name} type="text" name="lastname" top="Фамилия" required />
+						<Input onChange={onChangeFirstName} value = {fetchedUser.first_name} type="text" name="firstname" top="Имя" required />
 						<Input onChange={onChangeMiddleName} type="text" name="middlename" top="Отчество" required />
-						<Input type="text" name="lastnamelat" top="Фамилия на латинице" required />
-						<Input type="text" name="firstnamelat" top="Имя на латинице" required />
-						<Input type="text" name="email" top="Личная почта" required />
-
-						
-						<Input onChange={onChangeBirthday} type="date" defaultValue="01.01.1900" name="dateofbirth" top="Дата рождения" required />
-
-
-						
-						<Input value = {fetchedUser.city.title} type="text" name="city" top="Город" required />
+						<Input onChange={onChangeLatinSecondName} type="text" name="lastnamelat" top="Фамилия на латинице" required />
+						<Input onChange={onChangeLatinFirstName} type="text" name="firstnamelat" top="Имя на латинице" required />
+						<Input onChange={onChangePersonalEmail} type="text" name="email" top="Личная почта" required />
+						<Input onChange={onChangeBirthday} type="date" placeholder="01.01.1900"  name="dateofbirth" top="Дата рождения" required />
+						<Input onChange={onChangeTown} value = {fetchedUser.city.title} type="text" name="city" top="Город" required />
                         <Input onChange={onChangeUniversity} type="text" name="university" top="Учебное заведение" required />
-						<Input type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
-						<Input type="text" name="fiorector" top="ФИО ректора" required />
-						<Input type="text" name="emailrector" top="Электронный адрес ректора" required />
-						<Select  top="Статус в ВУЗе" placeholder=" ">
+						<Input onChange={onChangeUniversityPostalAddress} type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
+						<Input onChange={onChangeRectorFullName} type="text" name="fiorector" top="ФИО ректора" required />
+						<Input onChange={onChangeRectorPostalAddress} type="text" name="emailrector" top="Электронный адрес ректора" required />
+						<Select  onChange={onChangeStatusInUniversity} top="Статус в ВУЗе" placeholder=" ">
               				<option value="1 курс бакалавриат">1 курс бакалавриат</option>
               				<option value="2 курс бакалавриат">2 курс бакалавриат</option>
 							<option value="3 курс бакалавриат">3 курс бакалавриат</option>
@@ -96,12 +180,12 @@ const Editprofile = ({fetchedUser, id, go }) => {
 							<option value="2 курс магистратура">2 курс магистратура</option>
 							<option value="1 курс бакалавриат">Аспирант</option>
 							<option value="сотрудник ВУЗа">Сотрудник ВУЗа</option>
-           				</Select>
-						<Input type="text" name="facultatifull" top="Факультет полный" required />
-						<Input type="text" name="facultatiless" top="Факультет кратко" required />
-						<Input type="text" name="speciality" top="Специальность" required />
-						<Input type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
-						<Select  top="Размер одежды" placeholder=" ">
+           				</Select> 
+						<Input onChange={onChangeFacultyFull} type="text" name="facultatifull" top="Факультет полный" required />
+						<Input onChange={onChangeFacultyShortly} type="text" name="facultatiless" top="Факультет кратко" required />
+						<Input onChange={onChangeSpecialty}  type="text" name="speciality" top="Специальность" required />
+						<Input onChange={onChangePersonalPostalAddress} type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
+						<Select  onChange={onChangeClothingSize}  top="Размер одежды" placeholder=" ">
               				<option value="XS мужской">XS мужской</option>
               				<option value="S мужской">S мужской</option>
 							<option value="M мужской">M мужской</option>
@@ -115,7 +199,7 @@ const Editprofile = ({fetchedUser, id, go }) => {
 							<option value="L женский">L женский</option>
 							<option value="XL женский">XL женский</option>
            				</Select>
-                        <Input onChange={onChangePhone}  defaultValue="+7 123 344 15 48" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" required />
+                        <Input onChange={onChangePhone}  placeholder="88005553535" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="number" name="phonenumber" top="Телефон" required />
 						<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 						<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 					</FormLayout>
