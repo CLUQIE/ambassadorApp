@@ -4,12 +4,15 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
+const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
+
 
 
 
 
 const Home = ({fetchedUser, id, go }) => {
 
+ const [user, setUser] = React.useState();
  const [nameEvent, setNameEvent] = React.useState();
  const [place, setPlace] = React.useState();
  const [date, setDate] = React.useState();
@@ -22,6 +25,17 @@ const Home = ({fetchedUser, id, go }) => {
  const [description, SetDescription] = React.useState();
  const [notes, SetNotes] = React.useState();
  const [callback, setCallback] = React.useState();
+
+ if (fetchedUser != null) {
+	const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+	postRequest('POST', userRequestURL, vkID)
+		.then(data => {
+		setUser(data[0])
+	})
+		.catch(err => console.log(err))
+	}
+
+	// console.log(user)
 
 	const onChangeNameEvent = (event) => {
 		setNameEvent(event.target.value)
@@ -71,8 +85,8 @@ const Home = ({fetchedUser, id, go }) => {
 	}
 
 	const onClickForm = () => {
-		console.log('onClickForm triggered')
-		console.log(participationForm)
+		// console.log('onClickForm triggered')
+		// console.log(participationForm)
 		let body = JSON.stringify({
 			participationForm: participationForm ,
 			eventForm: eventForm,
@@ -87,14 +101,17 @@ const Home = ({fetchedUser, id, go }) => {
 			uploadsLinks: '',
 			publicationLinks: links,
 			notes: notes,
-			ambassador: fetchedUser.first_name+' '+fetchedUser.last_name,
-			university: ''
+			ambassador: user.fullName,
+			university: user.university
 		   })
 		postRequest('POST', requestURL, body)
 		.then(data => console.log(data))
 		.catch(err => console.log(err))
 	
 	}
+	
+	
+	
 
 	console.log(fetchedUser)
 

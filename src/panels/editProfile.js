@@ -36,10 +36,13 @@ const Editprofile = ({fetchedUser, id, go }) => {
  const [specialty, setSpecialty] = React.useState();
  const [personalpostaladdress, setPersonalPostalAddress] = React.useState();
  const [clothingsize, setClothingSize] = React.useState();
- const [lastname, setLastName] = React.useState();
- const [firstname, setFirstName] = React.useState();
- const [town, setTown] = React.useState();
+//  const [lastname, setLastName] = React.useState();
+//  const [firstname, setFirstName] = React.useState();
+//  const [town, setTown] = React.useState();
  
+ const [lastname, setLastName] = React.useState(fetchedUser.last_name);
+ const [firstname, setFirstName] = React.useState(fetchedUser.first_name);
+ const [town, setTown] = React.useState(fetchedUser.city.title);
  
 
 
@@ -159,14 +162,14 @@ const Editprofile = ({fetchedUser, id, go }) => {
 			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile" onMouseUp={go}/>}>Редактирование профиля</PanelHeader>
 			<Group>
 					<FormLayout>
-						<Input onChange={onChangeLastName} value = {fetchedUser.last_name} type="text" name="lastname" top="Фамилия" required />
-						<Input onChange={onChangeFirstName} value = {fetchedUser.first_name} type="text" name="firstname" top="Имя" required />
+						<Input onChange={onChangeLastName}  type="text" name="lastname" top="Фамилия" required />
+						<Input onChange={onChangeFirstName}  type="text" name="firstname" top="Имя" required />
 						<Input onChange={onChangeMiddleName} type="text" name="middlename" top="Отчество" required />
 						<Input onChange={onChangeLatinSecondName} type="text" name="lastnamelat" top="Фамилия на латинице" required />
 						<Input onChange={onChangeLatinFirstName} type="text" name="firstnamelat" top="Имя на латинице" required />
 						<Input onChange={onChangePersonalEmail} type="text" name="email" top="Личная почта" required />
 						<Input onChange={onChangeBirthday} type="date" placeholder="01.01.1900"  name="dateofbirth" top="Дата рождения" required />
-						<Input onChange={onChangeTown} value = {fetchedUser.city.title} type="text" name="city" top="Город" required />
+						<Input onChange={onChangeTown} type="text" name="city" top="Город" required />
                         <Input onChange={onChangeUniversity} type="text" name="university" top="Учебное заведение" required />
 						<Input onChange={onChangeUniversityPostalAddress} type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
 						<Input onChange={onChangeRectorFullName} type="text" name="fiorector" top="ФИО ректора" required />
