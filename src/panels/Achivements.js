@@ -1,13 +1,40 @@
 import React from 'react';
-import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, Avatar, Select, FormLayout} from '@vkontakte/vkui';
+import { postRequest } from "./functions/fetch.js"
+import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, Avatar, Tabs, TabsItem, HorizontalScroll, ScreenSpinner} from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 
 
+const requestURL = 'https://ambassador-todo.herokuapp.com/access/role'
 
 const Achivements = ({fetchedUser, id, go }) => {
+
+
+const [users, setUsers] = React.useState();
+const [isLoading, setIsLoading] = React.useState(true);
+const [request, setRequest] = React.useState(true);
+
+if (request) {
+    postRequest('POST', requestURL, JSON.stringify({role: 'ambassador'}))
+        .then(data => {
+            setUsers(data);
+            setIsLoading(false)
+            setRequest(false)
+        })
+        .catch(err => console.log(err))
+}
+
+if (isLoading === true) {
+    return (
+        <Panel id={id}>
+            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                <ScreenSpinner style={{ marginTop: '50%' }} />
+            </div>
+        </Panel>
+    )
+}
 
 	return (
 
@@ -16,7 +43,21 @@ const Achivements = ({fetchedUser, id, go }) => {
 			<PanelHeader>
                 Рейтинг
             </PanelHeader>
-            <FormLayout>
+            {/* <Tabs>
+                <HorizontalScroll>
+                    <TabsItem selected>Общий</TabsItem>
+                    <TabsItem>Сентябрь</TabsItem>
+                    <TabsItem>Октябрь</TabsItem>
+                    <TabsItem>Ноябрь</TabsItem>
+                    <TabsItem>Декабрь</TabsItem>
+                    <TabsItem>Январь</TabsItem>
+                    <TabsItem>Февраль</TabsItem>
+                    <TabsItem>Март</TabsItem>
+                    <TabsItem>Апрель</TabsItem>
+                    <TabsItem>Май</TabsItem>
+                </HorizontalScroll>
+            </Tabs> */}
+            {/* <FormLayout>
                 <Select  top="Месяц" placeholder=" ">
                             <option value="Год">Год</option>
               				<option value="Январь">Январь</option>
@@ -32,18 +73,13 @@ const Achivements = ({fetchedUser, id, go }) => {
                             <option value="Ноябрь">Ноябрь</option>
                             <option value="Декабрь">Декабрь</option>
            	    </Select>
-            </FormLayout>
-            {fetchedUser && 
+            </FormLayout> */}
 			<Group>
-              {/* <Header mode="secondary">Что-то</Header> */}
-              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'154 балла'}description="Mail.ru Group">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
-              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'121 балл'}description="Команда ВКонтакте">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
-              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'109 баллов'}description="МГУ">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
-              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'108 баллов'}description="Бауманка">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
-              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'99 балла'}description="ИТМО">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
-              <SimpleCell before={<Avatar size={48} src={fetchedUser.photo_100} />}  after={'0 баллов'}description="РГУ им. А.Н. Косыгина">{fetchedUser.first_name} {fetchedUser.last_name}</SimpleCell>
+            {users.map((user, id) => (
+              <SimpleCell href={"https://vk.com/id"+user.vkID}  target="_blank" key={user._id} after={(id+1)*4+' score'} description={user.university}>{user.fullName}</SimpleCell>
+            ))}
             </Group>
-            }
+            
             <Epic>
                 <Tabbar>
                 <TabbarItem onClick={go} data-to="events" text="Мероприятия">
@@ -65,6 +101,7 @@ const Achivements = ({fetchedUser, id, go }) => {
             </Epic>
 
 		</Panel>
+        
 	)
 }
 
