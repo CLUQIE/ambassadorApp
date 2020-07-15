@@ -88,7 +88,7 @@ const Home = ({fetchedUser, id, go }) => {
 			publicationLinks: links,
 			notes: notes,
 			ambassador: fetchedUser.first_name+' '+fetchedUser.last_name,
-			university: 'МГУ'
+			university: ''
 		   })
 		postRequest('POST', requestURL, body)
 		.then(data => console.log(data))
