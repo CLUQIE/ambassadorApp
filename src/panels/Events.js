@@ -19,7 +19,7 @@ const Events = ({ fetchedUser, id, go }) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const [request, setrequest] = React.useState(true);
     const [eventsData, setEventsData] = React.useState();
-
+    const [activeModal, setActiveModal] = React.useState(null);
 
 
     // const onClickReport = () => {
@@ -62,22 +62,22 @@ const Events = ({ fetchedUser, id, go }) => {
         )
     }
 
-    const onClickGo = () => {
-        return (
-            <ActionSheet>
-                <ActionSheetItem autoclose>
-                    По дням
-        </ActionSheetItem>
-                <ActionSheetItem autoclose>
-                    По неделям
-        </ActionSheetItem>
-                <ActionSheetItem autoclose>
-                    По месяцам
-        </ActionSheetItem>
-                <ActionSheetItem autoclose mode="cancel">Отменить</ActionSheetItem>
-            </ActionSheet>
-        )
-    }
+    // const onClickGo = () => {
+    //     return (
+    //         <ActionSheet>
+    //             <ActionSheetItem autoclose>
+    //                 По дням
+    //     </ActionSheetItem>
+    //             <ActionSheetItem autoclose>
+    //                 По неделям
+    //     </ActionSheetItem>
+    //             <ActionSheetItem autoclose>
+    //                 По месяцам
+    //     </ActionSheetItem>
+    //             <ActionSheetItem autoclose mode="cancel">Отменить</ActionSheetItem>
+    //         </ActionSheet>
+    //     )
+    // }
 
     return (
         <Panel id={id}>
@@ -96,7 +96,7 @@ const Events = ({ fetchedUser, id, go }) => {
                                 src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />}
                             header={event.nameEvent}
                             subheader={event.date}
-                            actions={<Button style={{ background: "#fc2c38" }} onClick={onClickGo} data-to="infoevents">Подробнее</Button>}
+                            actions={<Button style={{ background: "#fc2c38" }} onClick={go} data-to="infoevents">Подробнее</Button>}
                         />
                     ))}
                 </Div>

@@ -76,7 +76,7 @@ if (isLoading === true) {
             </FormLayout> */}
 			<Group>
             {users.map((user, id) => (
-              <SimpleCell  key={user._id} after={(id+1)*4+' score'} description={user.university}>{user.fullName}</SimpleCell>
+              <SimpleCell href={"https://vk.com/id"+user.vkID}  target="_blank" key={user._id} after={(id+1)*4+' score'} description={user.university}>{user.fullName}</SimpleCell>
             ))}
             </Group>
             
