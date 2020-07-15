@@ -142,7 +142,7 @@ const Home = ({fetchedUser, id, go }) => {
 							<option value="Форум">Форум</option>
 							<option value="Другие оффлайн">Другие оффлайн</option>
            				</Select>
-						<Input onChange={onChangeDate} type="text" name="data" top="Дата проведения" />
+						<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" />
 						<Select onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " >
               				<option value="Игра">Игра</option>
               				<option value="Лекция">Лекция</option>

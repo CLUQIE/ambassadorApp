@@ -79,7 +79,7 @@ const Events = ({fetchedUser, id, go }) => {
                         src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />}
                         header={event.nameEvent}
                         subheader={event.date}
-                        actions={<Button style={{background: "#fc2c38"}}>Подробнее</Button>}
+                        actions={<Button style={{background: "#fc2c38"}}  onClick={go} data-to="infoevents">Подробнее</Button>}
                         />
                      ))}
                     </Div>

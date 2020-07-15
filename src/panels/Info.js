@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem} from '@vkontakte/vkui';
+import { Cell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header} from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -18,23 +18,45 @@ const Info = ({ id, go }) => {
 			<PanelHeader>
                 База знаний
             </PanelHeader>
-			<Group>
-                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
-                        Инструменты
-                    </Cell>
-                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
-                        Важные документы
-                    </Cell>
-                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
-                        Презентации
-                    </Cell>
-                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}>
-                        Что-то еще
+			<Group header={<Header mode="secondary">Ресурсы</Header>}>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://cloud.mail.ru/public/25Qx/czjsThY2z">
+                        Папка на Облаке
                     </Cell>
 			</Group>
+            <Group header={<Header mode="secondary">Ссылки на компанию</Header>}>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}  target="_blank" href="https://www.youtube.com/user/TPMGTU/videos">
+                        YouTube-канал Технострим  
+                    </Cell>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>}  target="_blank" href="https://www.corp.mail.ru">
+                        Официальный сайт Mail.ru Group 
+                    </Cell>
+			</Group>
+            <Group header={<Header mode="secondary">Метериалы для чтения</Header>}>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://vk.com/video-153502007_456239172?list=5df1abb45183e47f5e">
+                        Интервью с Дмитрием Гришиным
+                    </Cell>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://vk.com/video-153502007_456239241"> 
+                        Выступление Бориса Добродеева
+                    </Cell>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://thebell.io/boris-dobrodeev-mail-ru-group-legkie-modeli-v-internete-zakonchilis">
+                        Интервью Бориса Добродеева 
+                    </Cell>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://www.rbc.ru/interview/technology_and_media/16/12/2019/5dee6c7d9a794758a559c774">
+                        Интервью Бориса Добродеева 
+                    </Cell>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://corp.mail.ru/ru/company/strategy_ceo/">
+                        Подробный рассказ Бориса Добродеева о экосистеме экосистем  
+                    </Cell>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://corp.imgsmail.ru/media/files/esg2019.pdf">
+                        Первый отчет в области устойчивого развития (ESG-отчет)  
+                    </Cell>
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://corp.imgsmail.ru/media/files/mail.rugrouparfy2019.pdf">
+                        Годовой отчет 2019 года 
+                    </Cell>
+            </Group>
 
-            <Epic>
-                <Tabbar>
+            <Epic style={{ marginTop: '100px' }}>
+                <Tabbar >
                 <TabbarItem onClick={go} data-to="events" text="Мероприятия">
                     <Icon28NewsfeedOutline/>
                 </TabbarItem>

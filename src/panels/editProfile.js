@@ -162,7 +162,7 @@ const Editprofile = ({fetchedUser, id, go }) => {
 			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile" onMouseUp={go}/>}>Редактирование профиля</PanelHeader>
 			<Group>
 					<FormLayout>
-						<Input onChange={onChangeLastName}  type="text" name="lastname" top="Фамилия" required />
+						<Input onChange={onChangeLastName} type="text" name="lastname" top="Фамилия" required />
 						<Input onChange={onChangeFirstName}  type="text" name="firstname" top="Имя" required />
 						<Input onChange={onChangeMiddleName} type="text" name="middlename" top="Отчество" required />
 						<Input onChange={onChangeLatinSecondName} type="text" name="lastnamelat" top="Фамилия на латинице" required />

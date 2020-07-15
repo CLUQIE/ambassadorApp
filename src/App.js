@@ -11,6 +11,7 @@ import Profile from './panels/Profile';
 import Eventsmentor from './panels/eventsMentor';
 import Editprofile from './panels/editProfile';
 import Badge from './panels/Badge';
+import Infoevents from './panels/InfoEvents';
 
 const ROUTES = {
 	HOME: 'home',
@@ -20,7 +21,8 @@ const ROUTES = {
 	PROFILE: 'profile',
 	EVENTSMENTOR: 'eventsmentor',
 	EDITPROFILE: 'editprofile',
-	BADGE: 'badge'
+	BADGE: 'badge',
+	INFOEVENTS: 'infoevents'
 };
 
 const App = () => {
@@ -62,6 +64,7 @@ const App = () => {
 				<Profile id='profile' fetchedUser={fetchedUser} go={go} />
 				<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
 				<Badge id='badge' go={go} />
+				<Infoevents id='infoevents' go={go} />
 			</View>
 		);
 	}

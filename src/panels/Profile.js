@@ -98,7 +98,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                         <Cell indicator={fetchedUser.city.title} >
                             Город
                     </Cell>
-                        <Cell indicator={user.university} >
+                    <Cell indicator={user.university} >
                             Учебное заведение
                     </Cell>
                         <Cell indicator={user.birthday} >
