@@ -10,7 +10,7 @@ import Icon16Like from '@vkontakte/icons/dist/16/like';
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
-const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/events/ambassador'
+const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
 
 
 const Profile = ({ fetchedUser, id, go }) => {
@@ -25,18 +25,15 @@ const Profile = ({ fetchedUser, id, go }) => {
 
             .then(data => {
                 setUser(data[0]);
-            })
-            .catch(err => console.log(err))
-            .then(data => {
-                postRequest('POST', eventsRequestURL, JSON.stringify({ ambassador: data[0].fullName }))
+                postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
                     .then(events => {
                         setEventsData(events)
                         setIsLoading(false)
                     })
             })
+            .catch(err => console.log(err))
     }
 
-    // console.log(fetchedUser)
 
     if (isLoading === true) {
         return (
@@ -44,8 +41,6 @@ const Profile = ({ fetchedUser, id, go }) => {
                 <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                     <ScreenSpinner style={{ marginTop: '50%' }} />
                 </div>
-                {/* <ScreenSpinner style={{ marginTop: '50%' }}/>
-              <Div style={{textAlign: 'center'}}></Div> */}
             </Panel>
         )
     }
@@ -56,7 +51,6 @@ const Profile = ({ fetchedUser, id, go }) => {
         <Panel id={id}>
 
             <PanelHeader
-                // left={<Icon28WriteOutline data-to="editprofile" onClick={go}/>}>
                 left={<PanelHeaderButton><Icon28WriteOutline style={{ color: "#fc2c38" }} onClick={go} data-to="editprofile" /></PanelHeaderButton>}>
                 Профиль
             </PanelHeader>
@@ -95,9 +89,10 @@ const Profile = ({ fetchedUser, id, go }) => {
                                 indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>Проведено мероприятий</Cell>
                         </SimpleCell>
 
-                        <SimpleCell>
-                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} indicator={<Counter>1</Counter>}>Какая-то статистика</Cell>
-                        </SimpleCell>
+                        {/* <SimpleCell>
+                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} 
+                            indicator={<Counter>1</Counter>}>Какая-то статистика</Cell>
+                        </SimpleCell> */}
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
                         <Cell indicator={fetchedUser.city.title} >
@@ -124,13 +119,6 @@ const Profile = ({ fetchedUser, id, go }) => {
 
 
                     </Group>
-
-
-                    {/* <SimpleCell multiline>
-                        <InfoRow header="Город">
-                            {fetchedUser.city.title}
-                        </InfoRow>
-                    </SimpleCell> */}
                 </div>
             }
 

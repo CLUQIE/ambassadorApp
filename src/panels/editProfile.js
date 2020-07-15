@@ -36,10 +36,13 @@ const Editprofile = ({fetchedUser, id, go }) => {
  const [specialty, setSpecialty] = React.useState();
  const [personalpostaladdress, setPersonalPostalAddress] = React.useState();
  const [clothingsize, setClothingSize] = React.useState();
- const [lastname, setLastName] = React.useState();
- const [firstname, setFirstName] = React.useState();
- const [town, setTown] = React.useState();
+//  const [lastname, setLastName] = React.useState();
+//  const [firstname, setFirstName] = React.useState();
+//  const [town, setTown] = React.useState();
  
+ const [lastname, setLastName] = React.useState(fetchedUser.last_name);
+ const [firstname, setFirstName] = React.useState(fetchedUser.first_name);
+ const [town, setTown] = React.useState(fetchedUser.city.title);
  
 
 
@@ -159,18 +162,18 @@ const Editprofile = ({fetchedUser, id, go }) => {
 			left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile" onMouseUp={go}/>}>Редактирование профиля</PanelHeader>
 			<Group>
 					<FormLayout>
-						<Input onChange={onChangeLastName} value = {fetchedUser.last_name} type="text" name="lastname" top="Фамилия" required />
-						<Input onChange={onChangeFirstName} value = {fetchedUser.first_name} type="text" name="firstname" top="Имя" required />
+						<Input onChange={onChangeLastName}  type="text" name="lastname" top="Фамилия" required />
+						<Input onChange={onChangeFirstName}  type="text" name="firstname" top="Имя" required />
 						<Input onChange={onChangeMiddleName} type="text" name="middlename" top="Отчество" required />
 						<Input onChange={onChangeLatinSecondName} type="text" name="lastnamelat" top="Фамилия на латинице" required />
 						<Input onChange={onChangeLatinFirstName} type="text" name="firstnamelat" top="Имя на латинице" required />
-						<Input onChange={onChangePersonalEmail} value ={user.personalEmail} type="text" name="email" top="Личная почта" required />
-						<Input onChange={onChangeBirthday} value ={user.birthday} type="date" placeholder="01.01.1900"  name="dateofbirth" top="Дата рождения" required />
-						<Input onChange={onChangeTown} value ={user.town} type="text" name="city" top="Город" required />
-                        <Input onChange={onChangeUniversity} value ={user.university} type="text" name="university" top="Учебное заведение" required />
-						<Input onChange={onChangeUniversityPostalAddress} value ={user.universityPostalAddress} type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
-						<Input onChange={onChangeRectorFullName} value ={user.rectorFullName} type="text" name="fiorector" top="ФИО ректора" required />
-						<Input onChange={onChangeRectorPostalAddress} value ={user.rectorPostalAddress} type="text" name="emailrector" top="Электронный адрес ректора" required />
+						<Input onChange={onChangePersonalEmail} type="text" name="email" top="Личная почта" required />
+						<Input onChange={onChangeBirthday} type="date" placeholder="01.01.1900"  name="dateofbirth" top="Дата рождения" required />
+						<Input onChange={onChangeTown} type="text" name="city" top="Город" required />
+                        <Input onChange={onChangeUniversity} type="text" name="university" top="Учебное заведение" required />
+						<Input onChange={onChangeUniversityPostalAddress} type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
+						<Input onChange={onChangeRectorFullName} type="text" name="fiorector" top="ФИО ректора" required />
+						<Input onChange={onChangeRectorPostalAddress} type="text" name="emailrector" top="Электронный адрес ректора" required />
 						<Select  onChange={onChangeStatusInUniversity} top="Статус в ВУЗе" placeholder=" ">
               				<option value="1 курс бакалавриат">1 курс бакалавриат</option>
               				<option value="2 курс бакалавриат">2 курс бакалавриат</option>
@@ -181,10 +184,10 @@ const Editprofile = ({fetchedUser, id, go }) => {
 							<option value="1 курс бакалавриат">Аспирант</option>
 							<option value="сотрудник ВУЗа">Сотрудник ВУЗа</option>
            				</Select> 
-						<Input onChange={onChangeFacultyFull} value ={user.facultyFull} type="text" name="facultatifull" top="Факультет полный" required />
-						<Input onChange={onChangeFacultyShortly} value ={user.facultyShortly} type="text" name="facultatiless" top="Факультет кратко" required />
-						<Input onChange={onChangeSpecialty} value ={user.specialty} type="text" name="speciality" top="Специальность" required />
-						<Input onChange={onChangePersonalPostalAddress} value ={user.personalPostalAddress} type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
+						<Input onChange={onChangeFacultyFull} type="text" name="facultatifull" top="Факультет полный" required />
+						<Input onChange={onChangeFacultyShortly} type="text" name="facultatiless" top="Факультет кратко" required />
+						<Input onChange={onChangeSpecialty}  type="text" name="speciality" top="Специальность" required />
+						<Input onChange={onChangePersonalPostalAddress} type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
 						<Select  onChange={onChangeClothingSize}  top="Размер одежды" placeholder=" ">
               				<option value="XS мужской">XS мужской</option>
               				<option value="S мужской">S мужской</option>
@@ -199,7 +202,7 @@ const Editprofile = ({fetchedUser, id, go }) => {
 							<option value="L женский">L женский</option>
 							<option value="XL женский">XL женский</option>
            				</Select>
-                        <Input onChange={onChangePhone}  value = {user.phoneNumber} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="number" name="phonenumber" top="Телефон" required />
+                        <Input onChange={onChangePhone}  placeholder="88005553535" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="number" name="phonenumber" top="Телефон" required />
 						<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 						<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 					</FormLayout>

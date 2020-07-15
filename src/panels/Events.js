@@ -9,6 +9,8 @@ import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
+const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
+
 
 
 
@@ -25,15 +27,30 @@ const Events = ({fetchedUser, id, go }) => {
 	// }
 
   
-        if(request){
-            postRequest('POST', requestURL, JSON.stringify({ambassador: 'Мирон Пузанов' }))
-            .then(data => {
-              setEventsData(data)
-              setIsLoading(false)
-            setrequest(false)
-            })
-            .catch(err => console.log(err))
-        }
+        // if(request){
+        //     postRequest('POST', requestURL, JSON.stringify({ambassador: 'Пузанов Мирон Андреевич' }))
+        //     .then(data => {
+        //       setEventsData(data)
+        //       setIsLoading(false)
+        //     setrequest(false)
+        //     })
+        //     .catch(err => console.log(err))
+        // }
+
+        if (fetchedUser != null) {
+            const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+            postRequest('POST', userRequestURL, vkID)
+                .then(data => {
+                    postRequest('POST', requestURL, JSON.stringify({ambassador: data[0].fullName}))
+                .then(data => {
+                  setEventsData(data)
+                  setIsLoading(false)
+                setrequest(false)
+                })
+                .catch(err => console.log(err))
+                })
+                .catch(err => console.log(err))
+    }
 
       if (isLoading===true){
           return (
