@@ -1,6 +1,6 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Banner, Button, Counter, SimpleCell } from '@vkontakte/vkui';
+import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Banner, Button, Counter } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -84,10 +84,12 @@ const Profile = ({ fetchedUser, id, go }) => {
                             actions={<Button onClick={go} data-to="badge" style={{ background: 'white', color: "#fc2c38" }} mode="overlay_primary">Подробнее</Button>}
                         />
 
-                        <SimpleCell>
+                        {/* <SimpleCell> */}
                             <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                                indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>Проведено мероприятий</Cell>
-                        </SimpleCell>
+                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                                Проведено мероприятий
+                            </Cell>
+                        {/* </SimpleCell> */}
 
                         {/* <SimpleCell>
                             <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} 
