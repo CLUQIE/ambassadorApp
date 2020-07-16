@@ -7,6 +7,7 @@ import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
+import Icon24Cancel from '@vkontakte/icons/dist/24/cancel'
 
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
@@ -22,7 +23,8 @@ const Events = ({ fetchedUser, id, go }) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const [request, setrequest] = React.useState(true);
     const [eventsData, setEventsData] = React.useState();
-    const [activeModal, setActiveModal] = React.useState(null);
+    const [activeModal, setActivePanel] = useState(null);
+    const [eventId, setEventId] = React.useState(0);
 
     const modalBack = () => {
         setActivePanel(null);
