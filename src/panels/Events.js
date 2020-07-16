@@ -10,7 +10,10 @@ import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
-
+const ROUTES = {
+    EVENTS: 'events',
+    EVENTSINFO: 'eventsInfo',
+};
 
 
 
@@ -21,20 +24,14 @@ const Events = ({ fetchedUser, id, go }) => {
     const [eventsData, setEventsData] = React.useState();
     const [activeModal, setActiveModal] = React.useState(null);
 
+    const modalBack = () => {
+        setActivePanel(null);
+    };
+
+    let modalHistory = [];
 
     // const onClickReport = () => {
     // 	excelReport(eventsData)
-    // }
-
-
-    // if(request){
-    //     postRequest('POST', requestURL, JSON.stringify({ambassador: 'Пузанов Мирон Андреевич' }))
-    //     .then(data => {
-    //       setEventsData(data)
-    //       setIsLoading(false)
-    //     setrequest(false)
-    //     })
-    //     .catch(err => console.log(err))
     // }
 
     if (fetchedUser != null) {
@@ -62,67 +59,101 @@ const Events = ({ fetchedUser, id, go }) => {
         )
     }
 
-    // const onClickGo = () => {
-    //     return (
-    //         <ActionSheet>
-    //             <ActionSheetItem autoclose>
-    //                 По дням
-    //     </ActionSheetItem>
-    //             <ActionSheetItem autoclose>
-    //                 По неделям
-    //     </ActionSheetItem>
-    //             <ActionSheetItem autoclose>
-    //                 По месяцам
-    //     </ActionSheetItem>
-    //             <ActionSheetItem autoclose mode="cancel">Отменить</ActionSheetItem>
-    //         </ActionSheet>
-    //     )
-    // }
+    if (activeModal === null) {
+        modalHistory = [];
+    } else if (modalHistory.indexOf(activeModal) !== -1) {
+        modalHistory = modalHistory.splice(0, modalHistory.indexOf(activeModal) + 1);
+    } else {
+        modalHistory.push(activeModal);
+    }
+    const modal = (
+        <ModalRoot
+            activeModal={activeModal}
+            onClose={modalBack}
+        >
+            <ModalPage
+                id={ROUTES.EVENTSINFO}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}
+                    >
+                        {eventsData ? eventsData[eventId].nameEvent : 'empty'}
+                    </ModalPageHeader>
+                }
+            >
+                <Cell>
+                    {eventsData ? 'Формат мероприятия: ' + eventsData[eventId].eventForm : 'empty'}
+                </Cell>
+                <Cell>
+                    {eventsData ? 'Место проведения: ' + eventsData[eventId].eventPlace : 'empty'}
+                </Cell>
+                <Cell>
+                    {eventsData ? 'Формат участия: ' + eventsData[eventId].participationForm : 'empty'}
+                </Cell>
+                <Cell>
+                    {eventsData ? 'Дата проведения: ' + eventsData[eventId].date : 'empty'}
+                </Cell>
+                <Cell>
+                    {eventsData ? 'Тип меропрития: ' + eventsData[eventId].eventType : 'empty'}
+                </Cell>
+                <Cell>
+                    {eventsData ? 'Роль компании: ' + eventsData[eventId].companyRole : 'empty'}
+                </Cell>
+                <Cell>
+                    {eventsData ? 'Краткое описание: ' + eventsData[eventId].description : 'empty'}
+                </Cell>
+                <Cell>
+                    {eventsData ? 'Количетсво участников: ' + eventsData[eventId].participants : 'empty'}
+                </Cell>
+            </ModalPage>
+        </ModalRoot>
+    )
 
     return (
-        <Panel id={id}>
-
-            <PanelHeader
-                // left={<Icon28AddOutline onClick={onClickReport}/>}
-                left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#fc2c38" }} onClick={go} data-to="home" /></PanelHeaderButton>}>
-                {/* right={<PanelHeaderButton><Icon28AddOutline style={{color: "#fc2c38"}} onClick={go} data-to="home" /></PanelHeaderButton>}> */}
+        <View activePanel={'modals'} modal={modal}>
+            <Panel id={'modals'}>
+                <PanelHeader
+                    // left={<Icon28AddOutline onClick={onClickReport}/>}
+                    left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#fc2c38" }} onClick={go} data-to="home" /></PanelHeaderButton>}>
+                    {/* right={<PanelHeaderButton><Icon28AddOutline style={{color: "#fc2c38"}} onClick={go} data-to="home" /></PanelHeaderButton>}> */}
                     Мероприятия
                 </PanelHeader>
-            <Group>
-                <Div>
-                    {eventsData.map((event) => (
-                        <Banner key={event._id}
-                            before={<Avatar size={120} mode="image" style={{ objectFit: 'cover' }}
-                                src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />}
-                            header={event.nameEvent}
-                            subheader={event.date}
-                            actions={<Button style={{ background: "#fc2c38" }} onClick={go} data-to="infoevents">Подробнее</Button>}
-                        />
-                    ))}
-                </Div>
-            </Group>
+                <Group>
+                    <Div>
+                        {eventsData.map((event) => (
+                            <Banner key={event._id}
+                                before={<Avatar size={120} mode="image" style={{ objectFit: 'cover' }}
+                                    src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />}
+                                header={event.nameEvent}
+                                subheader={event.date}
+                                actions={<Button style={{ background: "#fc2c38" }} onClick={() => { setEventId(eventId); console.log(eventId); setTimeout(3000); setActivePanel(ROUTES.EVENTSINFO); }} >Подробнее</Button>} />
+                        ))}
+                    </Div>
+                </Group>
 
-            <Epic style={{ marginTop: '100px' }}>
-                <Tabbar>
-                    <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="events" text="Мероприятия">
-                        <Icon28NewsfeedOutline style={{ color: "#fc2c38" }} />
-                    </TabbarItem>
+                <Epic style={{ marginTop: '100px' }}>
+                    <Tabbar>
+                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="events" text="Мероприятия">
+                            <Icon28NewsfeedOutline style={{ color: "#fc2c38" }} />
+                        </TabbarItem>
 
-                    <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
-                        <Icon28FireOutline />
-                    </TabbarItem>
+                        <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
+                            <Icon28FireOutline />
+                        </TabbarItem>
 
-                    <TabbarItem onClick={go} data-to="info" text="База знаний">
-                        <Icon28BrainOutline />
-                    </TabbarItem>
+                        <TabbarItem onClick={go} data-to="info" text="База знаний">
+                            <Icon28BrainOutline />
+                        </TabbarItem>
 
-                    <TabbarItem onClick={go} data-to="profile" text="Профиль">
-                        <Icon28UserOutline width={32} height={32} />
-                    </TabbarItem>
-                </Tabbar>
-            </Epic>
+                        <TabbarItem onClick={go} data-to="profile" text="Профиль">
+                            <Icon28UserOutline width={32} height={32} />
+                        </TabbarItem>
+                    </Tabbar>
+                </Epic>
 
-        </Panel>
+            </Panel>
+        </View>
     )
 
 
