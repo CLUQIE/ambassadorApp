@@ -1,7 +1,7 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
 // import {excelReport} from "./functions/excelReport"
-import { Avatar, Div,ModalRoot,ModalPage,ModalPageHeader, Banner, Group, Button, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner,Cell } from '@vkontakte/vkui';
+import { View,Avatar, Div,ModalRoot,ModalPage,ModalPageHeader, Banner, Group, Button, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner,Cell } from '@vkontakte/vkui';
 import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
@@ -23,7 +23,7 @@ const Events = ({ fetchedUser, id, go }) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const [request, setrequest] = React.useState(true);
     const [eventsData, setEventsData] = React.useState();
-    const [activeModal, setActivePanel] = useState(null);
+    const [activeModal, setActivePanel] = React.useState(null);
     const [eventId, setEventId] = React.useState(0);
 
     const modalBack = () => {
