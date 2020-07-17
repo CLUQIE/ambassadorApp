@@ -22,7 +22,10 @@ const Profile = ({ fetchedUser, id, go }) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
     const [eventsData, setEventsData] = React.useState();
+    const [fetch, setFetch] = React.useState(true);
 
+
+if (fetch){
     if (fetchedUser != null) {
         const vkID = JSON.stringify({ "vkID": fetchedUser.id })
         postRequest('POST', requestURL, vkID)
@@ -33,10 +36,12 @@ const Profile = ({ fetchedUser, id, go }) => {
                     .then(events => {
                         setEventsData(events)
                         setIsLoading(false)
+                        setFetch(false)
                     })
             })
             .catch(err => console.log(err))
     }
+}
 
 
     if (isLoading === true) {

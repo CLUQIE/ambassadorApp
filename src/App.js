@@ -13,6 +13,8 @@ import Editprofile from './panels/editProfile';
 import Badge from './panels/Badge';
 import Infoevents from './panels/InfoEvents';
 
+
+
 const ROUTES = {
 	HOME: 'home',
 	EVENTS: 'events',
@@ -57,7 +59,7 @@ const App = () => {
 	if (role === 'ambassador'){
 		return (
 			<View activePanel={activePanel} popout={popout}>
-				<Home id='home'  fetchedUser={fetchedUser} go={go} />
+				
 				<Events id='events' fetchedUser={fetchedUser} go={go} />
 				<Info id='info' go={go} />
 				<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
@@ -65,6 +67,7 @@ const App = () => {
 				<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
 				<Badge id='badge' go={go} />
 				<Infoevents id='infoevents' go={go} />
+				<Home id='home'  fetchedUser={fetchedUser} go={go} />
 			</View>
 		);
 	}

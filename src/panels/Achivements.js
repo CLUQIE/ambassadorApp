@@ -1,6 +1,6 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner} from '@vkontakte/vkui';
+import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Separator} from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -8,13 +8,18 @@ import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/role'
+const userRequestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 
 const Achivements = ({fetchedUser, id, go }) => {
 
 
 const [users, setUsers] = React.useState();
 const [isLoading, setIsLoading] = React.useState(true);
-const [request, setRequest] = React.useState(true);
+const [user, setUser] = React.useState();
+const [request, setRequest] = React.useState(false);
+const [fetch, setFetch] = React.useState(true);
+
+// console.log(fetchedUser)
 
 if (request) {
     postRequest('POST', requestURL, JSON.stringify({role: 'ambassador'}))
@@ -25,6 +30,22 @@ if (request) {
         })
         .catch(err => console.log(err))
 }
+
+if (fetch){
+    if (fetchedUser != null) {
+        const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+        postRequest('POST', userRequestURL, vkID)
+    
+            .then(data => {
+                setUser(data[0]);
+                setRequest(true)
+                setFetch(false)
+            })
+            .catch(err => console.log(err))
+    }
+}
+
+
 
 if (isLoading === true) {
     return (
@@ -74,6 +95,9 @@ if (isLoading === true) {
                             <option value="Декабрь">Декабрь</option>
            	    </Select>
             </FormLayout> */}
+            {fetchedUser &&
+            <SimpleCell href={"https://vk.com/id"+user.vkID}  target="_blank" after={(3+1)*4+' score'} description={user.university}>{user.fullName}</SimpleCell>}
+            <Separator style={{ margin: '12px 0' }} />
 			<Group>
             {users.map((user, id) => (
               <SimpleCell href={"https://vk.com/id"+user.vkID}  target="_blank" key={user._id} after={(id+1)*4+' score'} description={user.university}>{user.fullName}</SimpleCell>
