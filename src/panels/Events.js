@@ -131,6 +131,21 @@ const Events = ({ fetchedUser, id, go }) => {
                         {eventsData ? eventsData[eventId].university : 'empty'}
                     </InfoRow>
                 </Cell>
+                <Cell>
+                    <InfoRow header="Роль компании">
+                        {eventsData ? eventsData[eventId].companyRole : 'empty'}
+                    </InfoRow>
+                </Cell>
+                <Cell>
+                    <InfoRow header="Ссылки">
+                        {eventsData ? eventsData[eventId].publicationLinks : 'empty'}
+                    </InfoRow>
+                </Cell>
+                <Cell>
+                    <InfoRow header="Заметки">
+                        {eventsData ? eventsData[eventId].notes : 'empty'}
+                    </InfoRow>
+                </Cell>
             </ModalPage>
         </ModalRoot>
     )
