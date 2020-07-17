@@ -1,6 +1,6 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, Avatar, Tabs, TabsItem, HorizontalScroll, ScreenSpinner} from '@vkontakte/vkui';
+import {SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner} from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';

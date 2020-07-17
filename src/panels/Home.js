@@ -105,7 +105,7 @@ const Home = ({fetchedUser, id, go }) => {
 			university: user.university
 		   })
 		postRequest('POST', requestURL, body)
-		.then(data => console.log(data))
+		// .then(data => console.log(data))
 		.catch(err => console.log(err))
 	
 	}
@@ -113,7 +113,7 @@ const Home = ({fetchedUser, id, go }) => {
 	
 	
 
-	console.log(fetchedUser)
+	// console.log(fetchedUser)
 
 	return (
 
@@ -129,7 +129,7 @@ const Home = ({fetchedUser, id, go }) => {
 							status={value ? 'valid' : 'error'}
 							bottom={value ? '' : 'Введите обязательное поле!'}
 						/> */}
-						<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" />
+						<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required/>
 						<Input onChange={onChangePlace} type="text" name="university" top="Место проведения" />
 						<Select onChange={onChangeParticipationForm} top="Формат участия" placeholder=" ">
               				<option value="Информационная поддержка">Информационная поддержка</option>

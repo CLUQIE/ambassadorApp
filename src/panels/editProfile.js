@@ -159,13 +159,13 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 					<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="ФИО" required />
 					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} type="text" name="fullname" top="ФИО" required />
 					<Input onChange={onChangePersonalEmail}  placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
-					<Input onChange={onChangeBirthday} type="date" placeholder="01.01.1900" name="dateofbirth" top="Дата рождения" required />
+					<Input onChange={onChangeBirthday} placeholder={user.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
 					<Input onChange={onChangeTown} placeholder={user.town} type="text" name="city" top="Город" required />
-					<Input onChange={onChangeUniversity} type="text" name="university" top="Учебное заведение" required />
-					<Input onChange={onChangeUniversityPostalAddress} type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
-					<Input onChange={onChangeRectorFullName} type="text" name="fiorector" top="ФИО ректора" required />
-					<Input onChange={onChangeRectorPostalAddress} type="text" name="emailrector" top="Электронный адрес ректора" required />
-					<Select onChange={onChangeStatusInUniversity} top="Статус в ВУЗе" placeholder=" ">
+					<Input onChange={onChangeUniversity} placeholder={user.university}  type="text" name="university" top="Учебное заведение" required />
+					<Input onChange={onChangeUniversityPostalAddress} placeholder={user.universityPostalAddress}  type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
+					<Input onChange={onChangeRectorFullName} placeholder={user.rectorFullName}  type="text" name="fiorector" top="ФИО ректора" required />
+					<Input onChange={onChangeRectorPostalAddress} placeholder={user.rectorPostalAddress}  ype="text" name="emailrector" top="Электронный адрес ректора" required />
+					<Select onChange={onChangeStatusInUniversity} placeholder={user.statusInUniversity} top="Статус в ВУЗе" >
 						<option value="1 курс бакалавриат">1 курс бакалавриат</option>
 						<option value="2 курс бакалавриат">2 курс бакалавриат</option>
 						<option value="3 курс бакалавриат">3 курс бакалавриат</option>
@@ -175,11 +175,11 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 						<option value="1 курс бакалавриат">Аспирант</option>
 						<option value="сотрудник ВУЗа">Сотрудник ВУЗа</option>
 					</Select>
-					<Input onChange={onChangeFacultyFull} type="text" name="facultatifull" top="Факультет полный" required />
-					<Input onChange={onChangeFacultyShortly} type="text" name="facultatiless" top="Факультет кратко" required />
-					<Input onChange={onChangeSpecialty} type="text" name="speciality" top="Специальность" required />
-					<Input onChange={onChangePersonalPostalAddress} type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
-					<Select onChange={onChangeClothingSize} placeholder={user.clothingSize} top="Размер одежды" placeholder=" ">
+					<Input onChange={onChangeFacultyFull} placeholder={user.facultyFull} type="text" name="facultatifull" top="Факультет полный" required />
+					<Input onChange={onChangeFacultyShortly} placeholder={user.facultyShortly}  type="text" name="facultatiless" top="Факультет кратко" required />
+					<Input onChange={onChangeSpecialty} placeholder={user.specialty}  type="text" name="speciality" top="Специальность" required />
+					<Input onChange={onChangePersonalPostalAddress} placeholder={user.personalPostalAddress}  type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
+					<Select onChange={onChangeClothingSize} placeholder={user.clothingSize} top="Размер одежды" >
 						<option value="XS мужской">XS мужской</option>
 						<option value="S мужской">S мужской</option>
 						<option value="M мужской">M мужской</option>
@@ -193,7 +193,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 						<option value="L женский">L женский</option>
 						<option value="XL женский">XL женский</option>
 					</Select>
-					<Input onChange={onChangePhone} placeholder="88005553535" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="number" name="phonenumber" top="Телефон" required />
+					<Input onChange={onChangePhone} placeholder={user.phoneNumber} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="number" name="phonenumber" top="Телефон" required />
 					<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 				</FormLayout>

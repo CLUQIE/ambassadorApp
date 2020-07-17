@@ -1,12 +1,16 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Banner, Button, Counter } from '@vkontakte/vkui';
+import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 import Icon28WriteOutline from '@vkontakte/icons/dist/28/write_outline';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
+import Icon16Fire from '@vkontakte/icons/dist/16/fire';
+import Icon16Smile from '@vkontakte/icons/dist/16/smile';
+import Icon16FireVerified from '@vkontakte/icons/dist/16/fire_verified';
+import Icon16PaletteOutline from '@vkontakte/icons/dist/16/palette_outline';
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
@@ -52,12 +56,14 @@ const Profile = ({ fetchedUser, id, go }) => {
 
             <PanelHeader
                 left={<PanelHeaderButton><Icon28WriteOutline style={{ color: "#fc2c38" }} onClick={go} data-to="editprofile" /></PanelHeaderButton>}>
-                Профиль 1
+                Профиль
             </PanelHeader>
             {fetchedUser &&
                 <div style={{ marginBottom: 100 }}>
                     <Group>
                         <RichCell
+                            href={"https://vk.com/id"+user.vkID}  
+                            target="_blank" 
                             before={<Avatar size={72} src={fetchedUser.photo_100} />}>
                             <span style={{ fontSize: '18px' }}>{user.fullName}</span>
                             <br />
@@ -66,7 +72,7 @@ const Profile = ({ fetchedUser, id, go }) => {
 
                     <Group header={<Header mode="secondary">Статистика</Header>}>
 
-                        <Banner
+                        {/* <Banner
                             mode="image"
                             header="Мои достижения"
                             subheader="Разблокировано 0 из 9"
@@ -74,20 +80,36 @@ const Profile = ({ fetchedUser, id, go }) => {
                                 <div
                                     style={{
                                         backgroundColor: '#fc2c38',
-                                        // backgroundImage: 'url(https://i.imgur.com/6yyTLZO.jpg)',
-                                        // backgroundPosition: 'right bottom',
+                                        backgroundImage: 'url(https://i.imgur.com/6yyTLZO.jpg)',
+                                        backgroundPosition: 'right bottom',
                                         backgroundSize: 320,
                                         backgroundRepeat: 'no-repeat',
                                     }}
                                 />
                             }
                             actions={<Button onClick={go} data-to="badge" style={{ background: 'white', color: "#fc2c38" }} mode="overlay_primary">Подробнее</Button>}
-                        />
+                        /> */}
 
                         {/* <SimpleCell> */}
                             <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                                   indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
                                 Проведено мероприятий
+                            </Cell>
+                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Fire fill="var(--white)" /></Avatar>}
+                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                                Внешние мероприятия
+                            </Cell>
+                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Smile fill="var(--white)" /></Avatar>}
+                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                                Онлайн мероприятия
+                            </Cell>
+                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16FireVerified fill="var(--white)" /></Avatar>}
+                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                                Офлайн мероприятия
+                            </Cell>
+                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16PaletteOutline fill="var(--white)" /></Avatar>}
+                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                                Количество участников
                             </Cell>
                         {/* </SimpleCell> */}
 
@@ -97,27 +119,71 @@ const Profile = ({ fetchedUser, id, go }) => {
                         </SimpleCell> */}
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
-                        <Cell indicator={fetchedUser.city.title} >
+                        <Cell indicator={user.town} >
                             Город
-                    </Cell>
-                    <Cell indicator={user.university} >
-                            Учебное заведение
-                    </Cell>
+                        </Cell>
                         <Cell indicator={user.birthday} >
                             Дата рождения
-                    </Cell>
+                        </Cell>
                         <Cell indicator={user.phoneNumber} >
                             Номер телефона
-                    </Cell>
+                        </Cell>
                         <Cell indicator={user.personalEmail} >
                             Email
-                    </Cell>
-                        <Cell indicator={user.statusInUniversity} >
-                            Статус
-                    </Cell>
+                        </Cell>
                         <Cell indicator={user.clothingSize} >
                             Размер одежды
-                    </Cell>
+                        </Cell>
+                        <Cell indicator={user.personalPostalAddress} >
+                            Почтовый адерес
+                        </Cell>
+                        <Cell indicator={user.latinFullName} >
+                            ФИО по латински
+                        </Cell>
+                        <Cell indicator={user.university} >
+                            Учебное заведение
+                        </Cell>
+                        <Cell indicator={user.statusInUniversity} >
+                            Статус
+                        </Cell>
+                        <Cell indicator={user.facultyFull} >
+                            Факультет
+                        </Cell>
+                        <Cell indicator={user.specialty} >
+                            Специальность
+                        </Cell>
+                        <Cell indicator={user.universityPostalAddress} >
+                            Адрес учебного заведения
+                        </Cell>
+                        <Cell indicator={user.rectorFullName} >
+                            ФИО ректора
+                        </Cell>
+                        <Cell indicator={user.rectorPostalAddress} >
+                            Email ректора
+                        </Cell>
+                        
+{/* 
+                        _id: user._id,
+			vkID: user.vkID,
+			avatar: " ",
+			achievements: " ",
+			phoneNumber: phone,
+			birthday: birthday,
+			fullName: fullName,
+			latinFullName: fullNameLatin,
+			personalEmail: personalemail,
+			town: town,
+			university: university,
+			universityPostalAddress: universitypostaladdress,
+			rectorFullName: rectorfullname,
+			rectorPostalAddress: rectorpostaladdress,
+			statusInUniversity: statusinuniversity,
+			facultyFull: facultyfull,
+			facultyShortly: facultyshortly,
+			specialty: specialty,
+			personalPostalAddress: personalpostaladdress,
+			clothingSize: clothingsize */}
+                    
 
 
                     </Group>
