@@ -58,8 +58,8 @@ const Profile = ({ fetchedUser, id, go }) => {
                 left={<PanelHeaderButton><Icon28WriteOutline style={{ color: "#fc2c38" }} onClick={go} data-to="editprofile" /></PanelHeaderButton>}>
                 Профиль
             </PanelHeader>
-            {fetchedUser &&
                 <div style={{ marginBottom: 100 }}>
+                {fetchedUser &&
                     <Group>
                         <RichCell
                             href={"https://vk.com/id"+user.vkID}  
@@ -69,6 +69,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                             <br />
                         </RichCell>
                     </Group>
+                }
 
                     <Group header={<Header mode="secondary">Статистика</Header>}>
 
@@ -161,34 +162,9 @@ const Profile = ({ fetchedUser, id, go }) => {
                         <Cell indicator={user.rectorPostalAddress} >
                             Email ректора
                         </Cell>
-                        
-{/* 
-                        _id: user._id,
-			vkID: user.vkID,
-			avatar: " ",
-			achievements: " ",
-			phoneNumber: phone,
-			birthday: birthday,
-			fullName: fullName,
-			latinFullName: fullNameLatin,
-			personalEmail: personalemail,
-			town: town,
-			university: university,
-			universityPostalAddress: universitypostaladdress,
-			rectorFullName: rectorfullname,
-			rectorPostalAddress: rectorpostaladdress,
-			statusInUniversity: statusinuniversity,
-			facultyFull: facultyfull,
-			facultyShortly: facultyshortly,
-			specialty: specialty,
-			personalPostalAddress: personalpostaladdress,
-			clothingSize: clothingsize */}
-                    
-
-
                     </Group>
                 </div>
-            }
+            
 
             <Epic>
                 <Tabbar style={{ marginTop: '100px' }}>
