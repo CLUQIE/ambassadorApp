@@ -52,7 +52,7 @@ const Profile = ({ fetchedUser, id, go }) => {
 
             <PanelHeader
                 left={<PanelHeaderButton><Icon28WriteOutline style={{ color: "#fc2c38" }} onClick={go} data-to="editprofile" /></PanelHeaderButton>}>
-                Профиль
+                Профиль 1
             </PanelHeader>
             {fetchedUser &&
                 <div style={{ marginBottom: 100 }}>
