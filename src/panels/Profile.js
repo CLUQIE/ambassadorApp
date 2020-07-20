@@ -25,23 +25,23 @@ const Profile = ({ fetchedUser, id, go }) => {
     const [fetch, setFetch] = React.useState(true);
 
 
-if (fetch){
-    if (fetchedUser != null) {
-        const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-        postRequest('POST', requestURL, vkID)
+    if (fetch) {
+        if (fetchedUser != null) {
+            const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+            postRequest('POST', requestURL, vkID)
 
-            .then(data => {
-                setUser(data[0]);
-                postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
-                    .then(events => {
-                        setEventsData(events)
-                        setIsLoading(false)
-                        setFetch(false)
-                    })
-            })
-            .catch(err => console.log(err))
+                .then(data => {
+                    setUser(data[0]);
+                    postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
+                        .then(events => {
+                            setEventsData(events)
+                            setIsLoading(false)
+                            setFetch(false)
+                        })
+                })
+                .catch(err => console.log(err))
+        }
     }
-}
 
 
     if (isLoading === true) {
@@ -63,12 +63,12 @@ if (fetch){
                 left={<PanelHeaderButton><Icon28WriteOutline style={{ color: "#fc2c38" }} onClick={go} data-to="editprofile" /></PanelHeaderButton>}>
                 Профиль
             </PanelHeader>
-                <div style={{ marginBottom: 100 }}>
+            <div style={{ marginBottom: 100 }}>
                 {fetchedUser &&
                     <Group>
                         <RichCell
-                            href={"https://vk.com/id"+user.vkID}  
-                            target="_blank" 
+                            href={"https://vk.com/id" + user.vkID}
+                            target="_blank"
                             before={<Avatar size={72} src={fetchedUser.photo_100} />}>
                             <span style={{ fontSize: '18px' }}>{user.fullName}</span>
                             <br />
@@ -76,9 +76,9 @@ if (fetch){
                     </Group>
                 }
 
-                    <Group header={<Header mode="secondary">Статистика</Header>}>
+                <Group header={<Header mode="secondary">Статистика</Header>}>
 
-                        {/* <Banner
+                    {/* <Banner
                             mode="image"
                             header="Мои достижения"
                             subheader="Разблокировано 0 из 9"
@@ -96,80 +96,80 @@ if (fetch){
                             actions={<Button onClick={go} data-to="badge" style={{ background: 'white', color: "#fc2c38" }} mode="overlay_primary">Подробнее</Button>}
                         /> */}
 
-                        {/* <SimpleCell> */}
-                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
-                                Проведено мероприятий
+                    {/* <SimpleCell> */}
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                        Проведено мероприятий
                             </Cell>
-                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Fire fill="var(--white)" /></Avatar>}
-                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
-                                Внешние мероприятия
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Fire fill="var(--white)" /></Avatar>}
+                        indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                        Внешние мероприятия
                             </Cell>
-                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Smile fill="var(--white)" /></Avatar>}
-                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
-                                Онлайн мероприятия
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Smile fill="var(--white)" /></Avatar>}
+                        indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                        Онлайн мероприятия
                             </Cell>
-                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16FireVerified fill="var(--white)" /></Avatar>}
-                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
-                                Офлайн мероприятия
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16FireVerified fill="var(--white)" /></Avatar>}
+                        indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                        Офлайн мероприятия
                             </Cell>
-                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16PaletteOutline fill="var(--white)" /></Avatar>}
-                                  indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
-                                Количество участников
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16PaletteOutline fill="var(--white)" /></Avatar>}
+                        indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
+                        Количество участников
                             </Cell>
-                        {/* </SimpleCell> */}
+                    {/* </SimpleCell> */}
 
-                        {/* <SimpleCell>
+                    {/* <SimpleCell>
                             <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} 
                             indicator={<Counter>1</Counter>}>Какая-то статистика</Cell>
                         </SimpleCell> */}
-                    </Group>
-                    <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
-                        <Cell indicator={user.town} >
-                            Город
+                </Group>
+                <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
+                    <Cell indicator={user.town} >
+                        Город
                         </Cell>
-                        <Cell indicator={user.birthday} >
-                            Дата рождения
+                    <Cell indicator={user.birthday} >
+                        Дата рождения
                         </Cell>
-                        <Cell indicator={user.phoneNumber} >
-                            Номер телефона
+                    <Cell indicator={user.phoneNumber} >
+                        Номер телефона
                         </Cell>
-                        <Cell indicator={user.personalEmail} >
-                            Email
+                    <Cell indicator={user.personalEmail} >
+                        Email
                         </Cell>
-                        <Cell indicator={user.clothingSize} >
-                            Размер одежды
+                    <Cell indicator={user.clothingSize} >
+                        Размер одежды
                         </Cell>
-                        <Cell indicator={user.personalPostalAddress} >
-                            Почтовый адерес
+                    <Cell indicator={user.personalPostalAddress} >
+                        Почтовый адерес
                         </Cell>
-                        <Cell indicator={user.latinFullName} >
-                            ФИО по латински
+                    <Cell indicator={user.latinFullName} >
+                        ФИО по латински
                         </Cell>
-                        <Cell indicator={user.university} >
-                            Учебное заведение
+                    <Cell indicator={user.university} >
+                        Учебное заведение
                         </Cell>
-                        <Cell indicator={user.statusInUniversity} >
-                            Статус
+                    <Cell indicator={user.statusInUniversity} >
+                        Статус
                         </Cell>
-                        <Cell indicator={user.facultyFull} >
-                            Факультет
+                    <Cell indicator={user.facultyFull} >
+                        Факультет
                         </Cell>
-                        <Cell indicator={user.specialty} >
-                            Специальность
+                    <Cell indicator={user.specialty} >
+                        Специальность
                         </Cell>
-                        <Cell indicator={user.universityPostalAddress} >
-                            Адрес учебного заведения
+                    <Cell indicator={user.universityPostalAddress} >
+                        Адрес учебного заведения
                         </Cell>
-                        <Cell indicator={user.rectorFullName} >
-                            ФИО ректора
+                    <Cell indicator={user.rectorFullName} >
+                        ФИО ректора
                         </Cell>
-                        <Cell indicator={user.rectorPostalAddress} >
-                            Email ректора
+                    <Cell indicator={user.rectorPostalAddress} >
+                        Email ректора
                         </Cell>
-                    </Group>
-                </div>
-            
+                </Group>
+            </div>
+
 
             <Epic>
                 <Tabbar style={{ marginTop: '100px' }}>

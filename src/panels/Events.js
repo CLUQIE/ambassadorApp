@@ -68,11 +68,6 @@ const Events = ({ fetchedUser, id, go }) => {
                         left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
                         {eventsData ? eventsData[eventId].nameEvent : 'empty'}
                     </ModalPageHeader>}>
-                    <Cell>
-                    <InfoRow header="Ссылки">
-                        <Link  href={eventsData[eventId].publicationLinks} target="_blank"><span href={eventsData[eventId].publicationLinks} >{eventsData ? eventsData[eventId].publicationLinks : 'empty'}</span></Link>
-                    </InfoRow>
-                </Cell>
                 <Cell>
                     <InfoRow header="Формат мероприятия">
                         {eventsData ? eventsData[eventId].eventForm : 'empty'}
@@ -124,7 +119,11 @@ const Events = ({ fetchedUser, id, go }) => {
                         {eventsData ? eventsData[eventId].companyRole : 'empty'}
                     </InfoRow>
                 </Cell>
-                
+                <Cell>
+                    <InfoRow header="Ссылки">
+                        <Link  href={eventsData[eventId].publicationLinks} target="_blank"><span href={eventsData[eventId].publicationLinks} >{eventsData ? eventsData[eventId].publicationLinks : 'empty'}</span></Link>
+                    </InfoRow>
+                </Cell>
                 <Cell>
                     <InfoRow header="Заметки">
                         {eventsData ? eventsData[eventId].notes : 'empty'}
