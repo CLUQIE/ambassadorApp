@@ -69,17 +69,16 @@ const App = () => {
 	if (role === 'ambassador'){
 		return (
 			<View activePanel={activePanel} popout={popout}>
-				
-				<Events id='events' fetchedUser={fetchedUser} go={go} />
-				<Info id='info' go={go} />
-				<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
-				<Profile id='profile' fetchedUser={fetchedUser} go={go} />
-				<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
 				<Badge id='badge' go={go} />
+				<Profile id='profile' fetchedUser={fetchedUser} go={go} />
 				<Infoevents id='infoevents' go={go} />
 				<Home id='home'  fetchedUser={fetchedUser} go={go} />
 				<AddEventFirst id='addeventfirst' go={go} />
+				<Events id='events' fetchedUser={fetchedUser} go={go} />
 				<AddEventSecondVnesh id='addeventsecondvnesh' go={go} />
+				<Info id='info' go={go} />
+				<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
+				<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
 				<AddEventSecondVnutr id='addeventsecondvnutr' go={go} />
 				<AddEventSecondHelp id='addeventsecondhelp' go={go} />
 			</View>

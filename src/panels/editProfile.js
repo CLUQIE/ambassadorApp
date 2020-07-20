@@ -1,5 +1,5 @@
 import React from 'react';
-import InputPhone, {formatPhoneNumber} from 'react-phone-number-input/input';
+import {formatPhoneNumber} from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
 import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link, Select, ScreenSpinner } from '@vkontakte/vkui';
 
@@ -8,7 +8,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 		let newDate = date.slice(8,10) + date.slice(4,8) + date.slice(0,4);
 		return newDate
 		}
-		
+
 	const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 
 	const [isLoading, setIsLoading] = React.useState(true);
@@ -193,7 +193,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 						<option value="L женский">L женский</option>
 						<option value="XL женский">XL женский</option>
 					</Select>
-					+7 <InputPhone country="RU" international placeholder={formatPhoneNumber(user.phoneNumber)} onChange={onChangePhone} top="Телефон" name="phonenumber" required />
+					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(user.phoneNumber)} type="number" name="phonenumber" top="Телефон" required />
 					<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 				</FormLayout>
