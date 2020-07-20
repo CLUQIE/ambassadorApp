@@ -1,5 +1,6 @@
 import React from 'react';
-import { postRequest } from "./functions/fetch.js"
+import  { formatPhoneNumber } from 'react-phone-number-input/input';
+import { postRequest } from "./functions/fetch.js";
 import { Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
@@ -131,7 +132,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                     <Cell indicator={user.birthday} >
                         Дата рождения
                         </Cell>
-                    <Cell indicator={user.phoneNumber} >
+                    <Cell indicator={formatPhoneNumber(user.phoneNumber)} >
                         Номер телефона
                         </Cell>
                     <Cell indicator={user.personalEmail} >

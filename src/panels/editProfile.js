@@ -1,26 +1,16 @@
 import React from 'react';
-import { postRequest } from "./functions/fetch.js"
+import InputPhone, {formatPhoneNumber} from 'react-phone-number-input/input';
+import { postRequest } from "./functions/fetch.js";
 import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link, Select, ScreenSpinner } from '@vkontakte/vkui';
 
-
-
-const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
-
-
-
+function formatDate (date){
+	let newDate = date.slice(8,10) + date.slice(4,8) + date.slice(0,4);
+	return newDate
+	}
 
 const Editprofile = ({ fetchedUser, id, go }) => {
 
-	if (fetchedUser != null) {
-		const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-		postRequest('POST', requestURL, vkID)
-			.then(data => {
-				setUser(data[0])
-				setIsLoading(false)
-			})
-			.catch(err => console.log(err))
-		// console.log(data);
-	}
+	const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [user, setUser] = React.useState();
@@ -63,7 +53,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 	}
 
 	const onChangeBirthday = (event) => {
-		setBirthday(event.target.value)
+		setBirthday(formatDate(event.target.value))
 	}
 
 	const onChangeUniversityPostalAddress = (event) => {
@@ -137,6 +127,17 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 
 	}
 
+	if (fetchedUser != null) {
+		const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+		postRequest('POST', requestURL, vkID)
+			.then(data => {
+				setUser(data[0])
+				setIsLoading(false)
+			})
+			.catch(err => console.log(err))
+		// console.log(data);
+	}
+
 	if (isLoading === true) {
 		return (
 			<Panel id={id}>
@@ -158,13 +159,13 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 				<FormLayout>
 					<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="ФИО" required />
 					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} type="text" name="fullname" top="ФИО" required />
-					<Input onChange={onChangePersonalEmail}  placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
+					<Input onChange={onChangePersonalEmail} placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
 					<Input onChange={onChangeBirthday} placeholder={user.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
 					<Input onChange={onChangeTown} placeholder={user.town} type="text" name="city" top="Город" required />
-					<Input onChange={onChangeUniversity} placeholder={user.university}  type="text" name="university" top="Учебное заведение" required />
-					<Input onChange={onChangeUniversityPostalAddress} placeholder={user.universityPostalAddress}  type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
-					<Input onChange={onChangeRectorFullName} placeholder={user.rectorFullName}  type="text" name="fiorector" top="ФИО ректора" required />
-					<Input onChange={onChangeRectorPostalAddress} placeholder={user.rectorPostalAddress}  ype="text" name="emailrector" top="Электронный адрес ректора" required />
+					<Input onChange={onChangeUniversity} placeholder={user.university} type="text" name="university" top="Учебное заведение" required />
+					<Input onChange={onChangeUniversityPostalAddress} placeholder={user.universityPostalAddress} type="text" name="pochtavuz" top="Почтовый адерес ВУЗа" required />
+					<Input onChange={onChangeRectorFullName} placeholder={user.rectorFullName} type="text" name="fiorector" top="ФИО ректора" required />
+					<Input onChange={onChangeRectorPostalAddress} placeholder={user.rectorPostalAddress} ype="text" name="emailrector" top="Электронный адрес ректора" required />
 					<Select onChange={onChangeStatusInUniversity} placeholder={user.statusInUniversity} top="Статус в ВУЗе" >
 						<option value="1 курс бакалавриат">1 курс бакалавриат</option>
 						<option value="2 курс бакалавриат">2 курс бакалавриат</option>
@@ -176,9 +177,9 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 						<option value="сотрудник ВУЗа">Сотрудник ВУЗа</option>
 					</Select>
 					<Input onChange={onChangeFacultyFull} placeholder={user.facultyFull} type="text" name="facultatifull" top="Факультет полный" required />
-					<Input onChange={onChangeFacultyShortly} placeholder={user.facultyShortly}  type="text" name="facultatiless" top="Факультет кратко" required />
-					<Input onChange={onChangeSpecialty} placeholder={user.specialty}  type="text" name="speciality" top="Специальность" required />
-					<Input onChange={onChangePersonalPostalAddress} placeholder={user.personalPostalAddress}  type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
+					<Input onChange={onChangeFacultyShortly} placeholder={user.facultyShortly} type="text" name="facultatiless" top="Факультет кратко" required />
+					<Input onChange={onChangeSpecialty} placeholder={user.specialty} type="text" name="speciality" top="Специальность" required />
+					<Input onChange={onChangePersonalPostalAddress} placeholder={user.personalPostalAddress} type="text" name="pochtaadress" top="Почтовый адерс (с индексом)" required />
 					<Select onChange={onChangeClothingSize} placeholder={user.clothingSize} top="Размер одежды" >
 						<option value="XS мужской">XS мужской</option>
 						<option value="S мужской">S мужской</option>
@@ -193,7 +194,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 						<option value="L женский">L женский</option>
 						<option value="XL женский">XL женский</option>
 					</Select>
-					<Input onChange={onChangePhone} placeholder={user.phoneNumber} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="number" name="phonenumber" top="Телефон" required />
+					+7 <InputPhone country="RU" international placeholder={formatPhoneNumber(user.phoneNumber)} onChange={onChangePhone} top="Телефон" name="phonenumber" required />
 					<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 				</FormLayout>
