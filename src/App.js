@@ -12,6 +12,12 @@ import Eventsmentor from './panels/eventsMentor';
 import Editprofile from './panels/editProfile';
 import Badge from './panels/Badge';
 import Infoevents from './panels/InfoEvents';
+import AddEventFirst from './panels/AddEventFirst';
+import AddEventSecondVnesh from './panels/AddEventSecondVnesh';
+import AddEventSecondVnutr from './panels/AddEventSecondVnutr';
+import AddEventSecondHelp from './panels/AddEventSecondHelp';
+
+
 
 
 
@@ -24,7 +30,11 @@ const ROUTES = {
 	EVENTSMENTOR: 'eventsmentor',
 	EDITPROFILE: 'editprofile',
 	BADGE: 'badge',
-	INFOEVENTS: 'infoevents'
+	INFOEVENTS: 'infoevents',
+	ADDEVENTFIRST: 'addeventfirst',
+	ADDEVENTSECONDVNESH: 'addeventsecondvnesh',
+	ADDEVENTSECONDVNUTR: 'addeventsecondvnutr',
+	ADDEVENTSECONDHELP: 'addeventsecondhelp',
 };
 
 const App = () => {
@@ -68,6 +78,10 @@ const App = () => {
 				<Badge id='badge' go={go} />
 				<Infoevents id='infoevents' go={go} />
 				<Home id='home'  fetchedUser={fetchedUser} go={go} />
+				<AddEventFirst id='addeventfirst' go={go} />
+				<AddEventSecondVnesh id='addeventsecondvnesh' go={go} />
+				<AddEventSecondVnutr id='addeventsecondvnutr' go={go} />
+				<AddEventSecondHelp id='addeventsecondhelp' go={go} />
 			</View>
 		);
 	}
