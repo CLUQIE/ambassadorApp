@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/ambassadorApp/static/css/main.eb577e46.chunk.css",
-    "main.js": "/ambassadorApp/static/js/main.fabc7353.chunk.js",
-    "main.js.map": "/ambassadorApp/static/js/main.fabc7353.chunk.js.map",
+    "main.js": "/ambassadorApp/static/js/main.c040a5ff.chunk.js",
+    "main.js.map": "/ambassadorApp/static/js/main.c040a5ff.chunk.js.map",
     "runtime-main.js": "/ambassadorApp/static/js/runtime-main.2f928d8f.js",
     "runtime-main.js.map": "/ambassadorApp/static/js/runtime-main.2f928d8f.js.map",
     "static/css/2.4911f66b.chunk.css": "/ambassadorApp/static/css/2.4911f66b.chunk.css",
-    "static/js/2.98c5ade5.chunk.js": "/ambassadorApp/static/js/2.98c5ade5.chunk.js",
-    "static/js/2.98c5ade5.chunk.js.map": "/ambassadorApp/static/js/2.98c5ade5.chunk.js.map",
+    "static/js/2.8806c152.chunk.js": "/ambassadorApp/static/js/2.8806c152.chunk.js",
+    "static/js/2.8806c152.chunk.js.map": "/ambassadorApp/static/js/2.8806c152.chunk.js.map",
     "index.html": "/ambassadorApp/index.html",
-    "precache-manifest.970b7b54beddaea1443f154ed76826e0.js": "/ambassadorApp/precache-manifest.970b7b54beddaea1443f154ed76826e0.js",
+    "precache-manifest.32640b17ade911606b070a4c307aac39.js": "/ambassadorApp/precache-manifest.32640b17ade911606b070a4c307aac39.js",
     "service-worker.js": "/ambassadorApp/service-worker.js",
     "static/css/2.4911f66b.chunk.css.map": "/ambassadorApp/static/css/2.4911f66b.chunk.css.map",
     "static/css/main.eb577e46.chunk.css.map": "/ambassadorApp/static/css/main.eb577e46.chunk.css.map",
-    "static/js/2.98c5ade5.chunk.js.LICENSE.txt": "/ambassadorApp/static/js/2.98c5ade5.chunk.js.LICENSE.txt"
+    "static/js/2.8806c152.chunk.js.LICENSE.txt": "/ambassadorApp/static/js/2.8806c152.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2f928d8f.js",
     "static/css/2.4911f66b.chunk.css",
-    "static/js/2.98c5ade5.chunk.js",
+    "static/js/2.8806c152.chunk.js",
     "static/css/main.eb577e46.chunk.css",
-    "static/js/main.fabc7353.chunk.js"
+    "static/js/main.c040a5ff.chunk.js"
   ]
 }
