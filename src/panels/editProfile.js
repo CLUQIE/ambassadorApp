@@ -3,13 +3,12 @@ import InputPhone, {formatPhoneNumber} from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
 import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link, Select, ScreenSpinner } from '@vkontakte/vkui';
 
-function formatDate (date){
-	let newDate = date.slice(8,10) + date.slice(4,8) + date.slice(0,4);
-	return newDate
-	}
-
 const Editprofile = ({ fetchedUser, id, go }) => {
-
+	const formatDate = (date) =>{
+		let newDate = date.slice(8,10) + date.slice(4,8) + date.slice(0,4);
+		return newDate
+		}
+		
 	const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 
 	const [isLoading, setIsLoading] = React.useState(true);
