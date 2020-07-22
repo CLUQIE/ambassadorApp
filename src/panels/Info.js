@@ -36,13 +36,13 @@ const Info = ({ id, go }) => {
                         Интервью с Дмитрием Гришиным
                     </Cell>
                     <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://vk.com/video-153502007_456239241"> 
-                        Выступление Бориса Добродеева
+                        Выступление Бориса Добродеева на форуме ПроеКТОриЯ 
                     </Cell>
                     <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://thebell.io/boris-dobrodeev-mail-ru-group-legkie-modeli-v-internete-zakonchilis">
-                        Интервью Бориса Добродеева 
+                        Интервью Бориса Добродеева в The Bell
                     </Cell>
                     <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://www.rbc.ru/interview/technology_and_media/16/12/2019/5dee6c7d9a794758a559c774">
-                        Интервью Бориса Добродеева 
+                        Интервью Бориса Добродеева в РБК
                     </Cell>
                     <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://corp.mail.ru/ru/company/strategy_ceo/">
                         Подробный рассказ Бориса Добродеева о экосистеме экосистем  
