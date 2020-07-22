@@ -11,14 +11,15 @@ import Profile from './panels/Profile';
 import Eventsmentor from './panels/eventsMentor';
 import Editprofile from './panels/editProfile';
 import Badge from './panels/Badge';
-import Infoevents from './panels/InfoEvents';
 import AddEventFirst from './panels/AddEventFirst';
 import AddEventSecondVnesh from './panels/AddEventSecondVnesh';
 import AddEventSecondVnutr from './panels/AddEventSecondVnutr';
 import AddEventSecondHelp from './panels/AddEventSecondHelp';
-
-
-
+import AddEventVneshOff from './panels/AddEventVneshOff';
+import AddEventVnutrOnl from './panels/AddEventVnutrOnl';
+import AddEventVnutrOff from './panels/AddEventVnutrOff';
+import AddEventHelpOnl from './panels/AddEventHelpOnl';
+import AddEventHelpOff from './panels/AddEventHelpOff';
 
 
 const ROUTES = {
@@ -30,11 +31,15 @@ const ROUTES = {
 	EVENTSMENTOR: 'eventsmentor',
 	EDITPROFILE: 'editprofile',
 	BADGE: 'badge',
-	INFOEVENTS: 'infoevents',
 	ADDEVENTFIRST: 'addeventfirst',
 	ADDEVENTSECONDVNESH: 'addeventsecondvnesh',
 	ADDEVENTSECONDVNUTR: 'addeventsecondvnutr',
 	ADDEVENTSECONDHELP: 'addeventsecondhelp',
+	ADDEVENTVNESHOFF: 'addeventvneshoff',
+	ADDEVENTVNUTRONL: 'addeventvnutronl',
+	ADDEVENTVNUTROFF: 'addeventvnutroff',
+	ADDEVENTHELPONL: 'addeventhelponl',
+	ADDEVENTHELPOFF: 'addeventhelpoff'
 };
 
 const App = () => {
@@ -69,18 +74,24 @@ const App = () => {
 	if (role === 'ambassador'){
 		return (
 			<View activePanel={activePanel} popout={popout}>
-				<Badge id='badge' go={go} />
+				
 				<Profile id='profile' fetchedUser={fetchedUser} go={go} />
-				<Infoevents id='infoevents' go={go} />
+				<Badge id='badge' go={go} />
 				<Home id='home'  fetchedUser={fetchedUser} go={go} />
 				<AddEventFirst id='addeventfirst' go={go} />
-				<Events id='events' fetchedUser={fetchedUser} go={go} />
 				<AddEventSecondVnesh id='addeventsecondvnesh' go={go} />
-				<Info id='info' go={go} />
 				<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
-				<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
 				<AddEventSecondVnutr id='addeventsecondvnutr' go={go} />
 				<AddEventSecondHelp id='addeventsecondhelp' go={go} />
+				<AddEventVneshOff fetchedUser={fetchedUser} id='addeventvneshoff' go={go} />
+				<AddEventVnutrOnl fetchedUser={fetchedUser} id='addeventvnutronl' go={go} />
+				<AddEventVnutrOff fetchedUser={fetchedUser} id='addeventvnutroff' go={go} />
+				<AddEventHelpOnl fetchedUser={fetchedUser} id='addeventhelponl' go={go} />
+				<AddEventHelpOff fetchedUser={fetchedUser} id='addeventhelpoff' go={go} />
+				
+				<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
+				<Info id='info' go={go} />
+				<Events id='events' fetchedUser={fetchedUser} go={go} />
 			</View>
 		);
 	}
