@@ -19,7 +19,10 @@ const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador
 const Profile = ({ fetchedUser, id, go }) => {
 
     const ROUTES = {
-        PROFILEINFO: 'profileInfo'
+        PROFILEINFO: 'profileInfo',
+        INSIDEEVENTS: 'inside',
+        OUTSIDEEVENTS: 'outside',
+        HELPANDSUPPORT: 'helpAndSupport'
     };
     const modalBack = () => {
         setActivePanel(null);
@@ -86,6 +89,67 @@ const Profile = ({ fetchedUser, id, go }) => {
                 </Group>
 
             </ModalPage>
+
+            <ModalPage
+                id={ROUTES.INSIDEEVENTS}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Формат мероприятий
+                    </ModalPageHeader>}>
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внутреннее" && i.eventForm === "Онлайн") }).length : 'empty'} </Counter>}>
+                        Онлайн
+                            </Cell>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
+                            </Cell>
+                </Group>
+            </ModalPage>
+
+            <ModalPage
+                id={ROUTES.OUTSIDEEVENTS}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Формат мероприятий
+                    </ModalPageHeader>}>
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        Онлайн
+                            </Cell>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
+                            </Cell>
+                </Group>
+            </ModalPage>
+
+            <ModalPage
+                id={ROUTES.HELPANDSUPPORT}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Формат мероприятий
+                    </ModalPageHeader>}>
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        Онлайн
+                            </Cell>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
+                            </Cell>
+                </Group>
+            </ModalPage>
+
         </ModalRoot>
     )
 
@@ -164,15 +228,15 @@ const Profile = ({ fetchedUser, id, go }) => {
                             indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
                             Всего мероприятий
                             </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length}</Counter>}>
                             Внутренние мероприятия
                             </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" }).length}</Counter>}>
                             Внешние мероприятия
                             </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length}</Counter>}>
                             Помощь и поддержка
                             </Cell>
