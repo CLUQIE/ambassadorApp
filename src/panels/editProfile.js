@@ -1,13 +1,13 @@
 import React from 'react';
-// import {formatPhoneNumber} from 'react-phone-number-input/input';
+import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
 import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link, Select, ScreenSpinner } from '@vkontakte/vkui';
 
 const Editprofile = ({ fetchedUser, id, go }) => {
-	const formatDate = (date) =>{
-		let newDate = date.slice(8,10) + date.slice(4,8) + date.slice(0,4);
+	const formatDate = (date) => {
+		let newDate = date.slice(8, 10) + date.slice(4, 8) + date.slice(0, 4);
 		return newDate
-		}
+	}
 
 	const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 
@@ -30,7 +30,14 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 	const [fullName, setFullName] = React.useState();
 	const [fullNameLatin, setFullNameLatin] = React.useState();
 	const [town, setTown] = React.useState();
+	const [universityShortly, setUniversityShortly] = React.useState();
+	const [fetch, setFetch] = React.useState(true);
 
+
+
+	const onChangeUniversityShortly = (event) => {
+		setUniversityShortly(event.target.value)
+	}
 
 	const onChangeFullNameLatin = (event) => {
 		setFullNameLatin(event.target.value)
@@ -44,7 +51,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 	}
 
 	const onChangePhone = (event) => {
-		setPhone(event.target.value)
+		setPhone('+7' + event.target.value)
 	}
 
 	const onChangePersonalEmail = (event) => {
@@ -109,6 +116,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 			personalEmail: personalemail,
 			town: town,
 			university: university,
+			universityShortly: universityShortly,
 			universityPostalAddress: universitypostaladdress,
 			rectorFullName: rectorfullname,
 			rectorPostalAddress: rectorpostaladdress,
@@ -125,16 +133,18 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 		// .catch(err => console.log(err))
 
 	}
-
-	if (fetchedUser != null) {
-		const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-		postRequest('POST', requestURL, vkID)
-			.then(data => {
-				setUser(data[0])
-				setIsLoading(false)
-			})
-			.catch(err => console.log(err))
-		// console.log(data);
+	if (fetch) {
+		if (fetchedUser != null) {
+			const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+			postRequest('POST', requestURL, vkID)
+				.then(data => {
+					setUser(data[0])
+					setIsLoading(false)
+					setFetch(false)
+				})
+				.catch(err => console.log(err))
+			// console.log(data);
+		}
 	}
 
 	if (isLoading === true) {
@@ -156,15 +166,14 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="profile" onMouseUp={go} />}>Редактирование профиля</PanelHeader>
 			<Group>
 				<FormLayout>
-				<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="ФИО" required />
-					<Input onChange={onChangePhone} placeholder={user.phoneNumber} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="number" name="phonenumber" top="Телефон" required />
+					<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="ФИО" required />
+					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(user.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введите телефон в формате 8005553535 (без +7 или 8 или 7)" required />
 					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} bottom="Для того, чтобы создать тебе почту" type="text" name="fullname" top="Фамилия и имя по-латински" required />
 					<Input onChange={onChangePersonalEmail} placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
 					<Input onChange={onChangeBirthday} placeholder={user.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
 					<Input onChange={onChangeTown} placeholder={user.town} type="text" name="city" top="Город" required />
 					<Input onChange={onChangeUniversity} placeholder={user.university} type="text" name="university" top="Учебное заведение" bottom="Полное наименование" required />
-					<Input type="text" name="university" top="Учебное заведение" bottom="Краткое наименование" required />
-
+					<Input onChange={onChangeUniversityShortly} placeholder={user.universityShortly} type="text" name="university" top="Учебное заведение" bottom="Краткое наименование" required />
 					<Input onChange={onChangeUniversityPostalAddress} placeholder={user.universityPostalAddress} bottom="С индексом для отправки писем" type="text" name="pochtavuz" top="Почтовый адрес вуза" required />
 					<Input onChange={onChangeRectorFullName} placeholder={user.rectorFullName} type="text" name="fiorector" top="ФИО ректора" required />
 					<Input onChange={onChangeRectorPostalAddress} placeholder={user.rectorPostalAddress} ype="text" name="emailrector" top="Электронный адрес ректора" required />

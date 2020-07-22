@@ -16,12 +16,15 @@ const ROUTES = {
     EVENTSINFO: 'eventsInfo'
 };
 
+
+
 const Events = ({ fetchedUser, id, go }) => {
+
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [eventsData, setEventsData] = React.useState();
     const [activeModal, setActivePanel] = React.useState(null);
-    const [eventId, setEventId] = React.useState(0);
+    const [eventId, setEventId] = React.useState();
     const [fetch, setFetch] = React.useState(true);
 
     const modalBack = () => {

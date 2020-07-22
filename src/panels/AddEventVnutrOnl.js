@@ -7,6 +7,10 @@ const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
 const AddEventVnutrOnl = ({ fetchedUser, id, go }) => {
+	const formatDate = (date) =>{
+		let newDate = date.slice(8,10) + date.slice(4,8) + date.slice(0,4);
+		return newDate
+		}
 
 	const [user, setUser] = React.useState();
 	const [nameEvent, setNameEvent] = React.useState();
@@ -49,7 +53,7 @@ if (fetch){
 	}
 
 	const onChangeDate = (event) => {
-		setDate(event.target.value)
+		setDate(formatDate(event.target.value))
 	}
 
 	const onChangeCompanyRole = (event) => {

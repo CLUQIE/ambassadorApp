@@ -1,7 +1,7 @@
 import React from 'react';
-// import { formatPhoneNumber } from 'react-phone-number-input/input';
+import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter,  CellButton } from '@vkontakte/vkui';
+import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -53,6 +53,9 @@ const Profile = ({ fetchedUser, id, go }) => {
                         </Cell>
                     <Cell indicator={user ? user.latinFullName : 'empty'} >
                         Фамилия и имя по-латински
+                        </Cell>
+                    <Cell indicator={user ? user.university : 'empty'} >
+                        Полное название учебного заведения
                         </Cell>
                     <Cell indicator={user ? user.facultyFull : 'empty'} >
                         Полное название факультета
@@ -190,21 +193,21 @@ const Profile = ({ fetchedUser, id, go }) => {
                         <Cell indicator={user.birthday} >
                             Дата рождения
                         </Cell>
-                        <Cell indicator={user.phoneNumber} >
+                        <Cell indicator={formatPhoneNumber(user.phoneNumber)} >
                             Номер телефона
                         </Cell>
                         <Cell indicator={user.personalEmail} >
                             Email
                         </Cell>
-                        <Cell indicator={user.university} >
+                        <Cell indicator={user.universityShortly} >
                             Учебное заведение
                         </Cell>
                         <Cell indicator={user.statusInUniversity} >
                             Статус
                         </Cell>
-                        <CellButton 
-                        // style={{ color: '#fc2c38' }} 
-                        onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
+                        <CellButton
+                            // style={{ color: '#fc2c38' }} 
+                            onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
                     </Group>
                 </div>
 
