@@ -1,18 +1,15 @@
 import React from 'react';
-import { formatPhoneNumber } from 'react-phone-number-input/input';
+// import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, Button, Div } from '@vkontakte/vkui';
+import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter,  CellButton } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 import Icon28WriteOutline from '@vkontakte/icons/dist/28/write_outline';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
-import Icon16Fire from '@vkontakte/icons/dist/16/fire';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
-import Icon16Smile from '@vkontakte/icons/dist/16/smile';
-import Icon16FireVerified from '@vkontakte/icons/dist/16/fire_verified';
-import Icon16PaletteOutline from '@vkontakte/icons/dist/16/palette_outline';
+
 
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
@@ -52,13 +49,16 @@ const Profile = ({ fetchedUser, id, go }) => {
                         Размер одежды
                         </Cell>
                     <Cell indicator={user ? user.personalPostalAddress : 'empty'} >
-                        Почтовый адерес
+                        Почтовый адрес (с индексом)
                         </Cell>
                     <Cell indicator={user ? user.latinFullName : 'empty'} >
-                        ФИО по латински
+                        Фамилия и имя по-латински
                         </Cell>
-                    <Cell indicator={user ? user.university : 'empty'} >
-                        Учебное заведение
+                    <Cell indicator={user ? user.facultyFull : 'empty'} >
+                        Полное название факультета
+                        </Cell>
+                    <Cell indicator={user ? user.facultyShortly : 'empty'} >
+                        Краткое название факультета
                         </Cell>
                     <Cell indicator={user ? user.statusInUniversity : 'empty'} >
                         Статус
@@ -78,10 +78,12 @@ const Profile = ({ fetchedUser, id, go }) => {
                     <Cell indicator={user ? user.rectorPostalAddress : 'empty'} >
                         Email ректора
                         </Cell>
+
+
                 </Group>
 
             </ModalPage>
-        </ModalRoot >
+        </ModalRoot>
     )
 
     if (fetch) {
@@ -157,30 +159,29 @@ const Profile = ({ fetchedUser, id, go }) => {
                         {/* <SimpleCell> */}
                         <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
-                            Проведено мероприятий
+                            Всего мероприятий
                             </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Fire fill="var(--white)" /></Avatar>}
-                            indicator={<Counter key={user._id}>{eventsData.filter(function(i,n){return i.participationForm === "Внешний"}).length}</Counter>}>
+                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                            indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length}</Counter>}>
+                            Внутренние мероприятия
+                            </Cell>
+                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                            indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" }).length}</Counter>}>
                             Внешние мероприятия
                             </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Smile fill="var(--white)" /></Avatar>}
-                            indicator={<Counter key={user._id}>{eventsData.filter((i,n)=>{return i.eventForm === "Онлайн"}).length}</Counter>}>
+                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                            indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length}</Counter>}>
+                            Помощь и поддержка
+                            </Cell>
+                        {/* <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                            indicator={<Counter key={user._id}>{eventsData.filter((i, n) => { return i.eventForm === "Онлайн" }).length}</Counter>}>
                             Онлайн мероприятия
                             </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16FireVerified fill="var(--white)" /></Avatar>}
-                            indicator={<Counter key={user._id}>{eventsData.filter((i,n)=>{return i.eventForm === "Офлайн"}).length}</Counter>}>
+                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                            indicator={<Counter key={user._id}>{eventsData.filter((i, n) => { return i.eventForm === "Офлайн" }).length}</Counter>}>
                             Офлайн мероприятия
-                            </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16PaletteOutline fill="var(--white)" /></Avatar>}
-                            indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
-                            Количество участников
-                            </Cell>
-                        {/* </SimpleCell> */}
+                            </Cell> */}
 
-                        {/* <SimpleCell>
-                            <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>} 
-                            indicator={<Counter>1</Counter>}>Какая-то статистика</Cell>
-                        </SimpleCell> */}
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
                         <Cell indicator={user.town} >
@@ -189,15 +190,21 @@ const Profile = ({ fetchedUser, id, go }) => {
                         <Cell indicator={user.birthday} >
                             Дата рождения
                         </Cell>
-                        <Cell indicator={formatPhoneNumber(user.phoneNumber)} >
+                        <Cell indicator={user.phoneNumber} >
                             Номер телефона
                         </Cell>
                         <Cell indicator={user.personalEmail} >
                             Email
                         </Cell>
-                        <Div>
-                            <Button style={{ backgroundColor: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Подробнее</Button>
-                        </Div>
+                        <Cell indicator={user.university} >
+                            Учебное заведение
+                        </Cell>
+                        <Cell indicator={user.statusInUniversity} >
+                            Статус
+                        </Cell>
+                        <CellButton 
+                        // style={{ color: '#fc2c38' }} 
+                        onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
                     </Group>
                 </div>
 

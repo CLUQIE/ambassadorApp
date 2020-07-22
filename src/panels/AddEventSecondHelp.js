@@ -18,10 +18,10 @@ const AddEventSecondHelp = ({ id, go }) => {
                 Выберите формат мероприятия
             </Placeholder>
             <Div>
-                <Button  style={{backgroundColor: '#fc2c38'}}  size="xl" onClick={go} data-to="example-2">Онлайн</Button>
+                <Button  style={{backgroundColor: '#fc2c38'}}  size="xl" onClick={go} data-to="addeventhelponl">Онлайн</Button>
             </Div>
             <Div>
-                <Button style={{backgroundColor: '#fc2c38'}} size="xl" onClick={go} data-to="example-2">Оффлайн</Button>
+                <Button style={{backgroundColor: '#fc2c38'}} size="xl" onClick={go} data-to="addeventhelpoff">Офлайн</Button>
             </Div>
 
 

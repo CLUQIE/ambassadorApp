@@ -90,7 +90,7 @@ const Events = ({ fetchedUser, id, go }) => {
                     </InfoRow>
                 </Cell>
                 <Cell>
-                    <InfoRow header="Тип меропрития">
+                    <InfoRow header="Тип мероприятия">
                         {eventsData ? eventsData[eventId].eventType : 'empty'}
                     </InfoRow>
                 </Cell>
@@ -105,18 +105,8 @@ const Events = ({ fetchedUser, id, go }) => {
                     </InfoRow>
                 </Cell>
                 <Cell>
-                    <InfoRow header="Количетсво участников">
+                    <InfoRow header="Количество участников">
                         {eventsData ? eventsData[eventId].participants : 'empty'}
-                    </InfoRow>
-                </Cell>
-                <Cell>
-                    <InfoRow header="Университет">
-                        {eventsData ? eventsData[eventId].university : 'empty'}
-                    </InfoRow>
-                </Cell>
-                <Cell>
-                    <InfoRow header="Роль компании">
-                        {eventsData ? eventsData[eventId].companyRole : 'empty'}
                     </InfoRow>
                 </Cell>
                 <Cell>
@@ -138,7 +128,7 @@ const Events = ({ fetchedUser, id, go }) => {
             <Panel id={id}>
                 <PanelHeader
                     // left={<Icon28AddOutline onClick={onClickReport}/>}
-                    left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#fc2c38" }} onClick={go} data-to="home" /></PanelHeaderButton>}>
+                    left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#fc2c38" }} onClick={go} data-to="addeventfirst" /></PanelHeaderButton>}>
                     Мероприятия
                 </PanelHeader>
                 {/* <Group>

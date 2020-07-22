@@ -6,7 +6,7 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const Home = ({ fetchedUser, id, go }) => {
+const AddEventVneshOff = ({ fetchedUser, id, go }) => {
 
 	const [user, setUser] = React.useState();
 	const [nameEvent, setNameEvent] = React.useState();
@@ -92,7 +92,7 @@ if (fetch){
 		// console.log(participationForm)
 		let body = JSON.stringify({
 			participationForm: 'Внешнее',
-			eventForm: 'Онлайн',
+			eventForm: 'Офлайн',
 			nameEvent: nameEvent,
 			eventPlace: place,
 			date: date,
@@ -114,7 +114,7 @@ if (fetch){
 	}
 
 
-	// ВНЕШНЕЕ МЕРОПРИЯТИЕ ОНЛАЙН
+	// ВНЕШНЕЕ МЕРОПРИЯТИЕ ОФФЛАЙН
 
 	// console.log(fetchedUser)
 
@@ -129,14 +129,17 @@ if (fetch){
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />
-					<Input onChange={onChangeDate} type="date" name="name" top="Дата проведения" required/>
+					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required/>
 					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required/>
-
+					
 					<Select  onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
+						<option value="Интерактивная площадка">Интерактивная площадка</option>
 						<option value="Воркшоп/мастер-класс">Воркшоп/мастер-класс</option>
-						<option value="Выступление">Выступление</option>
-						<option value="Пост в соц.сетях">Пост в соц.сетях</option>
-						<option value="Конкурс">Конкурс</option>
+						<option value="Квиз/конкурс/викторина">Квиз/конкурс/викторина</option>
+						<option value="Стенд">Стенд</option>
+                        <option value="Стенд">Выступление</option>
+                        <option value="Стенд">Активность для школьников</option>
+                        <option value="Стенд">Экскурсия в офис</option>
 					</Select> 
 					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required/>
 					<Select  onChange={onChangeCompanyRole} top="Роль компании" placeholder=" " required>
@@ -147,11 +150,11 @@ if (fetch){
 					</Select> 
 					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников"/>
 					<Select  onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
-						<option value="1-29 человек">1-29 человек</option>
-						<option value="30-99 человек">30-99 человек</option>
-						<option value="100-299 человек">100-299 человек</option>
-						<option value="300-999 человек">300-999 человек</option>
-						<option value="1000 и более">1000 и более</option>
+						<option value="Воркшоп/мастер-класс">1-29 человек</option>
+						<option value="Выступление">30-99 человек</option>
+						<option value="Пост в соц.сетях">100-299 человек</option>
+						<option value="Конкурс">300-999 человек</option>
+						<option value="Конкурс">1000 и более</option>
 					</Select> 
 					<Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" />
 					<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
@@ -166,4 +169,4 @@ if (fetch){
 }
 
 
-export default Home;
+export default AddEventVneshOff;

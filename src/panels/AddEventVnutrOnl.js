@@ -6,7 +6,7 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const Home = ({ fetchedUser, id, go }) => {
+const AddEventVnutrOnl = ({ fetchedUser, id, go }) => {
 
 	const [user, setUser] = React.useState();
 	const [nameEvent, setNameEvent] = React.useState();
@@ -91,7 +91,7 @@ if (fetch){
 		// console.log('onClickForm triggered')
 		// console.log(participationForm)
 		let body = JSON.stringify({
-			participationForm: 'Внешнее',
+			participationForm: 'Внутреннее',
 			eventForm: 'Онлайн',
 			nameEvent: nameEvent,
 			eventPlace: place,
@@ -114,7 +114,7 @@ if (fetch){
 	}
 
 
-	// ВНЕШНЕЕ МЕРОПРИЯТИЕ ОНЛАЙН
+	// ВНУТРЕННЕЕ МЕРОПРИЯТИЕ ОНЛАЙН
 
 	// console.log(fetchedUser)
 
@@ -123,20 +123,26 @@ if (fetch){
 		<Panel id={id}>
 
 			<PanelHeader
-				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondvnesh" />}>
+				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondvnutr" />}>
 				Форма отчета</PanelHeader>
 			{/* {fetchedUser && */}
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />
-					<Input onChange={onChangeDate} type="date" name="name" top="Дата проведения" required/>
+					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required/>
 					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required/>
 
 					<Select  onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
+						<option value="Пост для группы MRG для образования">Пост для группы MRG для образования</option>
 						<option value="Воркшоп/мастер-класс">Воркшоп/мастер-класс</option>
-						<option value="Выступление">Выступление</option>
-						<option value="Пост в соц.сетях">Пост в соц.сетях</option>
-						<option value="Конкурс">Конкурс</option>
+						<option value="Квиз/конкурс/викторина">Квиз/конкурс/викторина</option>
+						<option value="Выступление сотрудника/приглашение сотрудника в жюри">Выступление сотрудника/приглашение сотрудника в жюри</option>
+                        <option value="Вебинар/трансляция">Вебинар/трансляция</option>
+                        <option value="Пост для университетских пабликов/студорганизаций">Пост для университетских пабликов/студорганизаций</option>
+                        <option value="Размещение на сайте университета">Размещение на сайте университета</option>
+                        <option value="Конкурс">Конкурс</option>
+                        <option value="Интервью">Интервью</option>
+                        <option value="Пост на своей странице">Пост на своей странице</option>
 					</Select> 
 					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required/>
 					<Select  onChange={onChangeCompanyRole} top="Роль компании" placeholder=" " required>
@@ -166,4 +172,4 @@ if (fetch){
 }
 
 
-export default Home;
+export default AddEventVnutrOnl;

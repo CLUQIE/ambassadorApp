@@ -6,7 +6,7 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const Home = ({ fetchedUser, id, go }) => {
+const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 
 	const [user, setUser] = React.useState();
 	const [nameEvent, setNameEvent] = React.useState();
@@ -26,17 +26,17 @@ const Home = ({ fetchedUser, id, go }) => {
 	const [fetch, setFetch] = React.useState(true);
 
 
-if (fetch){
-	if (fetchedUser != null) {
-		const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-		postRequest('POST', userRequestURL, vkID)
-			.then(data => {
-				setUser(data[0])
-				setFetch(false)
-			})
-			.catch(err => console.log(err))
+	if (fetch) {
+		if (fetchedUser != null) {
+			const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+			postRequest('POST', userRequestURL, vkID)
+				.then(data => {
+					setUser(data[0])
+					setFetch(false)
+				})
+				.catch(err => console.log(err))
+		}
 	}
-}
 
 	// console.log(user)
 
@@ -91,7 +91,7 @@ if (fetch){
 		// console.log('onClickForm triggered')
 		// console.log(participationForm)
 		let body = JSON.stringify({
-			participationForm: 'Внешнее',
+			participationForm: 'Помощь и поддержка',
 			eventForm: 'Онлайн',
 			nameEvent: nameEvent,
 			eventPlace: place,
@@ -114,7 +114,7 @@ if (fetch){
 	}
 
 
-	// ВНЕШНЕЕ МЕРОПРИЯТИЕ ОНЛАЙН
+	// ПОМОЩЬ МЕРОПРИЯТИЕ ОНЛАЙН
 
 	// console.log(fetchedUser)
 
@@ -123,41 +123,42 @@ if (fetch){
 		<Panel id={id}>
 
 			<PanelHeader
-				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondvnesh" />}>
+				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondhelp" />}>
 				Форма отчета</PanelHeader>
 			{/* {fetchedUser && */}
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />
-					<Input onChange={onChangeDate} type="date" name="name" top="Дата проведения" required/>
-					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required/>
+					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required />
+					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required />
 
-					<Select  onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
-						<option value="Воркшоп/мастер-класс">Воркшоп/мастер-класс</option>
-						<option value="Выступление">Выступление</option>
-						<option value="Пост в соц.сетях">Пост в соц.сетях</option>
-						<option value="Конкурс">Конкурс</option>
-					</Select> 
-					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required/>
-					<Select  onChange={onChangeCompanyRole} top="Роль компании" placeholder=" " required>
+					<Select onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
+						<option value="Выступление на мероприятиях (День ИТ-знаний, Проектория, Цифровой прорыв, Урок цифры)">Выступление на мероприятиях (День ИТ-знаний, Проектория, Цифровой прорыв, Урок цифры)</option>
+						<option value="Размещение информации на странице вуза/студенческого сообщества в соцсетях">Размещение информации на странице вуза/студенческого сообщества в соцсетях</option>
+						<option value="Распространение анкеты/формы">Распространение анкеты/формы</option>
+						<option value="Размещение информации на своей странице">Размещение информации на своей странице</option>
+						<option value="Репост">Репост</option>
+					</Select>
+					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required />
+					<Select onChange={onChangeCompanyRole} top="Роль компании" placeholder=" " required>
 						<option value="Организатор">Организатор</option>
 						<option value="Партнер">Партнер</option>
 						<option value="Участник">Участник</option>
 						<option value="Затрудняюсь ответить">Затрудняюсь ответить</option>
-					</Select> 
-					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников"/>
-					<Select  onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
+					</Select>
+					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников" />
+					<Select onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
 						<option value="1-29 человек">1-29 человек</option>
 						<option value="30-99 человек">30-99 человек</option>
 						<option value="100-299 человек">100-299 человек</option>
 						<option value="300-999 человек">300-999 человек</option>
 						<option value="1000 и более">1000 и более</option>
-					</Select> 
+					</Select>
 					<Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" />
 					<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
 
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
-			
+
 				</FormLayout>
 			</Group>
 
@@ -166,4 +167,4 @@ if (fetch){
 }
 
 
-export default Home;
+export default AddEventHelpOnl;
