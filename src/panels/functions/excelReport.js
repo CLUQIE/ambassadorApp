@@ -1,7 +1,6 @@
 import $ from "jquery";
-
 let id = 5
-let urlExport = 'http://exporter.azurewebsites.net/api/export/ExportFromJSON/' + id;
+let urlExport = 'https://exporter.azurewebsites.net/api/export/ExportFromJSON/' + id;
 
 function findExtension(id) {
     switch (id) {
@@ -19,9 +18,10 @@ function findExtension(id) {
 export function excelReport(data) {
     let ext = findExtension(id);
     let sortData = data.map((element) => {
-        delete element.uploadsLinks;
         delete element._id;
         delete element.__v;
+        delete element.uploadsLinks;
+        console.log(element)
         return element
     });
     sortData = JSON.stringify(sortData)
@@ -34,11 +34,9 @@ export function excelReport(data) {
         contentType: "application/json; charset=utf-8"
     })
         .done(function (result) {
-
-            console.log(result)
             let urlDownload = 'http://exporter.azurewebsites.net/api/export/GetFile/' + result;
             urlDownload += "?fileName=ReportOfAmbassador&extension=" + ext;
-            window.location = urlDownload;
+            window.location.href=urlDownload
         })
         .fail(function (f) {
             alert("error:" + f.responseText);
