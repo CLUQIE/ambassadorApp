@@ -21,7 +21,6 @@ export function excelReport(data) {
         delete element._id;
         delete element.__v;
         delete element.uploadsLinks;
-        console.log(element)
         return element
     });
     sortData = JSON.stringify(sortData)
@@ -34,7 +33,7 @@ export function excelReport(data) {
         contentType: "application/json; charset=utf-8"
     })
         .done(function (result) {
-            let urlDownload = 'http://exporter.azurewebsites.net/api/export/GetFile/' + result;
+            let urlDownload = 'https://exporter.azurewebsites.net/api/export/GetFile/' + result;
             urlDownload += "?fileName=ReportOfAmbassador&extension=" + ext;
             window.location.href=urlDownload
         })
