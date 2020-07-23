@@ -270,7 +270,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                             Статус
                         </Cell>
                         <CellButton
-                            // style={{ color: '#fc2c38' }} 
+                            style={{ color: '#fc2c38' }} 
                             onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
                     </Group>
                 </div>
