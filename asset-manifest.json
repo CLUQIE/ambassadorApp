@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ambassadorApp/static/css/main.eb577e46.chunk.css",
-    "main.js": "/ambassadorApp/static/js/main.b309ea00.chunk.js",
-    "main.js.map": "/ambassadorApp/static/js/main.b309ea00.chunk.js.map",
+    "main.js": "/ambassadorApp/static/js/main.a8f5e299.chunk.js",
+    "main.js.map": "/ambassadorApp/static/js/main.a8f5e299.chunk.js.map",
     "runtime-main.js": "/ambassadorApp/static/js/runtime-main.2f928d8f.js",
     "runtime-main.js.map": "/ambassadorApp/static/js/runtime-main.2f928d8f.js.map",
     "static/css/2.4911f66b.chunk.css": "/ambassadorApp/static/css/2.4911f66b.chunk.css",
     "static/js/2.9727edd8.chunk.js": "/ambassadorApp/static/js/2.9727edd8.chunk.js",
     "static/js/2.9727edd8.chunk.js.map": "/ambassadorApp/static/js/2.9727edd8.chunk.js.map",
     "index.html": "/ambassadorApp/index.html",
-    "precache-manifest.0c356afc682a78dc2a32413e9e82a396.js": "/ambassadorApp/precache-manifest.0c356afc682a78dc2a32413e9e82a396.js",
+    "precache-manifest.48143b25d243197dd7e20a48b1c53e89.js": "/ambassadorApp/precache-manifest.48143b25d243197dd7e20a48b1c53e89.js",
     "service-worker.js": "/ambassadorApp/service-worker.js",
     "static/css/2.4911f66b.chunk.css.map": "/ambassadorApp/static/css/2.4911f66b.chunk.css.map",
     "static/css/main.eb577e46.chunk.css.map": "/ambassadorApp/static/css/main.eb577e46.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.4911f66b.chunk.css",
     "static/js/2.9727edd8.chunk.js",
     "static/css/main.eb577e46.chunk.css",
-    "static/js/main.b309ea00.chunk.js"
+    "static/js/main.a8f5e299.chunk.js"
   ]
 }
