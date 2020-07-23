@@ -96,6 +96,8 @@ if (fetch){
 		// console.log('onClickForm triggered')
 		// console.log(participationForm)
 		let body = JSON.stringify({
+			ambassador: user.fullName,
+			university: user.university,
 			participationForm: 'Внешнее',
 			eventForm: 'Онлайн',
 			nameEvent: nameEvent,
@@ -109,8 +111,6 @@ if (fetch){
 			uploadsLinks: '',
 			publicationLinks: links,
 			notes: notes,
-			ambassador: user.fullName,
-			university: user.university
 		})
 		postRequest('POST', requestURL, body)
 			// .then(data => console.log(data))
