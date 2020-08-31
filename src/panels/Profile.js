@@ -48,40 +48,40 @@ const Profile = ({ fetchedUser, id, go }) => {
                         Подробнее
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell indicator={user ? user.clothingSize : 'empty'} >
+                    <Cell multiline indicator={<Cell>{user ? user.clothingSize : 'empty'}</Cell>} >
                         Размер одежды
                         </Cell>
-                    <Cell indicator={user ? user.personalPostalAddress : 'empty'} >
+                    <Cell multiline indicator={<Cell>{user ? user.personalPostalAddress : 'empty'}</Cell>} >
                         Почтовый адрес (с индексом)
                         </Cell>
-                    <Cell indicator={user ? user.latinFullName : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.latinFullName : 'empty'}</Cell>} >
                         Фамилия и имя по-латински
                         </Cell>
-                    <Cell indicator={user ? user.university : 'empty'} >
-                        Полное название учебного заведения
+                    <Cell multiline indicator={<Cell >{user ? user.university : 'empty'}</Cell>}>
+                            Полное название учебного заведения
                         </Cell>
-                    <Cell indicator={user ? user.facultyFull : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.facultyFull : 'empty'}</Cell>} >
                         Полное название факультета
                         </Cell>
-                    <Cell indicator={user ? user.facultyShortly : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.facultyShortly : 'empty'}</Cell>}  >
                         Краткое название факультета
                         </Cell>
-                    <Cell indicator={user ? user.statusInUniversity : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.statusInUniversity : 'empty'}</Cell>}  >
                         Статус
                         </Cell>
-                    <Cell indicator={user ? user.facultyFull : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.facultyFull : 'empty'} </Cell>}>
                         Факультет
                         </Cell>
-                    <Cell indicator={user ? user.specialty : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.specialty : 'empty'} </Cell>}>
                         Специальность
                         </Cell>
-                    <Cell indicator={user ? user.universityPostalAddress : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.universityPostalAddress : 'empty'} </Cell>}>
                         Адрес учебного заведения
                         </Cell>
-                    <Cell indicator={user ? user.rectorFullName : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.rectorFullName : 'empty'}</Cell>} >
                         ФИО ректора
                         </Cell>
-                    <Cell indicator={user ? user.rectorPostalAddress : 'empty'} >
+                    <Cell multiline indicator={<Cell >{user ? user.rectorPostalAddress : 'empty'}</Cell>} >
                         Email ректора
                         </Cell>
 
@@ -253,22 +253,23 @@ const Profile = ({ fetchedUser, id, go }) => {
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
-                        <Cell indicator={user.town} >
+                        <Cell multiline indicator={user.town} >
                             Город
                         </Cell>
-                        <Cell indicator={user.birthday} >
+                        <Cell multiline indicator={user.birthday} >
                             Дата рождения
                         </Cell>
-                        <Cell indicator={formatPhoneNumber(user.phoneNumber)} >
+                        <Cell multiline indicator={formatPhoneNumber(user.phoneNumber)} >
                             Номер телефона
                         </Cell>
-                        <Cell indicator={user.personalEmail} >
+                        <Cell multiline indicator={user.personalEmail} >
                             Email
                         </Cell>
-                        <Cell indicator={user.universityShortly} >
+                        <Cell multiline indicator={<div className="IndicatorOverflow">{user.universityShortly}</div>}
+ >
                             Учебное заведение
                         </Cell>
-                        <Cell indicator={user.statusInUniversity} >
+                        <Cell multiline indicator={user.statusInUniversity} >
                             Статус
                         </Cell>
                         <CellButton
