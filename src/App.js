@@ -24,6 +24,8 @@ import AddEventVnutrOff from './panels/AddEventVnutrOff';
 import AddEventHelpOnl from './panels/AddEventHelpOnl';
 import AddEventHelpOff from './panels/AddEventHelpOff';
 import ProfileMrg from './panels/profilemrg';
+import ProfileForInfo from './panels/ProfileForInfo';
+import EventsForInfo from './panels/EventsForInfo';
 
 
 const ROUTES = {
@@ -46,6 +48,8 @@ const ROUTES = {
 	ADDEVENTHELPOFF: 'addeventhelpoff',
 	PROFILEMRG: 'profilemrg',
 	LISTAMBASSADOR: 'listambassador',
+	PROFILEFORINFO: 'profileforinfo',
+	EVENTSFORINFO: 'eventsforinfo',
 };
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
@@ -58,9 +62,7 @@ const App = () => {
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [fetch, setFetch] = React.useState(true);
-	const [access, setAccess] = React.useState();
-
-
+	const [info, setInfo] = React.useState();
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data } }) => {
@@ -80,6 +82,7 @@ const App = () => {
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
+		setInfo(e.currentTarget.dataset.id);
 	};
 
 	// const role = 'ambassador';
@@ -90,7 +93,6 @@ const App = () => {
 			postRequest('POST', requestURL, vkID)
 
 				.then(data => {
-					setAccess(data[0]);
 					if (data[0].role === 'ambassador') {
 						setActivePanel(ROUTES.PROFILE)
 						setIsLoading(false)
@@ -137,6 +139,8 @@ const App = () => {
 			<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
 			<Info id='info' go={go} />
 			<Events id='events' fetchedUser={fetchedUser} go={go} />
+			<ProfileForInfo id='profileforinfo' go={go} info={info}/>
+			<EventsForInfo id='eventsforinfo' go={go} info={info}/>
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} />
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
 		</View>

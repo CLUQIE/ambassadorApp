@@ -17,12 +17,19 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
-    const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
+    const [quantity, setQuantity] = React.useState(0);
+    const [ambassadors, setAmbassadors] = React.useState('');
+    const [conf, setConf] = React.useState(false);
+    const [eventsData, setEventsData] = React.useState();
 
-    const confirm = () => {
-        excelReport(eventsData)
+    const confirm = (name) => {
+        if(conf){
+        postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': name }))
+            .then(events => {
+                //excelReport(events)
+            })}
         console.log('confirm')
     }
 
@@ -40,15 +47,15 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                 onClose={modalBack}
                 header={
                     <ModalPageHeader>
-                        Скачать файл?
+                        Какой отчет?
             </ModalPageHeader>
                 }
             >
                 <FormLayout>
                     <FormLayoutGroup>
-                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
-
-                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                        {ambassadors ? ambassadors.map((ambs, ambsID) => (
+                            <Button key={ambs._id} mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm(ambs.fullName), setConf(true)} > {ambs.fullName} </Button>
+                        )) : 'empty'}
                     </FormLayoutGroup>
                 </FormLayout>
 
@@ -65,12 +72,10 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                     setUser(data[0]);
                     postRequest('POST', requestURL, JSON.stringify({ "mentor": data[0].fullName }))
                         .then(ambassador => {
-                            postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': ambassador[0].fullName }))
-                                .then(events => {
-                                    setEventsData(events)
-                                    setIsLoading(false)
-                                    setFetch(false)
-                                })
+                            console.log(ambassador)
+                            setQuantity(ambassador.length)
+                            setIsLoading(false)
+                            setFetch(false)
                         })
                 })
                 .catch(err => console.log(err))
@@ -108,13 +113,13 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                         </Group>
                     }
                     <Group header={<Header mode="secondary">Информация о амбассадорах</Header>}>
-                        <Cell indicator='5' >
+                        <Cell indicator={quantity} >
                             Количество амбассадоров
                         </Cell>
                         {/* <Div>
                             <Button size="xl" style={{ background: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}> Отчет </Button>
                         </Div> */}
-                        <Group header={<Header mode="secondary">Статистика excle</Header>}>
+                        <Group header={<Header mode="secondary">Статистика Excel</Header>}>
                             <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
                         </Group>
                     </Group>
@@ -127,7 +132,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                             <Icon28Users3Outline />
                         </TabbarItem>
 
-                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profile" text="Профиль">
+                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline style={{ color: "#fc2c38" }} width={32} height={32} />
                         </TabbarItem>
                     </Tabbar>

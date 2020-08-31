@@ -1,35 +1,24 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Separator, Placeholder, Div } from '@vkontakte/vkui';
+import { SimpleCell, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Placeholder, Div, RichCell,Button} from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
-import Icon56AccessibilityOutline from '@vkontakte/icons/dist/56/accessibility_outline';
 import Icon56UserAddOutline from '@vkontakte/icons/dist/56/user_add_outline';
 
-
-
-
-const requestURL = 'https://ambassador-todo.herokuapp.com/access/role'
 const userRequestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 
 const ListAmbassador = ({ fetchedUser, id, go }) => {
 
 
-    const [setUsers] = React.useState();
     const [isLoading, setIsLoading] = React.useState(true);
-    const [user, setUser] = React.useState();
-    const [request, setRequest] = React.useState(false);
     const [fetch, setFetch] = React.useState(true);
     const [ambassadors, setAmbassadors] = React.useState();
 
-
-    // console.log(fetchedUser)
     if (fetch) {
         if (fetchedUser != null) {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', userRequestURL, vkID)
                 .then(data => {
-                    setUser(data[0]);
                     postRequest('POST', userRequestURL, JSON.stringify({ "mentor": data[0].fullName }))
                         .then(ambassadors => {
                             setAmbassadors(ambassadors)
@@ -60,14 +49,19 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
             <Panel id={id}>
 
                 <PanelHeader>
-                    Рейтинг
+                    Амбассадоры
                 </PanelHeader>
-                {fetchedUser &&
-                    <SimpleCell href={"https://vk.com/id" + user.vkID} target="_blank" after={(3 + 1) * 4 + ' score'} >{user.fullName}</SimpleCell>}
-                <Separator style={{ margin: '12px 0' }} />
                 <Group>
                     {ambassadors.map((user, id) => (
-                        <SimpleCell href={"https://vk.com/id" + user} target="_blank" key={user._id} after={(id + 1) * 4 + ' score'} description='человек' >Имя человека</SimpleCell>
+                        <RichCell disabled
+                        multiline key={user._id} 
+                        actions={
+                            <React.Fragment >
+                            <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id = {user.vkID}>Профиль</Button>
+                            <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="eventsforinfo" data-id = {user.vkID}>Мероприятия</Button>
+                            </React.Fragment>
+                          }
+                          caption={user.universityShortly} >{user.fullName}</RichCell>
                     ))}
                 </Group>
 
