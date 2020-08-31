@@ -58,7 +58,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                         Фамилия и имя по-латински
                         </Cell>
                     <Cell multiline indicator={<Cell >{user ? user.university : 'empty'}</Cell>}>
-                            Полное название учебного заведения
+                        Полное название учебного заведения
                         </Cell>
                     <Cell multiline indicator={<Cell >{user ? user.facultyFull : 'empty'}</Cell>} >
                         Полное название факультета
@@ -104,7 +104,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                         Онлайн
                             </Cell>
                     <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
                             </Cell>
                 </Group>
@@ -120,11 +120,11 @@ const Profile = ({ fetchedUser, id, go }) => {
                     </ModalPageHeader>}>
                 <Group>
                     <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
                             </Cell>
                     <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
                             </Cell>
                 </Group>
@@ -140,11 +140,11 @@ const Profile = ({ fetchedUser, id, go }) => {
                     </ModalPageHeader>}>
                 <Group>
                     <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
                             </Cell>
                     <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                        indicator={<Counter >{eventsData ?  eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
                             </Cell>
                 </Group>
@@ -198,34 +198,14 @@ const Profile = ({ fetchedUser, id, go }) => {
                                 target="_blank"
                                 before={<Avatar size={72} src={fetchedUser.photo_100} />}>
                                 <span style={{ fontSize: '18px' }}>{user.fullName}</span>
-                                <br/>
-                                <span style={{ fontSize: '14px', color: 'grey' }}>Грейд</span>
+                                <br />
+                                <span style={{ fontSize: '14px', color: 'grey' }}>{user.grade}</span>
                                 <br />
                             </RichCell>
                         </Group>
                     }
 
                     <Group header={<Header mode="secondary">Статистика</Header>}>
-
-                        {/* <Banner
-                            mode="image"
-                            header="Мои достижения"
-                            subheader="Разблокировано 0 из 9"
-                            background={
-                                <div
-                                    style={{
-                                        backgroundColor: '#fc2c38',
-                                        backgroundImage: 'url(https://i.imgur.com/6yyTLZO.jpg)',
-                                        backgroundPosition: 'right bottom',
-                                        backgroundSize: 320,
-                                        backgroundRepeat: 'no-repeat',
-                                    }}
-                                />
-                            }
-                            actions={<Button onClick={go} data-to="badge" style={{ background: 'white', color: "#fc2c38" }} mode="overlay_primary">Подробнее</Button>}
-                        /> */}
-
-                        {/* <SimpleCell> */}
                         <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
                             Всего мероприятий
@@ -242,14 +222,6 @@ const Profile = ({ fetchedUser, id, go }) => {
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length}</Counter>}>
                             Помощь и поддержка
                             </Cell>
-                        {/* <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                            indicator={<Counter key={user._id}>{eventsData.filter((i, n) => { return i.eventForm === "Онлайн" }).length}</Counter>}>
-                            Онлайн мероприятия
-                            </Cell>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                            indicator={<Counter key={user._id}>{eventsData.filter((i, n) => { return i.eventForm === "Офлайн" }).length}</Counter>}>
-                            Офлайн мероприятия
-                            </Cell> */}
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
@@ -266,14 +238,14 @@ const Profile = ({ fetchedUser, id, go }) => {
                             Email
                         </Cell>
                         <Cell multiline indicator={<div className="IndicatorOverflow">{user.universityShortly}</div>}
- >
+                        >
                             Учебное заведение
                         </Cell>
                         <Cell multiline indicator={user.statusInUniversity} >
                             Статус
                         </Cell>
                         <CellButton
-                            style={{ color: '#fc2c38' }} 
+                            style={{ color: '#fc2c38' }}
                             onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
                     </Group>
                 </div>

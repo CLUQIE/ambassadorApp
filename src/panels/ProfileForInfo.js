@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
@@ -17,7 +17,8 @@ const ProfileForInfo = ({ id, go, info }) => {
         PROFILEINFO: 'profileInfo',
         INSIDEEVENTS: 'inside',
         OUTSIDEEVENTS: 'outside',
-        HELPANDSUPPORT: 'helpAndSupport'
+        HELPANDSUPPORT: 'helpAndSupport',
+        UPGRADE: 'upgrade'
     };
     const modalBack = () => {
         setActivePanel(null);
@@ -27,7 +28,23 @@ const ProfileForInfo = ({ id, go, info }) => {
     const [user, setUser] = React.useState();
     const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
+    const [grade, setGrade] = React.useState();
     const [activeModal, setActivePanel] = React.useState(null);
+
+    const onChangeGrade = (event) => {
+        setGrade(event.target.value)
+    }
+
+    const onClickForm = () => {
+        let body = JSON.stringify({
+            _id: user._id,
+            vkID: user.vkID,
+            grade: grade,
+        })
+        console.log(body)
+        postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
+        setFetch(true)
+    }
 
     const profileModal = (
         <ModalRoot
@@ -145,6 +162,28 @@ const ProfileForInfo = ({ id, go, info }) => {
                 </Group>
             </ModalPage>
 
+            <ModalPage
+                id={ROUTES.UPGRADE}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Изменить grade
+                    </ModalPageHeader>}>
+                <Group >
+                    <Select onChange={onChangeGrade} top="Grade" placeholder={user ? user.grade : "empty"} required>
+                        <option value="Freshman">Freshman</option>
+                        <option value="Trainee">Trainee</option>
+                        <option value="Junior">Junior</option>
+                        <option value="Middle">Middle</option>
+                        <option value="Senior">Senior</option>
+                    </Select>
+                    <Cell> </Cell>
+                    <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={modalBack} >Изменить</Button>
+                </Group>
+                <Cell> </Cell>
+            </ModalPage>
+
         </ModalRoot>
     )
 
@@ -177,8 +216,8 @@ const ProfileForInfo = ({ id, go, info }) => {
         <View activePanel={id} modal={profileModal}>
             <Panel id={id}>
 
-                <PanelHeader 
-                left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>
+                <PanelHeader
+                    left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>
                     Профиль
             </PanelHeader>
                 <div style={{ marginBottom: 100 }}>
@@ -186,11 +225,13 @@ const ProfileForInfo = ({ id, go, info }) => {
                         <Group>
                             <RichCell
                                 href={"https://vk.com/id" + user.vkID}
-                                target="_blank"
-                                /* before={<Avatar size={72} src={fetchedUser.photo_100} />} */>
+                                target="_blank">
                                 <span style={{ fontSize: '18px' }}>{user.fullName}</span>
                                 <br />
+                                <span style={{ fontSize: '14px', color: 'grey' }}>{user.grade}</span>
+                                <br />
                             </RichCell>
+                            <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.UPGRADE); }}>Изменить grade</CellButton>
                         </Group>
                     }
 

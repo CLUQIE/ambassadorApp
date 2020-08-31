@@ -7,22 +7,18 @@ const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
 const AddEventVnutrOnl = ({ fetchedUser, id, go }) => {
-	const formatDate = (date) =>{
-		let newDate = date.slice(8,10) + date.slice(4,8) + date.slice(0,4);
+	const formatDate = (date) => {
+		let newDate = date.slice(8, 10) + date.slice(4, 8) + date.slice(0, 4);
 		return newDate
-		}
+	}
 
 	const [user, setUser] = React.useState();
 	const [nameEvent, setNameEvent] = React.useState();
 	const [place, setPlace] = React.useState();
 	const [date, setDate] = React.useState();
-	const [companyRole, setCompanyRole] = React.useState();
+	//const [companyRole, setCompanyRole] = React.useState();
 	const [links, setLinks] = React.useState();
 	const [participants, setParticipants] = React.useState();
-	// const [ SetParticipationForm] = React.useState();
-	// participationForm
-	// eventForm
-	// const [ SetEventForm] = React.useState();
 	const [eventType, SetEventType] = React.useState();
 	const [description, SetDescription] = React.useState();
 	const [notes, SetNotes] = React.useState();
@@ -30,20 +26,17 @@ const AddEventVnutrOnl = ({ fetchedUser, id, go }) => {
 	const [fetch, setFetch] = React.useState(true);
 
 
-if (fetch){
-	if (fetchedUser != null) {
-		const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-		postRequest('POST', userRequestURL, vkID)
-			.then(data => {
-				setUser(data[0])
-				setFetch(false)
-			})
-			.catch(err => console.log(err))
+	if (fetch) {
+		if (fetchedUser != null) {
+			const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+			postRequest('POST', userRequestURL, vkID)
+				.then(data => {
+					setUser(data[0])
+					setFetch(false)
+				})
+				.catch(err => console.log(err))
+		}
 	}
-}
-
-	// console.log(user)
-
 	const onChangeNameEvent = (event) => {
 		setNameEvent(event.target.value)
 	}
@@ -54,10 +47,6 @@ if (fetch){
 
 	const onChangeDate = (event) => {
 		setDate(formatDate(event.target.value))
-	}
-
-	const onChangeCompanyRole = (event) => {
-		setCompanyRole(event.target.value)
 	}
 	const onChangeCallback = (event) => {
 		setCallback(event.target.value)
@@ -70,15 +59,6 @@ if (fetch){
 	const onChangeLinks = (event) => {
 		setLinks(event.target.value)
 	}
-
-	// const onChangeParticipationForm = (event) => {
-	// 	SetParticipationForm(event.target.value)
-	// }
-
-	// const onChangeEventForm = (event) => {
-	// 	SetEventForm(event.target.value)
-	// }
-
 	const onChangeEventType = (event) => {
 		SetEventType(event.target.value)
 	}
@@ -92,8 +72,7 @@ if (fetch){
 	}
 
 	const onClickForm = () => {
-		// console.log('onClickForm triggered')
-		// console.log(participationForm)
+
 		let body = JSON.stringify({
 			participationForm: 'Внутреннее',
 			eventForm: 'Онлайн',
@@ -102,7 +81,7 @@ if (fetch){
 			date: date,
 			eventType: eventType,
 			description: description,
-			companyRole: companyRole,
+			//companyRole: companyRole,
 			participants: participants,
 			participantsCallback: callback,
 			uploadsLinks: '',
@@ -112,7 +91,6 @@ if (fetch){
 			university: user.university
 		})
 		postRequest('POST', requestURL, body)
-			// .then(data => console.log(data))
 			.catch(err => console.log(err))
 
 	}
@@ -120,7 +98,6 @@ if (fetch){
 
 	// ВНУТРЕННЕЕ МЕРОПРИЯТИЕ ОНЛАЙН
 
-	// console.log(fetchedUser)
 
 	return (
 
@@ -129,39 +106,38 @@ if (fetch){
 			<PanelHeader
 				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondvnutr" />}>
 				Форма отчета</PanelHeader>
-			{/* {fetchedUser && */}
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />
-					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required/>
-					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required/>
+					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required />
+					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required />
 
-					<Select  onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
+					<Select onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
 						<option value="Пост для группы MRG для образования">Пост для группы MRG для образования</option>
 						<option value="Воркшоп/мастер-класс">Воркшоп/мастер-класс</option>
 						<option value="Квиз/конкурс/викторина">Квиз/конкурс/викторина</option>
 						<option value="Выступление сотрудника/приглашение сотрудника в жюри">Выступление сотрудника/приглашение сотрудника в жюри</option>
-                        <option value="Вебинар/трансляция">Вебинар/трансляция</option>
-                        <option value="Пост для университетских пабликов/студорганизаций">Пост для университетских пабликов/студорганизаций</option>
-                        <option value="Размещение на сайте университета">Размещение на сайте университета</option>
-                        <option value="Конкурс">Конкурс</option>
-                        <option value="Интервью">Интервью</option>
-                        <option value="Пост на своей странице">Пост на своей странице</option>
-					</Select> 
-					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required/>
-					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников"/>
-					<Select  onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
+						<option value="Вебинар/трансляция">Вебинар/трансляция</option>
+						<option value="Пост для университетских пабликов/студорганизаций">Пост для университетских пабликов/студорганизаций</option>
+						<option value="Размещение на сайте университета">Размещение на сайте университета</option>
+						<option value="Конкурс">Конкурс</option>
+						<option value="Интервью">Интервью</option>
+						<option value="Пост на своей странице">Пост на своей странице</option>
+					</Select>
+					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required />
+					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников" />
+					<Select onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
 						<option value="1-29 человек">1-29 человек</option>
 						<option value="30-99 человек">30-99 человек</option>
 						<option value="100-299 человек">100-299 человек</option>
 						<option value="300-999 человек">300-999 человек</option>
 						<option value="1000 и более">1000 и более</option>
-					</Select> 
+					</Select>
 					<Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" />
 					<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
 
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
-			
+
 				</FormLayout>
 			</Group>
 

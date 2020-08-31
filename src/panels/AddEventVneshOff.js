@@ -17,13 +17,9 @@ const AddEventVneshOff = ({ fetchedUser, id, go }) => {
 	const [nameEvent, setNameEvent] = React.useState();
 	const [place, setPlace] = React.useState();
 	const [date, setDate] = React.useState();
-	const [companyRole, setCompanyRole] = React.useState();
+	//const [companyRole, setCompanyRole] = React.useState();
 	const [links, setLinks] = React.useState();
 	const [participants, setParticipants] = React.useState();
-	// const [ SetParticipationForm] = React.useState();
-	// participationForm
-	// eventForm
-	// const [ SetEventForm] = React.useState();
 	const [eventType, SetEventType] = React.useState();
 	const [description, SetDescription] = React.useState();
 	const [notes, SetNotes] = React.useState();
@@ -42,9 +38,6 @@ if (fetch){
 			.catch(err => console.log(err))
 	}
 }
-
-	// console.log(user)
-
 	const onChangeNameEvent = (event) => {
 		setNameEvent(event.target.value)
 	}
@@ -55,10 +48,6 @@ if (fetch){
 
 	const onChangeDate = (event) => {
 		setDate(formatDate(event.target.value))
-	}
-
-	const onChangeCompanyRole = (event) => {
-		setCompanyRole(event.target.value)
 	}
 	const onChangeCallback = (event) => {
 		setCallback(event.target.value)
@@ -71,15 +60,6 @@ if (fetch){
 	const onChangeLinks = (event) => {
 		setLinks(event.target.value)
 	}
-
-	// const onChangeParticipationForm = (event) => {
-	// 	SetParticipationForm(event.target.value)
-	// }
-
-	// const onChangeEventForm = (event) => {
-	// 	SetEventForm(event.target.value)
-	// }
-
 	const onChangeEventType = (event) => {
 		SetEventType(event.target.value)
 	}
@@ -93,8 +73,6 @@ if (fetch){
 	}
 
 	const onClickForm = () => {
-		// console.log('onClickForm triggered')
-		// console.log(participationForm)
 		let body = JSON.stringify({
 			participationForm: 'Внешнее',
 			eventForm: 'Офлайн',
@@ -103,7 +81,7 @@ if (fetch){
 			date: date,
 			eventType: eventType,
 			description: description,
-			companyRole: companyRole,
+			//companyRole: companyRole,
 			participants: participants,
 			participantsCallback: callback,
 			uploadsLinks: '',
@@ -113,15 +91,9 @@ if (fetch){
 			university: user.university
 		})
 		postRequest('POST', requestURL, body)
-			// .then(data => console.log(data))
 			.catch(err => console.log(err))
 
 	}
-
-
-	// ВНЕШНЕЕ МЕРОПРИЯТИЕ ОФФЛАЙН
-
-	// console.log(fetchedUser)
 
 	return (
 
@@ -130,7 +102,6 @@ if (fetch){
 			<PanelHeader
 				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondvnesh" />}>
 				Форма отчета</PanelHeader>
-			{/* {fetchedUser && */}
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />

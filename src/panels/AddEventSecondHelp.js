@@ -13,7 +13,6 @@ const AddEventSecondHelp = ({ id, go }) => {
             <PanelHeader
                 left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventfirst" />}>
                 Форма отчета</PanelHeader>
-            {/* {fetchedUser && */}
             <Placeholder>
                 Выберите формат мероприятия
             </Placeholder>

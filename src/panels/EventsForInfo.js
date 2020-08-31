@@ -1,6 +1,5 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-// import {excelReport} from "./functions/excelReport"
 import { View, Div, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner, Cell, InfoRow, Link, Placeholder } from '@vkontakte/vkui';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel'
 import Icon20CalendarOutline from '@vkontakte/icons/dist/20/calendar_outline';

@@ -41,27 +41,6 @@ const InfoEvents = ({ id, go}) => (
             <Div> 
             <Header mode="secondary"></Header>
                 <Group header={<Header mode="secondary">Информация</Header>} style={{marginBottom: 100}}>
-                    {/* <Cell indicator={fetchedUser.city.title} >
-                            Город
-                    </Cell>
-                    <Cell indicator={user.university} >
-                            Учебное заведение
-                    </Cell>
-                        <Cell indicator={user.birthday} >
-                            Дата рождения
-                    </Cell>
-                        <Cell indicator={user.phoneNumber} >
-                            Номер телефона
-                    </Cell>
-                        <Cell indicator={user.personalEmail} >
-                            Email
-                    </Cell>
-                        <Cell indicator={user.statusInUniversity} >
-                            Статус
-                    </Cell>
-                        <Cell indicator={user.clothingSize} >
-                            Размер одежды
-                    </Cell> */}
                     <Cell >
                         Количество человек
                     </Cell>
@@ -77,19 +56,6 @@ const InfoEvents = ({ id, go}) => (
           </Card>
         </CardGrid>
         </Group>
-
-       
-        {/* <Group separator="hide" style={{marginBottom: 100}}>
-        <CardGrid>
-          <Card size="l" mode="shadow">
-            <Div> 
-            <Header mode="secondary">Информация</Header>
-            
-            </Div>
-          </Card>
-        </CardGrid>
-        </Group> */}
-
 
 		<Epic style={{marginTop: '100px'}}>
                 <Tabbar>

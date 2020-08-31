@@ -20,6 +20,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
     const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
+    const [quantity, setQuantity] = React.useState();
 
     const confirm = () => {
         excelReport(eventsData)
@@ -65,6 +66,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                     setUser(data[0]);
                     postRequest('POST', requestURL, JSON.stringify({ "mentor": data[0].fullName }))
                         .then(ambassador => {
+                            setQuantity(ambassador.length)
                             postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': ambassador[0].fullName }))
                                 .then(events => {
                                     setEventsData(events)
@@ -108,13 +110,10 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                         </Group>
                     }
                     <Group header={<Header mode="secondary">Информация о амбассадорах</Header>}>
-                        <Cell indicator='5' >
+                        <Cell indicator={quantity} >
                             Количество амбассадоров
                         </Cell>
-                        {/* <Div>
-                            <Button size="xl" style={{ background: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}> Отчет </Button>
-                        </Div> */}
-                        <Group header={<Header mode="secondary">Статистика excle</Header>}>
+                        <Group header={<Header mode="secondary">Статистика Excel</Header>}>
                             <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
                         </Group>
                     </Group>

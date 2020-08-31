@@ -66,11 +66,6 @@ const App = () => {
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data } }) => {
-			// if (type === 'VKWebAppUpdateConfig') {
-			// 	const schemeAttribute = document.createAttribute('scheme');
-			// 	schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-			// 	document.body.attributes.setNamedItem(schemeAttribute);
-			// }
 		});
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
@@ -84,8 +79,6 @@ const App = () => {
 		setActivePanel(e.currentTarget.dataset.to);
 		setInfo(e.currentTarget.dataset.id);
 	};
-
-	// const role = 'ambassador';
 
 	if (fetch) {
 		if (fetchedUser != null) {
@@ -120,7 +113,6 @@ const App = () => {
 
 
 
-	// if (role === 'ambassador'){
 	return (
 		<View activePanel={activePanel} popout={popout}>
 			<Profile id='profile' fetchedUser={fetchedUser} go={go} />
@@ -145,17 +137,6 @@ const App = () => {
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
 		</View>
 	);
-	// }
-	// else if(role === 'mentor'){
-	// 	// setActivePanel(ROUTES.EVENTSMENTOR);
-	// 	return (
-	// 		<View activePanel={activePanel} popout={popout}>
-	// 			<Profile id='profile' fetchedUser={fetchedUser} go={go} />
-	// 			{/* <Events id='events' fetchedUser={fetchedUser} go={go} /> */}
-	// 			<Eventsmentor id='eventsmentor' fetchedUser={fetchedUser} go={go} />
-	// 		</View>
-	// 	);
-	// }
 
 }
 

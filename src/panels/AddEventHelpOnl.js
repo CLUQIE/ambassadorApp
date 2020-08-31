@@ -17,13 +17,9 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 	const [nameEvent, setNameEvent] = React.useState();
 	const [place, setPlace] = React.useState();
 	const [date, setDate] = React.useState();
-	const [companyRole, setCompanyRole] = React.useState();
+	//const [companyRole, setCompanyRole] = React.useState();
 	const [links, setLinks] = React.useState();
 	const [participants, setParticipants] = React.useState();
-	// const [ SetParticipationForm] = React.useState();
-	// participationForm
-	// eventForm
-	// const [ SetEventForm] = React.useState();
 	const [eventType, SetEventType] = React.useState();
 	const [description, SetDescription] = React.useState();
 	const [notes, SetNotes] = React.useState();
@@ -43,8 +39,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 		}
 	}
 
-	// console.log(user)
-
 	const onChangeNameEvent = (event) => {
 		setNameEvent(event.target.value)
 	}
@@ -55,10 +49,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 
 	const onChangeDate = (event) => {
 		setDate(formatDate(event.target.value))
-	}
-
-	const onChangeCompanyRole = (event) => {
-		setCompanyRole(event.target.value)
 	}
 	const onChangeCallback = (event) => {
 		setCallback(event.target.value)
@@ -71,14 +61,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 	const onChangeLinks = (event) => {
 		setLinks(event.target.value)
 	}
-
-	// const onChangeParticipationForm = (event) => {
-	// 	SetParticipationForm(event.target.value)
-	// }
-
-	// const onChangeEventForm = (event) => {
-	// 	SetEventForm(event.target.value)
-	// }
 
 	const onChangeEventType = (event) => {
 		SetEventType(event.target.value)
@@ -93,8 +75,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 	}
 
 	const onClickForm = () => {
-		// console.log('onClickForm triggered')
-		// console.log(participationForm)
 		let body = JSON.stringify({
 			participationForm: 'Помощь и поддержка',
 			eventForm: 'Онлайн',
@@ -103,7 +83,7 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 			date: date,
 			eventType: eventType,
 			description: description,
-			companyRole: companyRole,
+			//companyRole: companyRole,
 			participants: participants,
 			participantsCallback: callback,
 			uploadsLinks: '',
@@ -113,7 +93,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 			university: user.university
 		})
 		postRequest('POST', requestURL, body)
-			// .then(data => console.log(data))
 			.catch(err => console.log(err))
 
 	}
@@ -121,7 +100,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 
 	// ПОМОЩЬ МЕРОПРИЯТИЕ ОНЛАЙН
 
-	// console.log(fetchedUser)
 
 	return (
 
@@ -130,7 +108,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 			<PanelHeader
 				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondhelp" />}>
 				Форма отчета</PanelHeader>
-			{/* {fetchedUser && */}
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />

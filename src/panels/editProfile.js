@@ -13,7 +13,6 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [user, setUser] = React.useState();
-	//  const [middleName, setMiddleName] = React.useState();
 	const [university, setUniversity] = React.useState();
 	const [phone, setPhone] = React.useState();
 	const [personalemail, setPersonalEmail] = React.useState();
@@ -103,7 +102,6 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 	}
 
 	const onClickForm = () => {
-		// console.log('onClickForm triggered')
 		let body = JSON.stringify({
 			_id: user._id,
 			vkID: user.vkID,
@@ -126,11 +124,8 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 			specialty: specialty,
 			personalPostalAddress: personalpostaladdress,
 			clothingSize: clothingsize
-			// role: "ambassador",
 		})
 		postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
-		// .then(data => console.log(data))
-		// .catch(err => console.log(err))
 
 	}
 	if (fetch) {
@@ -143,7 +138,6 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 					setFetch(false)
 				})
 				.catch(err => console.log(err))
-			// console.log(data);
 		}
 	}
 
