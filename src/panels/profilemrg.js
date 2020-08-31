@@ -1,7 +1,7 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js";
 import { excelReport } from "./functions/excelReport"
-import { View, Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, Div, Button, ModalRoot, ModalCard, ModalPageHeader, FormLayoutGroup, FormLayout, CellButton } from '@vkontakte/vkui';
+import { View, Avatar, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, Button, ModalRoot, ModalCard, ModalPageHeader, FormLayoutGroup, FormLayout, CellButton } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 
@@ -17,19 +17,12 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
+    const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
-    const [quantity, setQuantity] = React.useState(0);
-    const [ambassadors, setAmbassadors] = React.useState('');
-    const [conf, setConf] = React.useState(false);
-    const [eventsData, setEventsData] = React.useState();
 
-    const confirm = (name) => {
-        if(conf){
-        postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': name }))
-            .then(events => {
-                //excelReport(events)
-            })}
+    const confirm = () => {
+        excelReport(eventsData)
         console.log('confirm')
     }
 
@@ -47,15 +40,15 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                 onClose={modalBack}
                 header={
                     <ModalPageHeader>
-                        Какой отчет?
+                        Скачать файл?
             </ModalPageHeader>
                 }
             >
                 <FormLayout>
                     <FormLayoutGroup>
-                        {ambassadors ? ambassadors.map((ambs, ambsID) => (
-                            <Button key={ambs._id} mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm(ambs.fullName), setConf(true)} > {ambs.fullName} </Button>
-                        )) : 'empty'}
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
+
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
                     </FormLayoutGroup>
                 </FormLayout>
 
@@ -72,10 +65,12 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                     setUser(data[0]);
                     postRequest('POST', requestURL, JSON.stringify({ "mentor": data[0].fullName }))
                         .then(ambassador => {
-                            console.log(ambassador)
-                            setQuantity(ambassador.length)
-                            setIsLoading(false)
-                            setFetch(false)
+                            postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': ambassador[0].fullName }))
+                                .then(events => {
+                                    setEventsData(events)
+                                    setIsLoading(false)
+                                    setFetch(false)
+                                })
                         })
                 })
                 .catch(err => console.log(err))
@@ -113,13 +108,13 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                         </Group>
                     }
                     <Group header={<Header mode="secondary">Информация о амбассадорах</Header>}>
-                        <Cell indicator={quantity} >
+                        <Cell indicator='5' >
                             Количество амбассадоров
                         </Cell>
                         {/* <Div>
                             <Button size="xl" style={{ background: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}> Отчет </Button>
                         </Div> */}
-                        <Group header={<Header mode="secondary">Статистика Excel</Header>}>
+                        <Group header={<Header mode="secondary">Статистика excle</Header>}>
                             <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
                         </Group>
                     </Group>

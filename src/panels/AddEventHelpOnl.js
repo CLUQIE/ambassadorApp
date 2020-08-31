@@ -145,12 +145,6 @@ const AddEventHelpOnl = ({ fetchedUser, id, go }) => {
 						<option value="Репост">Репост</option>
 					</Select>
 					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required />
-					<Select onChange={onChangeCompanyRole} top="Роль компании" placeholder=" " required>
-						<option value="Организатор">Организатор</option>
-						<option value="Партнер">Партнер</option>
-						<option value="Участник">Участник</option>
-						<option value="Затрудняюсь ответить">Затрудняюсь ответить</option>
-					</Select>
 					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников" />
 					<Select onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
 						<option value="1-29 человек">1-29 человек</option>

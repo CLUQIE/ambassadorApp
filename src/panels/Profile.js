@@ -198,6 +198,8 @@ const Profile = ({ fetchedUser, id, go }) => {
                                 target="_blank"
                                 before={<Avatar size={72} src={fetchedUser.photo_100} />}>
                                 <span style={{ fontSize: '18px' }}>{user.fullName}</span>
+                                <br/>
+                                <span style={{ fontSize: '14px', color: 'grey' }}>Грейд</span>
                                 <br />
                             </RichCell>
                         </Group>

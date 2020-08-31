@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Checkbox, Link, Select, ScreenSpinner } from '@vkontakte/vkui';
+import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack,  Select, ScreenSpinner } from '@vkontakte/vkui';
 
 const Editprofile = ({ fetchedUser, id, go }) => {
 	const formatDate = (date) => {
@@ -167,8 +167,8 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="ФИО" required />
-					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(user.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введите телефон в формате 8005553535 (без +7 или 8 или 7)" required />
-					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} bottom="Для того, чтобы создать тебе почту" type="text" name="fullname" top="Фамилия и имя по-латински" required />
+					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(user.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введи телефон в формате 8005553535 (без 7, +7, 8)" required />
+					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} bottom="Для того, чтобы создать тебе почту" type="text" name="fullname" top="Фамилия и имя на латинице" required />
 					<Input onChange={onChangePersonalEmail} placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
 					<Input onChange={onChangeBirthday} placeholder={user.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
 					<Input onChange={onChangeTown} placeholder={user.town} type="text" name="city" top="Город" required />
@@ -210,7 +210,6 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 						<option value="L женский">L женский</option>
 						<option value="XL женский">XL женский</option>
 					</Select>
-					<Checkbox>Я согласен со всем, что вы <Link>там</Link> понаписали</Checkbox>
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 				</FormLayout>
 			</Group>
