@@ -162,7 +162,7 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 				<FormLayout>
 					<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="ФИО" required />
 					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(user.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введи телефон в формате 8005553535 (без 7, +7, 8)" required />
-					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} bottom="Для того, чтобы создать тебе почту" type="text" name="fullname" top="Фамилия и имя на латинице" required />
+					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} type="text" name="fullname" top="Амбассадорская почта" required />
 					<Input onChange={onChangePersonalEmail} placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
 					<Input onChange={onChangeBirthday} placeholder={user.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
 					<Input onChange={onChangeTown} placeholder={user.town} type="text" name="city" top="Город" required />

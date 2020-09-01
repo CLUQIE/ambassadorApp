@@ -23,7 +23,7 @@ const Achivements = ({ fetchedUser, id, go }) => {
     if (request) {
         postRequest('POST', requestURL, JSON.stringify({ role: 'ambassador' }))
             .then(data => {
-                let filtredUsers = data.filter(function (i, n) { return (i.role === "ambassador" && i.grade )})
+                let filtredUsers = data.filter(function (i, n) { return (i.role === "ambassador" && i.grade) })
                 console.log(filtredUsers)
                 setUsers(filtredUsers);
                 setIsLoading(false)
