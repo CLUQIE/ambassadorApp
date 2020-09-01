@@ -19,7 +19,7 @@ const Info = ({ id, go }) => {
                 База знаний
             </PanelHeader>
 			<Group header={<Header mode="secondary">Ресурсы</Header>}>
-                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://cloud.mail.ru/public/25Qx/czjsThY2z">
+                    <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://cloud.mail.ru/home/%D0%90%D0%BC%D0%B1%D0%B0%D1%81%D1%81%D0%B0%D0%B4%D0%BE%D1%80%D1%8B%203.0%20">
                         Папка на Облаке
                     </Cell>
 			</Group>
