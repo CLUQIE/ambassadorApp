@@ -12,6 +12,7 @@ const allEventsRequestURL = 'https://ambassador-todo.herokuapp.com/event'
 
 const ROUTES = {
     CONFIRM: 'confirm',
+    ATTENTION: 'attention',
 };
 
 const ProfileMrg = ({ fetchedUser, id, go }) => {
@@ -30,18 +31,18 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
 
     const confirm = () => {
         let filtredEvents = eventsData.filter(function (i, n) { return (i.date) })
-        if (eventsData.length && filtredEvents.length !== 0){
-        if (month === "all") {
-            filtredEvents = eventsData
+        if (eventsData.length && filtredEvents.length !== 0) {
+            if (month === "all") {
+                filtredEvents = eventsData
+            }
+            else {
+                filtredEvents = eventsData.filter(function (i, n) { return (i.date[3] + i.date[4] === month) })
+            }
+            excelReport(filtredEvents)
         }
         else {
-            filtredEvents = eventsData.filter(function (i, n) { return (i.date[3] + i.date[4] === month) })
+            setActivePanel(ROUTES.ATTENTION);
         }
-        excelReport(filtredEvents)
-    }
-    else{
-        alert("Мероприятия отсутствуют!")
-    }
     }
 
     const modalBack = () => {
@@ -72,6 +73,17 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
 
 
             </ModalCard>
+
+            <ModalCard
+                id={ROUTES.ATTENTION}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader >
+                        Мероприятия отсутствуют!
+                    </ModalPageHeader>
+                }
+            ><Cell></Cell>
+            </ModalCard>
         </ModalRoot>
     )
 
@@ -89,7 +101,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                                 for (let i = 0; i < ambassador.length; i++) {
                                     postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': ambassador[i].fullName }))
                                         .then(events => {
-                                            for (let i = 0; i < events.length; i++){
+                                            for (let i = 0; i < events.length; i++) {
                                                 eventsForMentors.push(events[i])
                                             }
                                             setEventsData(eventsForMentors)
