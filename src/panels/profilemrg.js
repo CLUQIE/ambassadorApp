@@ -8,6 +8,7 @@ import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
+const allEventsRequestURL = 'https://ambassador-todo.herokuapp.com/event'
 
 const ROUTES = {
     CONFIRM: 'confirm',
@@ -64,6 +65,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
             postRequest('POST', requestURL, vkID)
                 .then(data => {
                     setUser(data[0]);
+                    if (data[0].role === 'mentor'){
                     postRequest('POST', requestURL, JSON.stringify({ "mentor": data[0].fullName }))
                         .then(ambassador => {
                             setQuantity(ambassador.length)
@@ -73,7 +75,18 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                                     setIsLoading(false)
                                     setFetch(false)
                                 })
-                        })
+                        })}
+                        if (data[0].role === 'staff'){
+                            postRequest('POST', requestURL, JSON.stringify({ "role": "ambassador" }))
+                                .then(ambassador => {
+                                    setQuantity(ambassador.length)
+                                    postRequest('GET', allEventsRequestURL)
+                                        .then(events => {
+                                            setEventsData(events)
+                                            setIsLoading(false)
+                                            setFetch(false)
+                                        })
+                                })}
                 })
                 .catch(err => console.log(err))
         }
@@ -105,6 +118,8 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                                 target="_blank"
                                 before={<Avatar size={72} src={fetchedUser.photo_100} />}>
                                 <span style={{ fontSize: '18px' }}>{user.fullName}</span>
+                                <br />
+                                <span style={{ fontSize: '14px', color: 'grey' }}>{user.role}</span>
                                 <br />
                             </RichCell>
                         </Group>

@@ -19,12 +19,20 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', userRequestURL, vkID)
                 .then(data => {
+                    if (data[0].role === 'mentor'){
                     postRequest('POST', userRequestURL, JSON.stringify({ "mentor": data[0].fullName }))
                         .then(ambassadors => {
                             setAmbassadors(ambassadors)
                             setIsLoading(false)
                             setFetch(false)
-                        })
+                        })}
+                        if (data[0].role === 'staff'){
+                            postRequest('POST', userRequestURL, JSON.stringify({ "role":'ambassador' }))
+                                .then(ambassadors => {
+                                    setAmbassadors(ambassadors)
+                                    setIsLoading(false)
+                                    setFetch(false)
+                                })}
                 })
                 .catch(err => console.log(err))
         }
@@ -51,7 +59,7 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                 <PanelHeader>
                     Амбассадоры
                 </PanelHeader>
-                <Group>
+                <Group style={{ marginBottom: 50 }}>
                     {ambassadors.map((user, id) => (
                         <RichCell disabled
                         multiline key={user._id} 

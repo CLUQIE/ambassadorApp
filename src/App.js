@@ -91,7 +91,7 @@ const App = () => {
 						setIsLoading(false)
 						setFetch(false)
 					}
-					else if (data[0].role === 'mentor') {
+					else if (data[0].role === 'mentor' || data[0].role === 'staff') {
 						setActivePanel(ROUTES.PROFILEMRG)
 						setIsLoading(false)
 						setFetch(false)
