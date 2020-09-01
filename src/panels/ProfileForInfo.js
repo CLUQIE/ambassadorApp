@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { View, ModalRoot, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
@@ -67,7 +67,7 @@ const ProfileForInfo = ({ id, go, info }) => {
                         Почтовый адрес (с индексом)
                         </Cell>
                     <Cell multiline indicator={<Cell>{user ? user.latinFullName : 'empty'} </Cell>}>
-                        Фамилия и имя по-латински
+                        Амбассадорская почта
                         </Cell>
                     <Cell multiline indicator={<Cell>{user ? user.university : 'empty'}</Cell>} >
                         Полное название учебного заведения
@@ -171,15 +171,19 @@ const ProfileForInfo = ({ id, go, info }) => {
                         Изменить grade
                     </ModalPageHeader>}>
                 <Group >
-                    <Select onChange={onChangeGrade} top="Grade" placeholder={user ? user.grade : "empty"} required>
-                        <option value="Freshman">Freshman</option>
-                        <option value="Trainee">Trainee</option>
-                        <option value="Junior">Junior</option>
-                        <option value="Middle">Middle</option>
-                        <option value="Senior">Senior</option>
-                    </Select>
+                    <Div>
+                        <Select onChange={onChangeGrade} top="Grade" placeholder={user ? user.grade : "empty"} required>
+                            <option value="Freshman">Freshman</option>
+                            <option value="Trainee">Trainee</option>
+                            <option value="Junior">Junior</option>
+                            <option value="Middle">Middle</option>
+                            <option value="Senior">Senior</option>
+                        </Select>
+                    </Div>
                     <Cell> </Cell>
-                    <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={modalBack} >Изменить</Button>
+                    <Div>
+                        <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={modalBack} >Изменить</Button>
+                    </Div>
                 </Group>
                 <Cell> </Cell>
             </ModalPage>

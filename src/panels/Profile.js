@@ -55,7 +55,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                         Почтовый адрес (с индексом)
                         </Cell>
                     <Cell multiline indicator={<Cell >{user ? user.latinFullName : 'empty'}</Cell>} >
-                        Фамилия и имя по-латински
+                        Амбассадорская почта
                         </Cell>
                     <Cell multiline indicator={<Cell >{user ? user.university : 'empty'}</Cell>}>
                         Полное название учебного заведения

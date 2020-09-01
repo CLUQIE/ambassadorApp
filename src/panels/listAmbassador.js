@@ -1,6 +1,6 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Placeholder, Div, RichCell,Button} from '@vkontakte/vkui';
+import { PanelHeader, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Placeholder, Div, RichCell, Button } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon56UserAddOutline from '@vkontakte/icons/dist/56/user_add_outline';
@@ -19,20 +19,22 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', userRequestURL, vkID)
                 .then(data => {
-                    if (data[0].role === 'mentor'){
-                    postRequest('POST', userRequestURL, JSON.stringify({ "mentor": data[0].fullName }))
-                        .then(ambassadors => {
-                            setAmbassadors(ambassadors)
-                            setIsLoading(false)
-                            setFetch(false)
-                        })}
-                        if (data[0].role === 'staff'){
-                            postRequest('POST', userRequestURL, JSON.stringify({ "role":'ambassador' }))
-                                .then(ambassadors => {
-                                    setAmbassadors(ambassadors)
-                                    setIsLoading(false)
-                                    setFetch(false)
-                                })}
+                    if (data[0].role === 'mentor') {
+                        postRequest('POST', userRequestURL, JSON.stringify({ "mentor": data[0].fullName }))
+                            .then(ambassadors => {
+                                setAmbassadors(ambassadors)
+                                setIsLoading(false)
+                                setFetch(false)
+                            })
+                    }
+                    if (data[0].role === 'staff') {
+                        postRequest('POST', userRequestURL, JSON.stringify({ "role": 'ambassador' }))
+                            .then(ambassadors => {
+                                setAmbassadors(ambassadors)
+                                setIsLoading(false)
+                                setFetch(false)
+                            })
+                    }
                 })
                 .catch(err => console.log(err))
         }
@@ -61,15 +63,18 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                 </PanelHeader>
                 <Group style={{ marginBottom: 50 }}>
                     {ambassadors.map((user, id) => (
-                        <RichCell disabled
-                        multiline key={user._id} 
-                        actions={
-                            <React.Fragment >
-                            <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id = {user.vkID}>Профиль</Button>
-                            <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="eventsforinfo" data-id = {user.vkID}>Мероприятия</Button>
-                            </React.Fragment>
-                          }
-                          caption={user.universityShortly} >{user.fullName}</RichCell>
+                        <Div key={user._id}>
+                            <RichCell disabled
+                                multiline 
+                                actions={
+                                    <React.Fragment >
+                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id={user.vkID}>Профиль</Button>
+                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="eventsforinfo" data-id={user.vkID}>Мероприятия</Button>
+                                    </React.Fragment>
+                                }
+                                caption={user.universityShortly} >{user.fullName}
+                            </RichCell>
+                        </Div>
                     ))}
                 </Group>
 
