@@ -131,8 +131,8 @@ const App = () => {
 			<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
 			<Info id='info' go={go} />
 			<Events id='events' fetchedUser={fetchedUser} go={go} />
-			<ProfileForInfo id='profileforinfo' go={go} info={info}/>
-			<EventsForInfo id='eventsforinfo' go={go} info={info}/>
+			<ProfileForInfo id='profileforinfo' go={go} info={info} />
+			<EventsForInfo id='eventsforinfo' go={go} info={info} />
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} />
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
 		</View>
@@ -141,4 +141,3 @@ const App = () => {
 }
 
 export default App;
-
