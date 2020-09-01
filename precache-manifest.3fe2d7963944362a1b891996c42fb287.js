@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4218d77f2a14bc1dc77d2e451b7cc0b4",
+    "revision": "b24fd5a7c7e36586433fcea2487c864d",
     "url": "/ambassadorApp/index.html"
   },
   {
-    "revision": "107738fd095cd8522f0c",
+    "revision": "62e2ca24d9ea03fb9ccb",
     "url": "/ambassadorApp/static/css/2.4911f66b.chunk.css"
   },
   {
-    "revision": "6b5eb08a0bca6470fa3e",
+    "revision": "d892d6de6f60131045d1",
     "url": "/ambassadorApp/static/css/main.c75ad9db.chunk.css"
   },
   {
-    "revision": "107738fd095cd8522f0c",
-    "url": "/ambassadorApp/static/js/2.953ea1f7.chunk.js"
+    "revision": "62e2ca24d9ea03fb9ccb",
+    "url": "/ambassadorApp/static/js/2.bbc82781.chunk.js"
   },
   {
     "revision": "f4aac9c965aa45c554c7c1d1e3f69ce3",
-    "url": "/ambassadorApp/static/js/2.953ea1f7.chunk.js.LICENSE.txt"
+    "url": "/ambassadorApp/static/js/2.bbc82781.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6b5eb08a0bca6470fa3e",
-    "url": "/ambassadorApp/static/js/main.d603bfa1.chunk.js"
+    "revision": "d892d6de6f60131045d1",
+    "url": "/ambassadorApp/static/js/main.3b7f3ced.chunk.js"
   },
   {
     "revision": "17a43eb23f4255587cc8",
