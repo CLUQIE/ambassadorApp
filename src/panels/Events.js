@@ -71,53 +71,48 @@ const Events = ({ fetchedUser, id, go }) => {
                             left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
                             {eventsData ? eventsData[eventId].nameEvent : 'empty'}
                         </ModalPageHeader>}>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Формат мероприятия">
                             {eventsData ? eventsData[eventId].eventForm : 'empty'}
                         </InfoRow>
                     </Cell>
 
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Место проведения">
                             {eventsData ? eventsData[eventId].eventPlace : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Формат участия">
                             {eventsData ? eventsData[eventId].participationForm : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Дата проведения">
                             {eventsData ? eventsData[eventId].date : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Тип мероприятия">
                             {eventsData ? eventsData[eventId].eventType : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
-                        <InfoRow header="Роль компании">
-                            {eventsData ? eventsData[eventId].companyRole : 'empty'}
-                        </InfoRow>
-                    </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Краткое описание">
                             {eventsData ? eventsData[eventId].description : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Количество участников">
                             {eventsData ? eventsData[eventId].participants : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Ссылки">
                             <Link href={eventsData[eventId].publicationLinks} target="_blank"><span href={eventsData[eventId].publicationLinks} >{eventsData ? eventsData[eventId].publicationLinks : 'empty'}</span></Link>
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Заметки">
                             {eventsData ? eventsData[eventId].notes : 'empty'}
                         </InfoRow>

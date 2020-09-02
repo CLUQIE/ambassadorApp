@@ -1,13 +1,9 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { View, Div, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner, Cell, InfoRow, Link, Placeholder } from '@vkontakte/vkui';
+import { View, Div, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, ScreenSpinner, Cell, InfoRow, Link, Placeholder } from '@vkontakte/vkui';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel'
 import Icon20CalendarOutline from '@vkontakte/icons/dist/20/calendar_outline';
-
-import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
-import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon56AccessibilityOutline from '@vkontakte/icons/dist/56/accessibility_outline';
-import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
@@ -68,53 +64,48 @@ const EventsForInfo = ({ id, go, info }) => {
                             left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
                             {eventsData ? eventsData[eventId].nameEvent : 'empty'}
                         </ModalPageHeader>}>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Формат мероприятия">
                             {eventsData ? eventsData[eventId].eventForm : 'empty'}
                         </InfoRow>
                     </Cell>
 
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Место проведения">
                             {eventsData ? eventsData[eventId].eventPlace : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Формат участия">
                             {eventsData ? eventsData[eventId].participationForm : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Дата проведения">
                             {eventsData ? eventsData[eventId].date : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
-                        <InfoRow header="Тип мероприятия">
-                            {eventsData ? eventsData[eventId].eventType : 'empty'}
-                        </InfoRow>
+                    <Cell multiline>
+                            <InfoRow header="Тип мероприятия">
+                                {eventsData ? eventsData[eventId].eventType : 'empty'}
+                            </InfoRow>
                     </Cell>
-                    <Cell>
-                        <InfoRow header="Роль компании">
-                            {eventsData ? eventsData[eventId].companyRole : 'empty'}
-                        </InfoRow>
-                    </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Краткое описание">
                             {eventsData ? eventsData[eventId].description : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Количество участников">
                             {eventsData ? eventsData[eventId].participants : 'empty'}
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Ссылки">
                             <Link href={eventsData[eventId].publicationLinks} target="_blank"><span href={eventsData[eventId].publicationLinks} >{eventsData ? eventsData[eventId].publicationLinks : 'empty'}</span></Link>
                         </InfoRow>
                     </Cell>
-                    <Cell>
+                    <Cell multiline>
                         <InfoRow header="Заметки">
                             {eventsData ? eventsData[eventId].notes : 'empty'}
                         </InfoRow>
@@ -163,8 +154,7 @@ const EventsForInfo = ({ id, go, info }) => {
     return (
         <Panel id={id}>
             <PanelHeader
-                left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#fc2c38" }} onClick={go} data-to="addeventfirst" /></PanelHeaderButton>}>
-                Мероприятия
+ left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>                Мероприятия
         </PanelHeader>
             <Group>
                 <Div>
@@ -176,19 +166,6 @@ const EventsForInfo = ({ id, go, info }) => {
                     </Placeholder>
                 </Div>
             </Group>
-
-            <Epic>
-                <Tabbar style={{ marginTop: '100px' }}>
-                    <TabbarItem onClick={go} data-to="listambassador" text="Амбассадоры">
-                        <Icon28Users3Outline />
-                    </TabbarItem>
-
-                    <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profilemrg" text="Профиль">
-                        <Icon28UserOutline style={{ color: "#fc2c38" }} width={32} height={32} />
-                    </TabbarItem>
-                </Tabbar>
-            </Epic>
-
         </Panel>
     )
 }
