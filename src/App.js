@@ -26,6 +26,7 @@ import AddEventHelpOff from './panels/AddEventHelpOff';
 import ProfileMrg from './panels/profilemrg';
 import ProfileForInfo from './panels/ProfileForInfo';
 import EventsForInfo from './panels/EventsForInfo';
+import Works from './panels/Works';
 
 
 const ROUTES = {
@@ -50,6 +51,7 @@ const ROUTES = {
 	LISTAMBASSADOR: 'listambassador',
 	PROFILEFORINFO: 'profileforinfo',
 	EVENTSFORINFO: 'eventsforinfo',
+	WORKS: 'works',
 };
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
@@ -86,7 +88,12 @@ const App = () => {
 			postRequest('POST', requestURL, vkID)
 
 				.then(data => {
-					if (data[0].role === 'ambassador') {
+					if (data[0].fullName === 'Мирон' ) {
+						setActivePanel(ROUTES.WORKS)
+						setIsLoading(false)
+						setFetch(false)
+					}
+					else if (data[0].role === 'ambassador') {
 						setActivePanel(ROUTES.PROFILE)
 						setIsLoading(false)
 						setFetch(false)
@@ -135,6 +142,7 @@ const App = () => {
 			<EventsForInfo id='eventsforinfo' go={go} info={info} />
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} />
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
+			<Works id='works'/>
 		</View>
 	);
 
