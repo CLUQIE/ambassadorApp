@@ -78,10 +78,11 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                 id={ROUTES.ATTENTION}
                 onClose={modalBack}
                 header={
-                    <ModalPageHeader multiline>
+                    <Cell multiline>
                         Мероприятия отсутствуют!
-                    </ModalPageHeader>
+                    </Cell>
                 }
+                
             ><Cell></Cell>
             </ModalCard>
         </ModalRoot>
