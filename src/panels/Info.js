@@ -45,7 +45,7 @@ const Info = ({ id, go }) => {
                         Интервью Бориса Добродеева в РБК
                     </Cell>
                     <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://corp.mail.ru/ru/company/strategy_ceo/">
-                        Подробный рассказ Бориса Добродеева о экосистеме экосистем  
+                        Подробный рассказ Бориса Добродеева об экосистеме экосистем  
                     </Cell>
                     <Cell expandable before={<Icon28CopyOutline style={{color:"#fc2c38"}}/>} target="_blank" href="https://corp.imgsmail.ru/media/files/esg2019.pdf">
                         Первый отчет в области устойчивого развития (ESG-отчет)  
