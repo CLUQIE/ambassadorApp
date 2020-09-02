@@ -79,7 +79,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                         Адрес учебного заведения
                         </Cell>
                     <Cell multiline indicator={<Cell >{user ? user.rectorFullName : 'empty'}</Cell>} >
-                        ФИО ректора
+                        Ф.И.О. ректора
                         </Cell>
                     <Cell multiline indicator={<Cell >{user ? user.rectorPostalAddress : 'empty'}</Cell>} >
                         Email ректора
