@@ -1,10 +1,12 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js";
 import { excelReport } from "./functions/excelReport"
-import { View, Avatar, Select, RichCell, Div, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, Button, ModalRoot, ModalCard, ModalPageHeader, FormLayoutGroup, FormLayout, CellButton } from '@vkontakte/vkui';
+import { View, Avatar, Counter, ModalPage, Select, PanelHeaderButton, RichCell, Div, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, Button, ModalRoot, ModalCard, ModalPageHeader, FormLayoutGroup, FormLayout, CellButton } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
-
+import Icon16Like from '@vkontakte/icons/dist/16/like';
+import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
+import Icon24Back from '@vkontakte/icons/dist/24/back';
 
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
@@ -13,6 +15,10 @@ const allEventsRequestURL = 'https://ambassador-todo.herokuapp.com/event'
 const ROUTES = {
     CONFIRM: 'confirm',
     ATTENTION: 'attention',
+    EVENTSREPORT: 'eventsReport',
+    INSIDEEVENTS: 'inside',
+    OUTSIDEEVENTS: 'outside',
+    HELPANDSUPPORT: 'helpAndSupport',
 };
 
 const ProfileMrg = ({ fetchedUser, id, go }) => {
@@ -22,7 +28,8 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
     const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
-    const [quantity, setQuantity] = React.useState();
+    const [amboQuantity, setAmboQuantity] = React.useState();
+    const [eventQuantity, setEventQuantity] = React.useState();
     const [month, setMonth] = React.useState();
 
     const onChangeMonth = (event) => {
@@ -82,9 +89,98 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                         Мероприятия отсутствуют!
                     </Cell>
                 }
-                
+
             ><Cell></Cell>
             </ModalCard>
+
+            <ModalPage
+                id={ROUTES.INSIDEEVENTS}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
+                        Формат мероприятий
+                    </ModalPageHeader>}>
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внутреннее" && i.eventForm === "Онлайн") }).length : 'empty'} </Counter>}>
+                        Онлайн
+                            </Cell>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
+                            </Cell>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
+
+            <ModalPage
+                id={ROUTES.OUTSIDEEVENTS}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
+                        Формат мероприятий
+                    </ModalPageHeader>}>
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        Онлайн
+                            </Cell>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
+                            </Cell>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
+
+            <ModalPage
+                id={ROUTES.HELPANDSUPPORT}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
+                        Формат мероприятий
+                    </ModalPageHeader>}>
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        Онлайн
+                            </Cell>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
+                            </Cell>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
+
+            <ModalPage
+                id={ROUTES.EVENTSREPORT}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Статистика мероприятий
+                    </ModalPageHeader>}>
+                <Group>
+                    <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter>{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length : 'empty'}</Counter>}>
+                        Внутренние мероприятия
+                            </Cell>
+                    <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter>{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" }).length : 'empty'}</Counter>}>
+                        Внешние мероприятия
+                            </Cell>
+                    <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter>{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length : 'empty'}</Counter>}>
+                        Помощь и поддержка
+                            </Cell>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
+
         </ModalRoot>
     )
 
@@ -97,7 +193,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                     if (data[0].role === 'mentor') {
                         postRequest('POST', requestURL, JSON.stringify({ "mentor": data[0].fullName }))
                             .then(ambassador => {
-                                setQuantity(ambassador.length)
+                                setAmboQuantity(ambassador.length)
                                 let eventsForMentors = []
                                 for (let i = 0; i < ambassador.length; i++) {
                                     postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': ambassador[i].fullName }))
@@ -106,6 +202,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                                                 eventsForMentors.push(events[i])
                                             }
                                             setEventsData(eventsForMentors)
+                                            setEventQuantity(eventsForMentors.length)
                                         })
                                 }
                                 setIsLoading(false)
@@ -115,11 +212,12 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                     if (data[0].role === 'staff') {
                         postRequest('POST', requestURL, JSON.stringify({ "role": "ambassador" }))
                             .then(ambassador => {
-                                setQuantity(ambassador.length)
+                                setAmboQuantity(ambassador.length)
                                 postRequest('GET', allEventsRequestURL)
                                     .then(events => {
                                         console.log(events)
                                         setEventsData(events)
+                                        setEventQuantity(events.length)
                                         setIsLoading(false)
                                         setFetch(false)
                                     })
@@ -163,9 +261,14 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                         </Group>
                     }
                     <Group header={<Header mode="secondary">Информация о амбассадорах</Header>}>
-                        <Cell indicator={quantity} >
+                        <Cell indicator={amboQuantity} >
                             Количество амбассадоров
                         </Cell>
+                        <Cell indicator={eventQuantity} >
+                            Проведено мероприятий
+                        </Cell>
+                        <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>
+
                         <Group header={<Header mode="secondary">Статистика Excel</Header>}>
                             <Div>
                                 <Select onChange={onChangeMonth} placeholder="Выберите месяц мероприятий" bottom="Выберите месяц" >

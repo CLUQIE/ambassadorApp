@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { View, ModalRoot, InfoRow, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
@@ -259,22 +259,22 @@ const ProfileForInfo = ({ id, go, info }) => {
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
-                        <Cell multiline indicator={user.town} >
+                        <Cell multiline indicator={<InfoRow>{user.town}</InfoRow>} >
                             Город
                         </Cell>
-                        <Cell multiline indicator={user.birthday} >
+                        <Cell multiline indicator={<InfoRow>{user.birthday}</InfoRow>} >
                             Дата рождения
                         </Cell>
-                        <Cell multiline indicator={formatPhoneNumber(user.phoneNumber)} >
+                        <Cell multiline indicator={<InfoRow>{formatPhoneNumber(user.phoneNumber)}</InfoRow>} >
                             Номер телефона
                         </Cell>
-                        <Cell multiline indicator={user.personalEmail} >
+                        <Cell multiline indicator={<InfoRow>{user.personalEmail}</InfoRow>} >
                             Email
                         </Cell>
-                        <Cell multiline indicator={user.universityShortly} >
+                        <Cell multiline indicator={<InfoRow>{user.universityShortly}</InfoRow>} >
                             Учебное заведение
                         </Cell>
-                        <Cell multiline indicator={user.statusInUniversity} >
+                        <Cell multiline indicator={<InfoRow>{user.statusInUniversity}</InfoRow>} >
                             Статус
                         </Cell>
                         <CellButton
