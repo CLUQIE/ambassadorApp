@@ -1,7 +1,8 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, InfoRow, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { profileReport } from "./functions/profileReport"
+import { View, ModalRoot, ModalCard, FormLayout, FormLayoutGroup, InfoRow, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
@@ -14,18 +15,25 @@ const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador
 const ProfileForInfo = ({ id, go, info }) => {
 
     const ROUTES = {
+        CONFIRM: 'confirm',
         PROFILEINFO: 'profileInfo',
         INSIDEEVENTS: 'inside',
         OUTSIDEEVENTS: 'outside',
         HELPANDSUPPORT: 'helpAndSupport',
         UPGRADE: 'upgrade'
     };
+
+    const confirm = () => {
+        profileReport(reportUser)
+    }
+
     const modalBack = () => {
         setActivePanel(null);
     };
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
+    const [reportUser, setReportUser] = React.useState();
     const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [grade, setGrade] = React.useState();
@@ -51,6 +59,26 @@ const ProfileForInfo = ({ id, go, info }) => {
             activeModal={activeModal}
             onClose={modalBack}
         >
+            <ModalCard
+                id={ROUTES.CONFIRM}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader>
+                        Скачать профиль?
+            </ModalPageHeader>
+                }
+            >
+                <FormLayout>
+                    <FormLayoutGroup>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
+
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                    </FormLayoutGroup>
+                </FormLayout>
+
+
+            </ModalCard>
+
             <ModalPage
                 id={ROUTES.PROFILEINFO}
                 onClose={modalBack}
@@ -195,6 +223,32 @@ const ProfileForInfo = ({ id, go, info }) => {
         postRequest('POST', requestURL, JSON.stringify({ "vkID": info }))
             .then(data => {
                 setUser(data[0]);
+                setReportUser([{
+                    fullName: data[0].fullName,
+                    _id: data[0]._id,
+                    vkID: data[0].vkID,
+                    role: data[0].role,
+                    avatar: data[0].avatar,
+                    achievements: data[0].achievements,
+                    town: data[0].town,
+                    birthday: data[0].birthday,
+                    grade: data[0].grade,
+                    phoneNumber: data[0].phoneNumber,
+                    amboEmail: data[0].amboEmail,
+                    personalEmail: data[0].personalEmail,
+                    mentor: data[0].mentor,
+                    university: data[0].university,
+                    specialty: data[0].specialty,
+                    statusInUniversity: data[0].statusInUniversity,
+                    universityShortly: data[0].universityShortly,
+                    universityPostalAddress: data[0].universityPostalAddress,
+                    rectorFullName: data[0].rectorFullName,
+                    rectorPostalAddress: data[0].rectorPostalAddress,
+                    facultyFull: data[0].facultyFull,
+                    facultyShortly: data[0].facultyShortly,
+                    personalPostalAddress: data[0].personalPostalAddress,
+                    clothingSize: data[0].clothingSize,
+                    __v: data[0].__v,}]);
                 postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
                     .then(events => {
                         setEventsData(events)
@@ -224,7 +278,7 @@ const ProfileForInfo = ({ id, go, info }) => {
                     left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>
                     Профиль
             </PanelHeader>
-                <div style={{ marginBottom: 100 }}>
+                <div style={{ marginBottom: 50 }}>
                     {
                         <Group>
                             <RichCell
@@ -280,6 +334,9 @@ const ProfileForInfo = ({ id, go, info }) => {
                         <CellButton
                             style={{ color: '#fc2c38' }}
                             onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
+                        <CellButton
+                            style={{ color: '#fc2c38' }}
+                            onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать профиль</CellButton>
                     </Group>
                 </div>
             </Panel>
