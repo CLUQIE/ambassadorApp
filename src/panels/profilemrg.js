@@ -211,8 +211,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
         </ModalRoot>
     )
 
-    if (fetch) {
-        if (fetchedUser != null) {
+    if (fetch && fetchedUser != null) {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', requestURL, vkID)
                 .then(data => {
@@ -282,7 +281,6 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                     }
                 })
                 .catch(err => console.log(err))
-        }
     }
 
 
@@ -299,7 +297,6 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
     return (
         <View activePanel={id} modal={modal} >
             <Panel id={id}>
-
                 <PanelHeader>
                     Профиль
                 </PanelHeader>
@@ -366,6 +363,5 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
         </View>
     )
 }
-
 
 export default ProfileMrg;

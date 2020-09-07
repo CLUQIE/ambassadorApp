@@ -16,7 +16,6 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
 
     const ROUTES = {
         CONFIRM: 'confirm',
-        PROFILEINFO: 'profileInfo',
         INSIDEEVENTS: 'inside',
         OUTSIDEEVENTS: 'outside',
         HELPANDSUPPORT: 'helpAndSupport',
@@ -79,57 +78,6 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
 
 
             </ModalCard>
-
-            <ModalPage
-                id={ROUTES.PROFILEINFO}
-                onClose={modalBack}
-                header={
-                    <ModalPageHeader
-                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
-                        Подробнее
-                    </ModalPageHeader>}>
-                <Group>
-                    <Cell multiline indicator={<Cell>{user ? user.clothingSize : 'empty'}</Cell>} >
-                        Размер одежды
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.personalPostalAddress : 'empty'}</Cell>} >
-                        Почтовый адрес (с индексом)
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.latinFullName : 'empty'} </Cell>}>
-                        Амбассадорская почта
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.university : 'empty'}</Cell>} >
-                        Полное название учебного заведения
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.facultyFull : 'empty'}</Cell>} >
-                        Полное название факультета
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.facultyShortly : 'empty'} </Cell>}>
-                        Краткое название факультета
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.statusInUniversity : 'empty'}</Cell>} >
-                        Статус
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.facultyFull : 'empty'}</Cell>} >
-                        Факультет
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.specialty : 'empty'}</Cell>} >
-                        Специальность
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.universityPostalAddress : 'empty'}</Cell>} >
-                        Адрес учебного заведения
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.rectorFullName : 'empty'} </Cell>}>
-                        ФИО ректора
-                        </Cell>
-                    <Cell multiline indicator={<Cell>{user ? user.rectorPostalAddress : 'empty'}</Cell>} >
-                        Email ректора
-                        </Cell>
-
-
-                </Group>
-
-            </ModalPage>
 
             <ModalPage
                 id={ROUTES.INSIDEEVENTS}
@@ -220,8 +168,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
         </ModalRoot>
     )
 
-    if (fetch) {
-        if (fetchedUser != null) {
+    if (fetch && fetchedUser != null) {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', requestURL, vkID)
                 .then(data => {
@@ -265,7 +212,6 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                         })
                         .catch(err => console.log(err))
                 })
-        }
     }
 
 
@@ -301,6 +247,16 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                             <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.UPGRADE); }}>Изменить grade</CellButton>
                         </Group>
                     }
+                    {userRole === "staff" ? <Group header={<Header mode="secondary">Staff функции</Header>}>
+                        <CellButton
+                            style={{ color: '#fc2c38' }}
+                            onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать профиль</CellButton>
+                        <CellButton
+                            style={{ color: '#fc2c38' }}
+                            onClick={go}
+                            data-to="editprofileforstaff"
+                            data-id={user.vkID}>Редактировать профиль</CellButton>
+                    </Group> : null}
 
                     <Group header={<Header mode="secondary">Статистика</Header>}>
                         <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
@@ -337,23 +293,44 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                         <Cell multiline indicator={<InfoRow>{user.universityShortly}</InfoRow>} >
                             Учебное заведение
                         </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.clothingSize}</InfoRow>} >
+                            Размер одежды
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.personalPostalAddress}</InfoRow>} >
+                            Почтовый адрес (с индексом)
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.latinFullName} </InfoRow>}>
+                            Амбассадорская почта
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.university}</InfoRow>} >
+                            Полное название учебного заведения
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.facultyFull}</InfoRow>} >
+                            Полное название факультета
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.facultyShortly} </InfoRow>}>
+                            Краткое название факультета
+                        </Cell>
                         <Cell multiline indicator={<InfoRow>{user.statusInUniversity}</InfoRow>} >
                             Статус
                         </Cell>
-                        <CellButton
-                            style={{ color: '#fc2c38' }}
-                            onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
+                        <Cell multiline indicator={<InfoRow>{user.facultyFull}</InfoRow>} >
+                            Факультет
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.specialty}</InfoRow>} >
+                            Специальность
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.universityPostalAddress}</InfoRow>} >
+                            Адрес учебного заведения
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.rectorFullName} </InfoRow>}>
+                            ФИО ректора
+                        </Cell>
+                        <Cell multiline indicator={<InfoRow>{user.rectorPostalAddress}</InfoRow>} >
+                            Email ректора
+                        </Cell>
+
                     </Group>
-                    {userRole === "staff" ? <Group header={<Header mode="secondary">Staff функции</Header>}>
-                         <CellButton
-                            style={{ color: '#fc2c38' }}
-                            onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать профиль</CellButton>
-                        <CellButton
-                            style={{ color: '#fc2c38' }}
-                            onClick={go}
-                            data-to="editprofileforstaff"
-                            data-id={user.vkID}>Редактировать профиль</CellButton> 
-                    </Group>: null}
                 </div>
             </Panel>
         </View>
