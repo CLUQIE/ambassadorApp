@@ -1,6 +1,6 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { View, Div, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner, Cell, InfoRow, Link, Placeholder } from '@vkontakte/vkui';
+import { View, Div, ModalRoot, ModalCard, FormLayout, FormLayoutGroup, Button, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, Epic, Tabbar, TabbarItem, ScreenSpinner, Cell, InfoRow, Link, Placeholder, CellButton, Separator } from '@vkontakte/vkui';
 import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
@@ -9,11 +9,14 @@ import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel'
 import Icon20CalendarOutline from '@vkontakte/icons/dist/20/calendar_outline';
 import Icon56AccessibilityOutline from '@vkontakte/icons/dist/56/accessibility_outline';
+import Icon24Write from '@vkontakte/icons/dist/24/write';
 
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
+const requestDeleteURL = "https://ambassador-todo.herokuapp.com/event/delete"
 const ROUTES = {
-    EVENTSINFO: 'eventsInfo'
+    EVENTSINFO: 'eventsInfo',
+    CONFIRMDELETE: 'confirmdelete'
 };
 
 
@@ -31,8 +34,14 @@ const Events = ({ fetchedUser, id, go }) => {
         setActivePanel(null);
     };
 
-    if (fetch) {
-        if (fetchedUser != null) {
+    const confirmDelete = () => {
+        postRequest('POST', requestDeleteURL, JSON.stringify({ _id: eventsData[eventId]._id }))
+            .catch(err => console.log(err))
+            setFetch(true)
+
+    }
+
+    if (fetch && fetchedUser != null) {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', userRequestURL, vkID)
                 .then(data => {
@@ -45,7 +54,6 @@ const Events = ({ fetchedUser, id, go }) => {
                         .catch(err => console.log(err))
                 })
                 .catch(err => console.log(err))
-        }
     }
 
     if (isLoading === true) {
@@ -68,7 +76,8 @@ const Events = ({ fetchedUser, id, go }) => {
                     onClose={modalBack}
                     header={
                         <ModalPageHeader
-                            left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                            left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}
+                            right={<PanelHeaderButton style={{ color: '#fc2c38' }} onMouseUp={modalBack} onClick={go} data-to='editevent' data-id={eventsData ? eventsData[eventId]._id : 'empty'}><Icon24Write /></PanelHeaderButton>}>
                             {eventsData ? eventsData[eventId].nameEvent : 'empty'}
                         </ModalPageHeader>}>
                     <Cell multiline>
@@ -109,7 +118,7 @@ const Events = ({ fetchedUser, id, go }) => {
                     </Cell>
                     <Cell multiline>
                         <InfoRow header="Ссылки">
-                            <Link href={eventsData[eventId].publicationLinks} target="_blank"><span href={eventsData[eventId].publicationLinks} >{eventsData ? eventsData[eventId].publicationLinks : 'empty'}</span></Link>
+                            <Link style={{ color: "#fc2c38" }} href={eventsData[eventId].publicationLinks} target="_blank"><span href={eventsData[eventId].publicationLinks} >{eventsData ? eventsData[eventId].publicationLinks : 'empty'}</span></Link>
                         </InfoRow>
                     </Cell>
                     <Cell multiline>
@@ -117,7 +126,27 @@ const Events = ({ fetchedUser, id, go }) => {
                             {eventsData ? eventsData[eventId].notes : 'empty'}
                         </InfoRow>
                     </Cell>
+                    <Separator></Separator>
+                    <CellButton style={{ color: "#fc2c38", marginBottom: 50, marginLeft: '35%' }} onClick={() => { setActivePanel(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
                 </ModalPage>
+
+                <ModalCard
+                    id={ROUTES.CONFIRMDELETE}
+                    onClose={() => {setActivePanel(ROUTES.EVENTSINFO); }}
+                    header={
+                        <ModalPageHeader>
+                            Удалить мероприятие?
+            </ModalPageHeader>
+                    }
+                >
+                    <FormLayout>
+                        <FormLayoutGroup>
+                            <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmDelete} > Да </Button>
+
+                            <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }}  onClick={() => {setActivePanel(ROUTES.EVENTSINFO); }}> Нет </Button>
+                        </FormLayoutGroup>
+                    </FormLayout>
+                </ModalCard>
             </ModalRoot>
         )
 

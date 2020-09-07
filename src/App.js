@@ -8,6 +8,7 @@ import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenS
 import '@vkontakte/vkui/dist/vkui.css';
 import Home from './panels/Home';
 import Events from './panels/Events';
+import EditEvent from './panels/EditEvent';
 import Info from './panels/Info';
 import Achivements from './panels/Achivements';
 import Profile from './panels/Profile';
@@ -33,6 +34,7 @@ import Works from './panels/Works';
 const ROUTES = {
 	HOME: 'home',
 	EVENTS: 'events',
+	EDITEVENT: 'editevent',
 	INFO: 'info',
 	ACHIVEMENTS: 'achivements',
 	PROFILE: 'profile',
@@ -90,7 +92,7 @@ const App = () => {
 			postRequest('POST', requestURL, vkID)
 
 				.then(data => {
-					if (data[0].fullName === 'Мирон') {
+					if (data[0].vkID === '') {
 						setActivePanel(ROUTES.WORKS)
 						setIsLoading(false)
 						setFetch(false)
@@ -145,6 +147,7 @@ const App = () => {
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} />
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
 			<EditProfileForStaff id='editprofileforstaff' go={go} info={info} />
+			<EditEvent id='editevent' go={go} info={info} />
 			<Works id='works' />
 		</View>
 	);
