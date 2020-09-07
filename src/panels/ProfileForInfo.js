@@ -12,7 +12,7 @@ const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
 
 
-const ProfileForInfo = ({ id, go, info }) => {
+const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
 
     const ROUTES = {
         CONFIRM: 'confirm',
@@ -23,6 +23,15 @@ const ProfileForInfo = ({ id, go, info }) => {
         UPGRADE: 'upgrade'
     };
 
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [user, setUser] = React.useState();
+    const [userRole, setUserRole] = React.useState();
+    const [reportUser, setReportUser] = React.useState();
+    const [eventsData, setEventsData] = React.useState();
+    const [fetch, setFetch] = React.useState(true);
+    const [grade, setGrade] = React.useState();
+    const [activeModal, setActivePanel] = React.useState(null);
+
     const confirm = () => {
         profileReport(reportUser)
     }
@@ -30,14 +39,6 @@ const ProfileForInfo = ({ id, go, info }) => {
     const modalBack = () => {
         setActivePanel(null);
     };
-
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [user, setUser] = React.useState();
-    const [reportUser, setReportUser] = React.useState();
-    const [eventsData, setEventsData] = React.useState();
-    const [fetch, setFetch] = React.useState(true);
-    const [grade, setGrade] = React.useState();
-    const [activeModal, setActivePanel] = React.useState(null);
 
     const onChangeGrade = (event) => {
         setGrade(event.target.value)
@@ -220,43 +221,51 @@ const ProfileForInfo = ({ id, go, info }) => {
     )
 
     if (fetch) {
-        postRequest('POST', requestURL, JSON.stringify({ "vkID": info }))
-            .then(data => {
-                setUser(data[0]);
-                setReportUser([{
-                    fullName: data[0].fullName,
-                    _id: data[0]._id,
-                    vkID: data[0].vkID,
-                    role: data[0].role,
-                    avatar: data[0].avatar,
-                    achievements: data[0].achievements,
-                    town: data[0].town,
-                    birthday: data[0].birthday,
-                    grade: data[0].grade,
-                    phoneNumber: data[0].phoneNumber,
-                    amboEmail: data[0].amboEmail,
-                    personalEmail: data[0].personalEmail,
-                    mentor: data[0].mentor,
-                    university: data[0].university,
-                    specialty: data[0].specialty,
-                    statusInUniversity: data[0].statusInUniversity,
-                    universityShortly: data[0].universityShortly,
-                    universityPostalAddress: data[0].universityPostalAddress,
-                    rectorFullName: data[0].rectorFullName,
-                    rectorPostalAddress: data[0].rectorPostalAddress,
-                    facultyFull: data[0].facultyFull,
-                    facultyShortly: data[0].facultyShortly,
-                    personalPostalAddress: data[0].personalPostalAddress,
-                    clothingSize: data[0].clothingSize,
-                    __v: data[0].__v,}]);
-                postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
-                    .then(events => {
-                        setEventsData(events)
-                        setIsLoading(false)
-                        setFetch(false)
-                    })
-            })
-            .catch(err => console.log(err))
+        if (fetchedUser != null) {
+            const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+            postRequest('POST', requestURL, vkID)
+                .then(data => {
+                    setUserRole(data[0].role)
+                    postRequest('POST', requestURL, JSON.stringify({ "vkID": info }))
+                        .then(data => {
+                            setUser(data[0]);
+                            setReportUser([{
+                                fullName: data[0].fullName,
+                                _id: data[0]._id,
+                                vkID: data[0].vkID,
+                                role: data[0].role,
+                                avatar: data[0].avatar,
+                                achievements: data[0].achievements,
+                                town: data[0].town,
+                                birthday: data[0].birthday,
+                                grade: data[0].grade,
+                                phoneNumber: data[0].phoneNumber,
+                                amboEmail: data[0].amboEmail,
+                                personalEmail: data[0].personalEmail,
+                                mentor: data[0].mentor,
+                                university: data[0].university,
+                                specialty: data[0].specialty,
+                                statusInUniversity: data[0].statusInUniversity,
+                                universityShortly: data[0].universityShortly,
+                                universityPostalAddress: data[0].universityPostalAddress,
+                                rectorFullName: data[0].rectorFullName,
+                                rectorPostalAddress: data[0].rectorPostalAddress,
+                                facultyFull: data[0].facultyFull,
+                                facultyShortly: data[0].facultyShortly,
+                                personalPostalAddress: data[0].personalPostalAddress,
+                                clothingSize: data[0].clothingSize,
+                                __v: data[0].__v,
+                            }]);
+                            postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
+                                .then(events => {
+                                    setEventsData(events)
+                                    setIsLoading(false)
+                                    setFetch(false)
+                                })
+                        })
+                        .catch(err => console.log(err))
+                })
+        }
     }
 
 
@@ -334,10 +343,17 @@ const ProfileForInfo = ({ id, go, info }) => {
                         <CellButton
                             style={{ color: '#fc2c38' }}
                             onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
-                        <CellButton
+                    </Group>
+                    {userRole === "staff" ? <Group header={<Header mode="secondary">Staff функции</Header>}>
+                         <CellButton
                             style={{ color: '#fc2c38' }}
                             onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать профиль</CellButton>
-                    </Group>
+                        <CellButton
+                            style={{ color: '#fc2c38' }}
+                            onClick={go}
+                            data-to="editprofileforstaff"
+                            data-id={user.vkID}>Редактировать профиль</CellButton> 
+                    </Group>: null}
                 </div>
             </Panel>
         </View>

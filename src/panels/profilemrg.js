@@ -1,6 +1,7 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js";
-import { excelReport } from "./functions/excelReport"
+import { excelReport } from "./functions/excelReport";
+import { profileReport } from "./functions/profileReport";
 import { View, Avatar, Counter, ModalPage, Select, PanelHeaderButton, RichCell, Div, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, Button, ModalRoot, ModalCard, ModalPageHeader, FormLayoutGroup, FormLayout, CellButton } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
@@ -14,6 +15,7 @@ const allEventsRequestURL = 'https://ambassador-todo.herokuapp.com/event'
 
 const ROUTES = {
     CONFIRM: 'confirm',
+    CONFIRMPROFILES: 'confirmProfiles',
     ATTENTION: 'attention',
     EVENTSREPORT: 'eventsReport',
     INSIDEEVENTS: 'inside',
@@ -25,6 +27,7 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
+    const [reportUsers, setReportUsers] = React.useState();
     const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
@@ -34,6 +37,10 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
 
     const onChangeMonth = (event) => {
         setMonth(event.target.value)
+    }
+
+    const confirmProfiles = () => {
+        profileReport(reportUsers)
     }
 
     const confirm = () => {
@@ -181,6 +188,26 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                 </Group>
             </ModalPage>
 
+            <ModalCard
+                id={ROUTES.CONFIRMPROFILES}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader>
+                        Скачать информацию?
+            </ModalPageHeader>
+                }
+            >
+                <FormLayout>
+                    <FormLayoutGroup>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmProfiles} > Да </Button>
+
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                    </FormLayoutGroup>
+                </FormLayout>
+
+
+            </ModalCard>
+
         </ModalRoot>
     )
 
@@ -213,9 +240,39 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                         postRequest('POST', requestURL, JSON.stringify({ "role": "ambassador" }))
                             .then(ambassador => {
                                 setAmboQuantity(ambassador.length)
+                                let sortUser = [];
+                                for (let i = 0; i < ambassador.length; i++)
+                                {
+                                    sortUser.push({
+                                        fullName: ambassador[i].fullName,
+                                        _id: ambassador[i]._id,
+                                        vkID: ambassador[i].vkID,
+                                        role: ambassador[i].role,
+                                        avatar: ambassador[i].avatar,
+                                        achievements: ambassador[i].achievements,
+                                        town: ambassador[i].town,
+                                        birthday: ambassador[i].birthday,
+                                        grade: ambassador[i].grade,
+                                        phoneNumber: ambassador[i].phoneNumber,
+                                        amboEmail: ambassador[i].amboEmail,
+                                        personalEmail: ambassador[i].personalEmail,
+                                        mentor: ambassador[i].mentor,
+                                        university: ambassador[i].university,
+                                        specialty: ambassador[i].specialty,
+                                        statusInUniversity: ambassador[i].statusInUniversity,
+                                        universityShortly: ambassador[i].universityShortly,
+                                        universityPostalAddress: ambassador[i].universityPostalAddress,
+                                        rectorFullName: ambassador[i].rectorFullName,
+                                        rectorPostalAddress: ambassador[i].rectorPostalAddress,
+                                        facultyFull: ambassador[i].facultyFull,
+                                        facultyShortly: ambassador[i].facultyShortly,
+                                        personalPostalAddress: ambassador[i].personalPostalAddress,
+                                        clothingSize: ambassador[i].clothingSize,
+                                        __v: ambassador[i].__v,})
+                                }
+                                setReportUsers(sortUser);
                                 postRequest('GET', allEventsRequestURL)
                                     .then(events => {
-                                        console.log(events)
                                         setEventsData(events)
                                         setEventQuantity(events.length)
                                         setIsLoading(false)
@@ -286,6 +343,9 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
                             </Div>
                             <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
                         </Group>
+                        {user.role === 'staff' ? <Group header={<Header mode="secondary">Информация из профиля в Excel</Header>}>
+                            <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRMPROFILES); }}>Скачать информацию</CellButton>
+                        </Group> : null}
                     </Group>
                 </div>
 

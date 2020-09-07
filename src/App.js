@@ -25,6 +25,7 @@ import AddEventHelpOnl from './panels/AddEventHelpOnl';
 import AddEventHelpOff from './panels/AddEventHelpOff';
 import ProfileMrg from './panels/profilemrg';
 import ProfileForInfo from './panels/ProfileForInfo';
+import EditProfileForStaff from './panels/EditProfileForStaff';
 import EventsForInfo from './panels/EventsForInfo';
 import Works from './panels/Works';
 
@@ -51,6 +52,7 @@ const ROUTES = {
 	LISTAMBASSADOR: 'listambassador',
 	PROFILEFORINFO: 'profileforinfo',
 	EVENTSFORINFO: 'eventsforinfo',
+	EDITPROFILEFORSTAFF: 'editprofileforstaff',
 	WORKS: 'works',
 };
 
@@ -88,7 +90,7 @@ const App = () => {
 			postRequest('POST', requestURL, vkID)
 
 				.then(data => {
-					if (data[0].fullName === 'Мирон' ) {
+					if (data[0].fullName === 'Мирон') {
 						setActivePanel(ROUTES.WORKS)
 						setIsLoading(false)
 						setFetch(false)
@@ -138,11 +140,12 @@ const App = () => {
 			<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
 			<Info id='info' go={go} />
 			<Events id='events' fetchedUser={fetchedUser} go={go} />
-			<ProfileForInfo id='profileforinfo' go={go} info={info} />
+			<ProfileForInfo id='profileforinfo' fetchedUser={fetchedUser} go={go} info={info} />
 			<EventsForInfo id='eventsforinfo' go={go} info={info} />
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} />
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
-			<Works id='works'/>
+			<EditProfileForStaff id='editprofileforstaff' go={go} info={info} />
+			<Works id='works' />
 		</View>
 	);
 
