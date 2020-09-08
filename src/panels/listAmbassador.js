@@ -51,8 +51,7 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
         setAmbassadors(sortData)
     }
 
-    if (fetch) {
-        if (fetchedUser != null) {
+    if (fetch && fetchedUser != null) {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', userRequestURL, vkID)
                 .then(data => {
@@ -81,7 +80,6 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                     }
                 })
                 .catch(err => console.log(err))
-        }
     }
 
     if (isLoading === true) {
@@ -112,8 +110,8 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                 <Group style={{ marginBottom: 50 }}>
                     {ambassadors.map((user, id) => (
                         <Div key={user._id}>
-                            {userRole === 'staff' && !sortedAlphabet && id === 0 ? <Group header={<Header mode="secondary">{user.mentor} </Header>}><Separator /></Group> : null}
-                            {id !== 0 && userRole === 'staff' && !sortedAlphabet && ambassadors[id].mentor !== ambassadors[id - 1].mentor ? <Group header={<Header mode="secondary">{user.mentor} </Header>}><Separator /></Group> : null}
+                            {userRole === 'staff' && !sortedAlphabet && id === 0 ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
+                            {id !== 0 && userRole === 'staff' && !sortedAlphabet && ambassadors[id].mentor !== ambassadors[id - 1].mentor ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
                             <RichCell disabled
                                 multiline
                                 actions={
