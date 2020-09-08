@@ -1,14 +1,18 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { View, Div, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, ScreenSpinner, Cell, InfoRow, Link, Placeholder } from '@vkontakte/vkui';
+import { View, Div, CellButton, ModalCard, FormLayout, Separator, FormLayoutGroup, Button, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, ScreenSpinner, Cell, InfoRow, Link, Placeholder } from '@vkontakte/vkui';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel'
 import Icon20CalendarOutline from '@vkontakte/icons/dist/20/calendar_outline';
 import Icon56AccessibilityOutline from '@vkontakte/icons/dist/56/accessibility_outline';
+import Icon24Write from '@vkontakte/icons/dist/24/write';
 
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
+const requestDeleteURL = "https://ambassador-todo.herokuapp.com/event/delete"
+
 const ROUTES = {
-    EVENTSINFO: 'eventsInfo'
+    EVENTSINFO: 'eventsInfo',
+    CONFIRMDELETE: 'confirmdelete'
 };
 
 
@@ -25,6 +29,13 @@ const EventsForInfo = ({ id, go, info }) => {
     const modalBack = () => {
         setActivePanel(null);
     };
+
+    const confirmDelete = () => {
+        postRequest('POST', requestDeleteURL, JSON.stringify({ _id: eventsData[eventId]._id }))
+            .catch(err => console.log(err))
+        setFetch(true)
+
+    }
 
     if (fetch) {
         postRequest('POST', userRequestURL, JSON.stringify({ "vkID": info }))
@@ -61,7 +72,8 @@ const EventsForInfo = ({ id, go, info }) => {
                     onClose={modalBack}
                     header={
                         <ModalPageHeader
-                            left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                            left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}
+                            right={<PanelHeaderButton style={{ color: '#fc2c38' }} onMouseUp={modalBack} onClick={go} data-to='editevent' data-id={eventsData ? eventsData[eventId]._id : 'empty'}><Icon24Write /></PanelHeaderButton>}>
                             {eventsData ? eventsData[eventId].nameEvent : 'empty'}
                         </ModalPageHeader>}>
                     <Cell multiline>
@@ -86,9 +98,9 @@ const EventsForInfo = ({ id, go, info }) => {
                         </InfoRow>
                     </Cell>
                     <Cell multiline>
-                            <InfoRow header="Тип мероприятия">
-                                {eventsData ? eventsData[eventId].eventType : 'empty'}
-                            </InfoRow>
+                        <InfoRow header="Тип мероприятия">
+                            {eventsData ? eventsData[eventId].eventType : 'empty'}
+                        </InfoRow>
                     </Cell>
                     <Cell multiline>
                         <InfoRow header="Краткое описание">
@@ -110,7 +122,27 @@ const EventsForInfo = ({ id, go, info }) => {
                             {eventsData ? eventsData[eventId].notes : 'empty'}
                         </InfoRow>
                     </Cell>
+                    <Separator></Separator>
+                    <CellButton style={{ color: "#fc2c38", marginBottom: 50 }} align='center' onClick={() => { setActivePanel(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
                 </ModalPage>
+
+                <ModalCard
+                    id={ROUTES.CONFIRMDELETE}
+                    onClose={() => { setActivePanel(ROUTES.EVENTSINFO); }}
+                    header={
+                        <ModalPageHeader>
+                            Удалить мероприятие?
+            </ModalPageHeader>
+                    }
+                >
+                    <FormLayout>
+                        <FormLayoutGroup>
+                            <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmDelete} > Да </Button>
+
+                            <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={() => { setActivePanel(ROUTES.EVENTSINFO); }}> Нет </Button>
+                        </FormLayoutGroup>
+                    </FormLayout>
+                </ModalCard>
             </ModalRoot>
         )
 
@@ -154,7 +186,7 @@ const EventsForInfo = ({ id, go, info }) => {
     return (
         <Panel id={id}>
             <PanelHeader
- left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>                Мероприятия
+                left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>                Мероприятия
         </PanelHeader>
             <Group>
                 <Div>

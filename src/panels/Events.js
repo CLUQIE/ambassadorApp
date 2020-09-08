@@ -14,6 +14,7 @@ import Icon24Write from '@vkontakte/icons/dist/24/write';
 const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 const requestDeleteURL = "https://ambassador-todo.herokuapp.com/event/delete"
+
 const ROUTES = {
     EVENTSINFO: 'eventsInfo',
     CONFIRMDELETE: 'confirmdelete'

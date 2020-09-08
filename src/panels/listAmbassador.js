@@ -22,11 +22,38 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
 
     const onChangeSearch = (event) => {
         setSearch(event.target.value)
-        if (search === '') {
-            setAmbassadors(searchAmbassadors)
+        if (/[а-я]/i.test(search)) {
+            if (search === '') {
+                setAmbassadors(searchAmbassadors)
+            } else {
+                setAmbassadors(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(search.toLowerCase()) > -1 }))
+            }
         } else {
-            setAmbassadors(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(search.toLowerCase()) > -1 }))
+            let replaceLangSearch = autoReplacerLang(search)
+            setAmbassadors(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(replaceLangSearch.toLowerCase()) > -1 }))
         }
+    }
+
+    const autoReplacerLang = (str) => {
+        let replacer = {
+            "q": "й", "w": "ц", "e": "у", "r": "к", "t": "е", "y": "н", "u": "г",
+            "i": "ш", "o": "щ", "p": "з", "[": "х", "]": "ъ", "a": "ф", "s": "ы",
+            "d": "в", "f": "а", "g": "п", "h": "р", "j": "о", "k": "л", "l": "д",
+            ";": "ж", "'": "э", "z": "я", "x": "ч", "c": "с", "v": "м", "b": "и",
+            "n": "т", "m": "ь", ",": "б", ".": "ю", "/": ".",
+        };
+        let replace
+        for (let i = 0; i < str.length; i++) {
+            if (replacer[str[i].toLowerCase()] !== undefined) {
+                if (str[i] === str[i].toLowerCase()) {
+                    replace = replacer[str[i].toLowerCase()];
+                } else if (str[i] === str[i].toUpperCase()) {
+                    replace = replacer[str[i].toLowerCase()].toUpperCase();
+                }
+                str = str.replace(str[i], replace);
+            }
+        }
+        return str;
     }
 
     const sortAlphabetically = () => {
@@ -35,6 +62,7 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                 bname = b.fullName.toLowerCase();
             if (aname < bname) return -1;
             if (aname > bname) return 1;
+            return null
         });
         setSortedAlphabet(true)
         setAmbassadors(sortData)
@@ -52,34 +80,34 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
     }
 
     if (fetch && fetchedUser != null) {
-            const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-            postRequest('POST', userRequestURL, vkID)
-                .then(data => {
-                    setUserRole(data[0].role)
-                    if (data[0].role === 'mentor') {
-                        postRequest('POST', userRequestURL, JSON.stringify({ "mentor": data[0].fullName }))
-                            .then(ambassadors => {
-                                setAmbassadors(ambassadors)
-                                setSearchAmbassadors(ambassadors)
-                                setIsLoading(false)
-                                setFetch(false)
-                            })
-                    }
-                    if (data[0].role === 'staff') {
-                        postRequest('POST', userRequestURL, JSON.stringify({ "role": 'ambassador' }))
-                            .then(ambassadors => {
-                                setAmbassadors(ambassadors)
-                                setSearchAmbassadors(ambassadors)
-                                postRequest('POST', userRequestURL, JSON.stringify({ "role": 'mentor' }))
-                                    .then(mentors => {
-                                        setMentors(mentors)
-                                        setIsLoading(false)
-                                        setFetch(false)
-                                    })
-                            })
-                    }
-                })
-                .catch(err => console.log(err))
+        const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+        postRequest('POST', userRequestURL, vkID)
+            .then(data => {
+                setUserRole(data[0].role)
+                if (data[0].role === 'mentor') {
+                    postRequest('POST', userRequestURL, JSON.stringify({ "mentor": data[0].fullName }))
+                        .then(ambassadors => {
+                            setAmbassadors(ambassadors)
+                            setSearchAmbassadors(ambassadors)
+                            setIsLoading(false)
+                            setFetch(false)
+                        })
+                }
+                if (data[0].role === 'staff') {
+                    postRequest('POST', userRequestURL, JSON.stringify({ "role": 'ambassador' }))
+                        .then(ambassadors => {
+                            setAmbassadors(ambassadors)
+                            setSearchAmbassadors(ambassadors)
+                            postRequest('POST', userRequestURL, JSON.stringify({ "role": 'mentor' }))
+                                .then(mentors => {
+                                    setMentors(mentors)
+                                    setIsLoading(false)
+                                    setFetch(false)
+                                })
+                        })
+                }
+            })
+            .catch(err => console.log(err))
     }
 
     if (isLoading === true) {

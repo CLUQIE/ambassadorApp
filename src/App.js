@@ -147,7 +147,7 @@ const App = () => {
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} />
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
 			<EditProfileForStaff id='editprofileforstaff' go={go} info={info} />
-			<EditEvent id='editevent' go={go} info={info} />
+			<EditEvent id='editevent' fetchedUser={fetchedUser} go={go} info={info} />
 			<Works id='works' />
 		</View>
 	);
