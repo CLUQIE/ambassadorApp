@@ -127,7 +127,7 @@ const Events = ({ fetchedUser, id, go }) => {
                         </InfoRow>
                     </Cell>
                     <Separator></Separator>
-                    <CellButton style={{ color: "#fc2c38", marginBottom: 50, marginLeft: '35%' }} onClick={() => { setActivePanel(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
+                    <CellButton style={{ color: "#fc2c38", marginBottom: 50}} align='center' onClick={() => { setActivePanel(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
                 </ModalPage>
 
                 <ModalCard
