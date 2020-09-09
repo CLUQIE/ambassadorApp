@@ -1,6 +1,6 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { PanelHeader, CellButton, Search, Panel, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Placeholder, Div, RichCell, Header, Button, Separator } from '@vkontakte/vkui';
+import { PanelHeader, CellButton, Search, Panel, Banner, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Placeholder, Div, Header, Button, Separator } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon56UserAddOutline from '@vkontakte/icons/dist/56/user_add_outline';
@@ -137,20 +137,22 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                     <CellButton style={{ color: '#fc2c38' }} align='center' onClick={sortByMentor} >Сортировать по наставнику</CellButton> : null}
                 <Group style={{ marginBottom: 50 }}>
                     {ambassadors.map((user, id) => (
-                        <Div key={user._id}>
+                        <React.Fragment key={user._id}>
                             {userRole === 'staff' && !sortedAlphabet && id === 0 ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
                             {id !== 0 && userRole === 'staff' && !sortedAlphabet && ambassadors[id].mentor !== ambassadors[id - 1].mentor ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
-                            <RichCell disabled
-                                multiline
+                            <Banner
+                                header={<React.Fragment>
+                                    <span>{user.fullName}</span> <br />
+                                    <span style={{ fontWeight: '300', color: "grey", marginBottom: '10px' }}>{user.universityShortly}</span>
+                                </React.Fragment>}
                                 actions={
-                                    <React.Fragment >
+                                    <React.Fragment>
                                         <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id={user.vkID}>Профиль</Button>
                                         <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="eventsforinfo" data-id={user.vkID}>Мероприятия</Button>
                                     </React.Fragment>
                                 }
-                                caption={user.universityShortly} >{user.fullName}
-                            </RichCell>
-                        </Div>
+                            />
+                        </React.Fragment>
                     ))}
                 </Group>
 

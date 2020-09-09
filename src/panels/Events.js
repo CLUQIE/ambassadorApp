@@ -165,7 +165,6 @@ const Events = ({ fetchedUser, id, go }) => {
                                     header={<React.Fragment>
                                         <span style={{ fontWeight: '300', color: "#fc2c38", marginBottom: '10px' }}>{event.eventForm}, {event.eventType}</span> <br />
                                         <span>{event.nameEvent}</span>
-
                                     </React.Fragment>}
                                     subheader={<React.Fragment>
                                         <div style={{ display: 'inline-block' }}>
