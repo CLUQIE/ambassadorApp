@@ -278,55 +278,55 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
-                        <Cell multiline indicator={<InfoRow>{user.town}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.town}</span></Cell></InfoRow>} >
                             Город
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.birthday}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.birthday}</span></Cell></InfoRow>} >
                             Дата рождения
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{formatPhoneNumber(user.phoneNumber)}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{formatPhoneNumber(user.phoneNumber)}</span></Cell></InfoRow>} >
                             Номер телефона
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.personalEmail}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.personalEmail}</span></Cell></InfoRow>} >
                             Email
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.universityShortly}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.universityShortly}</span></Cell></InfoRow>} >
                             Учебное заведение
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.clothingSize}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.clothingSize}</span></Cell></InfoRow>} >
                             Размер одежды
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.personalPostalAddress}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline ><span style = {{ color: '#838c98'}}>{user.personalPostalAddress}</span></Cell></InfoRow>} >
                             Почтовый адрес (с индексом)
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.latinFullName} </InfoRow>}>
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.latinFullName}</span></Cell></InfoRow>}>
                             Амбассадорская почта
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.university}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell  multiline><span style = {{ color: '#838c98'}}>{user.university}</span></Cell></InfoRow>} >
                             Полное название учебного заведения
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.facultyFull}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.facultyFull}</span></Cell></InfoRow>} >
                             Полное название факультета
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.facultyShortly} </InfoRow>}>
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.facultyShortly} </span></Cell></InfoRow>}>
                             Краткое название факультета
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.statusInUniversity}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.statusInUniversity}</span></Cell></InfoRow>} >
                             Статус
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.facultyFull}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.facultyFull}</span></Cell></InfoRow>} >
                             Факультет
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.specialty}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.specialty}</span></Cell></InfoRow>} >
                             Специальность
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.universityPostalAddress}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.universityPostalAddress}</span></Cell></InfoRow>} >
                             Адрес учебного заведения
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.rectorFullName} </InfoRow>}>
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.rectorFullName}</span></Cell></InfoRow>}>
                             ФИО ректора
                         </Cell>
-                        <Cell multiline indicator={<InfoRow>{user.rectorPostalAddress}</InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.rectorPostalAddress}</span></Cell></InfoRow>} >
                             Email ректора
                         </Cell>
 

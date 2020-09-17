@@ -16,7 +16,7 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
     const [ambassadors, setAmbassadors] = React.useState();
     const [mentors, setMentors] = React.useState();
     const [userRole, setUserRole] = React.useState();
-    const [sortedAlphabet, setSortedAlphabet] = React.useState(false);
+    const [sortedAlphabet, setSortedAlphabet] = React.useState(true);
     const [searchAmbassadors, setSearchAmbassadors] = React.useState();
 
 
@@ -96,7 +96,13 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                 if (data[0].role === 'staff') {
                     postRequest('POST', userRequestURL, JSON.stringify({ "role": 'ambassador' }))
                         .then(ambassadors => {
-                            setAmbassadors(ambassadors)
+                            setAmbassadors(ambassadors.sort(function (a, b) {
+                                let aname = a.fullName.toLowerCase(),
+                                    bname = b.fullName.toLowerCase();
+                                if (aname < bname) return -1;
+                                if (aname > bname) return 1;
+                                return null
+                            }))
                             setSearchAmbassadors(ambassadors)
                             postRequest('POST', userRequestURL, JSON.stringify({ "role": 'mentor' }))
                                 .then(mentors => {
