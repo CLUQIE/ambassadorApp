@@ -47,7 +47,7 @@ const Profile = ({ fetchedUser, id, go }) => {
     const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
     const [achievementsList, setAchievementsList] = React.useState('');
-    const [activeTab, setActiveTab] = React.useState({ type: 'achieves', name: 'Достижения' });
+    const [activeTab, setActiveTab] = React.useState({ type: 'types', name: 'Типы достижений'});
     const [achieveDescripActive, setAchieveDescripActive] = React.useState(1);
 
     const profileModal = (
@@ -195,8 +195,8 @@ const Profile = ({ fetchedUser, id, go }) => {
                                     key={i + Date.now}
                                     target="_blank"
                                     onClick={() => { setActivePanel(ROUTES.ACHIVESDESCRIPTION); setAchieveDescripActive(i) }}
-                                    before={<img src={fullListPng[i][0].png} width="72" height="72" alt="lorem" />}>
-                                    <span style={{ fontSize: '18px' }}><Div>{desc.name} </Div></span>
+                                    before={<Avatar src={fullListPng[i][0].png} size={62} />}>
+                                    <span style={{ fontSize: '14px' }}><Div>{desc.name} </Div></span>
                                 </RichCell>)) : null}
                         </Div>
                     </Group> : <Group >
@@ -296,6 +296,7 @@ const Profile = ({ fetchedUser, id, go }) => {
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length}</Counter>}>
                             Помощь и поддержка
                             </Cell>
+                
                         <Group header={<Header mode="secondary" aside={<CellButton style={{ color: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}>Подробнее</CellButton>}>Достижения</Header>}>
                             <HorizontalScroll style={user && user.achievements !== ' ' ? { paddingTop: 10 }: { paddingTop: 0 }} >
                                 {user && user.achievements !== ' ' ?
