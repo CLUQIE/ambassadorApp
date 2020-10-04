@@ -318,8 +318,7 @@ return (
                     Проведено мероприятий
                         </Cell>
                 <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>
-
-                <Group header={<Header mode="secondary">Статистика Excel</Header>}>
+                {navigator.appVersion.indexOf("Win")!==-1 || navigator.appVersion.indexOf("Mac")!==-1 ? <Group header={<Header mode="secondary">Статистика Excel</Header>}>
                     <Div>
                         <Select onChange={onChangeMonth} placeholder="Выберите месяц мероприятий" bottom="Выберите месяц" >
                             <option value="09">Сентябрь</option>
@@ -335,8 +334,8 @@ return (
                         </Select>
                     </Div>
                     <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
-                </Group>
-                {user.role === 'staff' ? <Group header={<Header mode="secondary">Информация из профиля в Excel</Header>}>
+                </Group> : null}
+                {user.role === 'staff' && ( navigator.appVersion.indexOf("Win")!==-1 || navigator.appVersion.indexOf("Mac")!==-1) ? <Group header={<Header mode="secondary">Информация из профиля в Excel</Header>}>
                     <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRMPROFILES); }}>Скачать информацию</CellButton>
                 </Group> : null}
             </Group>

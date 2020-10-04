@@ -1,7 +1,9 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, Avatar, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { achieveDescription, typeDescription } from './functions/AchieveDescription'
+import { View, ModalRoot, HorizontalScroll, Avatar, Tabs, TabsItem, Div, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { fullListPng, achivementsListReturn } from './functions/achivementsListReturn'
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
 import Icon28BrainOutline from '@vkontakte/icons/dist/28/brain_outline';
@@ -10,29 +12,43 @@ import Icon28WriteOutline from '@vkontakte/icons/dist/28/write_outline';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
-
-
 const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
 const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
-
-
+const itemStyle = {
+    flexShrink: 0,
+    width: 80,
+    height: 94,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontSize: 12
+};
 const Profile = ({ fetchedUser, id, go }) => {
 
     const ROUTES = {
         PROFILEINFO: 'profileInfo',
         INSIDEEVENTS: 'inside',
         OUTSIDEEVENTS: 'outside',
-        HELPANDSUPPORT: 'helpAndSupport'
+        HELPANDSUPPORT: 'helpAndSupport',
+        ACHIVES: 'achives',
+        ACHIVESDESCRIPTION: 'achivedescription'
     };
     const modalBack = () => {
         setActivePanel(null);
     };
+
+    const getPng = (list) => {
+        setAchievementsList(achivementsListReturn(list))
+    }
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
     const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
+    const [achievementsList, setAchievementsList] = React.useState('');
+    const [activeTab, setActiveTab] = React.useState({ type: 'achieves', name: 'Достижения' });
+    const [achieveDescripActive, setAchieveDescripActive] = React.useState(1);
 
     const profileModal = (
         <ModalRoot
@@ -149,6 +165,64 @@ const Profile = ({ fetchedUser, id, go }) => {
                             </Cell>
                 </Group>
             </ModalPage>
+            <ModalPage
+                id={ROUTES.ACHIVES}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        {activeTab.name}
+                    </ModalPageHeader>}>
+                <Tabs>
+                    <TabsItem
+                        onClick={() => setActiveTab({ type: 'achieves', name: 'Достижения' })}
+                        selected={activeTab.type === 'achieves'}
+                    >
+                        Достижения
+              </TabsItem>
+                    <TabsItem
+                        onClick={() => setActiveTab({ type: 'types', name: 'Типы достижений' })}
+                        selected={activeTab.type === 'types'}
+                    >
+                        Типы
+              </TabsItem>
+                </Tabs>
+                {activeTab.type === 'achieves' ?
+                    <Group >
+                        <Div>
+                            {achieveDescription ? achieveDescription.map((desc, i) => (
+                                <RichCell
+                                    key={i + Date.now}
+                                    target="_blank"
+                                    onClick={() => { setActivePanel(ROUTES.ACHIVESDESCRIPTION); setAchieveDescripActive(i) }}
+                                    before={<img src={fullListPng[i][0].png} width="72" height="72" alt="lorem" />}>
+                                    <span style={{ fontSize: '18px' }}><Div>{desc.name} </Div></span>
+                                </RichCell>)) : null}
+                        </Div>
+                    </Group> : <Group >
+                        <Div>
+                            {typeDescription ? typeDescription.map((desc, i) => (
+                                <Group key={i + Date.now} header={<Header mode="secondary">{desc.type}</Header>}><Div>{desc.description}</Div></Group>)): null}
+                        </Div>
+                    </Group>}
+                <Cell> </Cell>
+            </ModalPage>
+            <ModalPage
+                id={ROUTES.ACHIVESDESCRIPTION}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.ACHIVES) }}><Icon24Cancel /></PanelHeaderButton>}>
+                        {achieveDescription[achieveDescripActive].name}
+                    </ModalPageHeader>}>
+                <Group >
+                    <Div>
+                        <Group header={<Header mode="secondary">Описание</Header>}><Div>{achieveDescription[achieveDescripActive].description}</Div></Group>
+                        <Group header={<Header mode="secondary">Тип достижения</Header>}><Div>{achieveDescription[achieveDescripActive].type}</Div></Group>
+                    </Div>
+                </Group>
+                <Cell> </Cell>
+            </ModalPage>
 
         </ModalRoot>
     )
@@ -157,9 +231,9 @@ const Profile = ({ fetchedUser, id, go }) => {
         if (fetchedUser != null) {
             const vkID = JSON.stringify({ "vkID": fetchedUser.id })
             postRequest('POST', requestURL, vkID)
-
                 .then(data => {
-                    setUser(data[0]);
+                    setUser(data[0])
+                    getPng(data[0].achievements)
                     postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
                         .then(events => {
                             setEventsData(events)
@@ -222,6 +296,17 @@ const Profile = ({ fetchedUser, id, go }) => {
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length}</Counter>}>
                             Помощь и поддержка
                             </Cell>
+                        <Group header={<Header mode="secondary" aside={<CellButton style={{ color: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}>Подробнее</CellButton>}>Достижения</Header>}>
+                            <HorizontalScroll style={user && user.achievements !== ' ' ? { paddingTop: 10 }: { paddingTop: 0 }} >
+                                {user && user.achievements !== ' ' ?
+                                    <div style={{ display: 'flex' }}>
+                                        {achievementsList ? achievementsList.map((ref) => (ref.map((ref, i) => (
+                                            <div onClick={() => { setActivePanel(ROUTES.ACHIVESDESCRIPTION); setAchieveDescripActive(achieveDescription.findIndex((element,id)=>{if(element.name === ref.name)return true}))}} key={i + Date.now} style={{ ...itemStyle, paddingLeft: 5, paddingRight: 5 }}>
+                                                <Avatar size={72} style={{ marginBottom: 1 }} src={ref.png}></Avatar>
+                                            </div>)))) : null}
+                                    </div> : <CellButton align='center' style={{ fontSize: '18px', color: 'grey' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}> Твои достижения еще впереди!</CellButton>}
+                            </HorizontalScroll>
+                        </Group>
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { View, Div, CellButton, ModalCard, FormLayout, Separator, FormLayoutGroup, Button, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, ScreenSpinner, Cell, InfoRow, Link, Placeholder } from '@vkontakte/vkui';
+import { View, Div, CellButton, ModalCard, FormLayout, Separator, FormLayoutGroup, Button, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, ScreenSpinner, Cell, InfoRow, Placeholder } from '@vkontakte/vkui';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel'
 import Icon20CalendarOutline from '@vkontakte/icons/dist/20/calendar_outline';
 import Icon56AccessibilityOutline from '@vkontakte/icons/dist/56/accessibility_outline';
@@ -14,8 +14,6 @@ const ROUTES = {
     EVENTSINFO: 'eventsInfo',
     CONFIRMDELETE: 'confirmdelete'
 };
-
-
 
 const EventsForInfo = ({ id, go, info }) => {
 
@@ -114,7 +112,7 @@ const EventsForInfo = ({ id, go, info }) => {
                     </Cell>
                     <Cell multiline>
                         <InfoRow header="Ссылки">
-                            <Link href={eventsData[eventId].publicationLinks} target="_blank"><span href={eventsData[eventId].publicationLinks} >{eventsData ? eventsData[eventId].publicationLinks : 'empty'}</span></Link>
+                            {eventsData ? eventsData[eventId].publicationLinks : 'empty'}
                         </InfoRow>
                     </Cell>
                     <Cell multiline>

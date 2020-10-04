@@ -5,21 +5,22 @@ import { profileReport } from "./functions/profileReport"
 import { View, ModalRoot, ModalCard, FormLayout, FormLayoutGroup, InfoRow, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
-
-
-
-const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
-const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
-
+import { achivementsListReturn } from './functions/achivementsListReturn'
 
 const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
+
+    const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
+    const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
+    const achievementsRefList = ['Образоватор 1000', 'Образоватор 2000', 'Образоватор 3000', 'Текстонаписатор', 'Контроленатор', 'Брехняразрушатор', 'Контентогенератор 5000', 'Публичноговоратор 5000', 'Достигатор', 'Форматоприлагатор', 'Защищатор 3000', 'Нетворкинатор', 'Контентомейкинатор', 'Юнитопривлекатор', 'Проектопроцветатор 1000', 'Идеявоплощатор', 'Собиратор', 'Новостегенератор', 'Фидбекатор', 'Мастератор', 'Скиллопоглощатор 47000']
 
     const ROUTES = {
         CONFIRM: 'confirm',
         INSIDEEVENTS: 'inside',
         OUTSIDEEVENTS: 'outside',
         HELPANDSUPPORT: 'helpAndSupport',
-        UPGRADE: 'upgrade'
+        UPGRADE: 'upgrade',
+        ADDACHIVE: 'addAchive',
+        ACHIVES: 'achives'
     };
 
     const [isLoading, setIsLoading] = React.useState(true);
@@ -30,7 +31,12 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
     const [fetch, setFetch] = React.useState(true);
     const [grade, setGrade] = React.useState();
     const [activeModal, setActivePanel] = React.useState(null);
+    const [achievementsList, setAchievementsList] = React.useState('');
+    const [newAchive, setNewAchive] = React.useState();
 
+    const getPng = (list) => {
+        setAchievementsList(achivementsListReturn(list))
+    }
     const confirm = () => {
         profileReport(reportUser)
     }
@@ -43,13 +49,25 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
         setGrade(event.target.value)
     }
 
+    const onChangeAchive = (achive) => {
+        setNewAchive(achive.target.value + ',')
+    }
+
+    const addNewAchive = () => {
+        let body = JSON.stringify({
+            _id: user._id,
+            vkID: user.vkID,
+            achievements: user.achievements + newAchive,
+        })
+        postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
+    }
+
     const onClickForm = () => {
         let body = JSON.stringify({
             _id: user._id,
             vkID: user.vkID,
             grade: grade,
         })
-        console.log(body)
         postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
         setFetch(true)
     }
@@ -71,7 +89,6 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                 <FormLayout>
                     <FormLayoutGroup>
                         <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
-
                         <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
                     </FormLayoutGroup>
                 </FormLayout>
@@ -165,53 +182,101 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                 <Cell> </Cell>
             </ModalPage>
 
+            <ModalPage
+                id={ROUTES.ADDACHIVE}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Присвоить достижение
+                    </ModalPageHeader>}>
+                <Group >
+                    <Div>
+                        <Select onChange={onChangeAchive} top="Grade" placeholder='Выберите достижение' required>
+                            {achievementsRefList.map((achive, i) => (<option key={i + Date.now} value={achive} >{achive}</option>))}
+                        </Select>
+                    </Div>
+                    <Cell> </Cell>
+                    <Div>
+                        <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={addNewAchive} onMouseUp={modalBack} >Присвоить</Button>
+                    </Div>
+                </Group>
+                <Cell> </Cell>
+            </ModalPage>
+
+            <ModalPage
+                id={ROUTES.ACHIVES}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Достижения
+                    </ModalPageHeader>}>
+                <Group >
+                    {user && user.achievements !== ' ' ?
+                        <Div>
+                            {achievementsList ? achievementsList.map((ref) => (ref.map((ref, i) => (
+                                <RichCell
+                                    key={i + Date.now}
+                                    target="_blank"
+                                    before={<img src={ref.png} width="72" height="72" alt="lorem" />}>
+                                    <span style={{ fontSize: '18px' }}><Div>{ref.name} </Div></span>
+                                </RichCell>)))) : null}
+                        </Div> :
+                        <Div align='center' style={{ marginBottom: '20px', color: 'rgb(176,182,192)' }}>
+                            Пока нет достижений.
+                        </Div>}
+                </Group>
+                <Cell> </Cell>
+            </ModalPage>
         </ModalRoot>
     )
 
     if (fetch && fetchedUser != null) {
-            const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-            postRequest('POST', requestURL, vkID)
-                .then(data => {
-                    setUserRole(data[0].role)
-                    postRequest('POST', requestURL, JSON.stringify({ "vkID": info }))
-                        .then(data => {
-                            setUser(data[0]);
-                            setReportUser([{
-                                fullName: data[0].fullName,
-                                _id: data[0]._id,
-                                vkID: data[0].vkID,
-                                role: data[0].role,
-                                avatar: data[0].avatar,
-                                achievements: data[0].achievements,
-                                town: data[0].town,
-                                birthday: data[0].birthday,
-                                grade: data[0].grade,
-                                phoneNumber: data[0].phoneNumber,
-                                amboEmail: data[0].amboEmail,
-                                personalEmail: data[0].personalEmail,
-                                mentor: data[0].mentor,
-                                university: data[0].university,
-                                specialty: data[0].specialty,
-                                statusInUniversity: data[0].statusInUniversity,
-                                universityShortly: data[0].universityShortly,
-                                universityPostalAddress: data[0].universityPostalAddress,
-                                rectorFullName: data[0].rectorFullName,
-                                rectorPostalAddress: data[0].rectorPostalAddress,
-                                facultyFull: data[0].facultyFull,
-                                facultyShortly: data[0].facultyShortly,
-                                personalPostalAddress: data[0].personalPostalAddress,
-                                clothingSize: data[0].clothingSize,
-                                __v: data[0].__v,
-                            }]);
-                            postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
-                                .then(events => {
-                                    setEventsData(events)
-                                    setIsLoading(false)
-                                    setFetch(false)
-                                })
-                        })
-                        .catch(err => console.log(err))
-                })
+        const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+        postRequest('POST', requestURL, vkID)
+            .then(data => {
+                setUserRole(data[0].role)
+                postRequest('POST', requestURL, JSON.stringify({ "vkID": info }))
+                    .then(data => {
+                        setUser(data[0]);
+                        setReportUser([{
+                            fullName: data[0].fullName,
+                            _id: data[0]._id,
+                            vkID: data[0].vkID,
+                            role: data[0].role,
+                            avatar: data[0].avatar,
+                            achievements: data[0].achievements,
+                            town: data[0].town,
+                            birthday: data[0].birthday,
+                            grade: data[0].grade,
+                            phoneNumber: data[0].phoneNumber,
+                            amboEmail: data[0].amboEmail,
+                            personalEmail: data[0].personalEmail,
+                            mentor: data[0].mentor,
+                            university: data[0].university,
+                            specialty: data[0].specialty,
+                            statusInUniversity: data[0].statusInUniversity,
+                            universityShortly: data[0].universityShortly,
+                            universityPostalAddress: data[0].universityPostalAddress,
+                            rectorFullName: data[0].rectorFullName,
+                            rectorPostalAddress: data[0].rectorPostalAddress,
+                            facultyFull: data[0].facultyFull,
+                            facultyShortly: data[0].facultyShortly,
+                            personalPostalAddress: data[0].personalPostalAddress,
+                            clothingSize: data[0].clothingSize,
+                            __v: data[0].__v,
+                        }]);
+                        getPng(data[0].achievements);
+                        postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
+                            .then(events => {
+                                setEventsData(events)
+                                setIsLoading(false)
+                                setFetch(false)
+                            })
+                    })
+                    .catch(err => console.log(err))
+            })
     }
 
 
@@ -258,6 +323,16 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                             data-id={user.vkID}>Редактировать профиль</CellButton>
                     </Group> : null}
 
+                    <Group header={<Header mode="secondary"> Достижения </Header>}>
+                        <CellButton
+                            style={{ color: '#fc2c38' }}
+                            onClick={() => { setActivePanel(ROUTES.ACHIVES); }}>Посмотреть достижения</CellButton>
+                        <CellButton
+                            style={{ color: '#fc2c38' }}
+                            onClick={() => { setActivePanel(ROUTES.ADDACHIVE); }}
+                            data-id={user.vkID}> Присвоить достижение </CellButton>
+                    </Group>
+
                     <Group header={<Header mode="secondary">Статистика</Header>}>
                         <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
@@ -278,55 +353,55 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.town}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.town}</span></Cell></InfoRow>} >
                             Город
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.birthday}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.birthday}</span></Cell></InfoRow>} >
                             Дата рождения
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{formatPhoneNumber(user.phoneNumber)}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{formatPhoneNumber(user.phoneNumber)}</span></Cell></InfoRow>} >
                             Номер телефона
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.personalEmail}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.personalEmail}</span></Cell></InfoRow>} >
                             Email
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.universityShortly}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.universityShortly}</span></Cell></InfoRow>} >
                             Учебное заведение
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.clothingSize}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.clothingSize}</span></Cell></InfoRow>} >
                             Размер одежды
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline ><span style = {{ color: '#838c98'}}>{user.personalPostalAddress}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline ><span style={{ color: '#838c98' }}>{user.personalPostalAddress}</span></Cell></InfoRow>} >
                             Почтовый адрес (с индексом)
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.latinFullName}</span></Cell></InfoRow>}>
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.latinFullName}</span></Cell></InfoRow>}>
                             Амбассадорская почта
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell  multiline><span style = {{ color: '#838c98'}}>{user.university}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.university}</span></Cell></InfoRow>} >
                             Полное название учебного заведения
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.facultyFull}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.facultyFull}</span></Cell></InfoRow>} >
                             Полное название факультета
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.facultyShortly} </span></Cell></InfoRow>}>
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.facultyShortly} </span></Cell></InfoRow>}>
                             Краткое название факультета
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.statusInUniversity}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.statusInUniversity}</span></Cell></InfoRow>} >
                             Статус
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.facultyFull}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.facultyFull}</span></Cell></InfoRow>} >
                             Факультет
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.specialty}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.specialty}</span></Cell></InfoRow>} >
                             Специальность
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.universityPostalAddress}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.universityPostalAddress}</span></Cell></InfoRow>} >
                             Адрес учебного заведения
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.rectorFullName}</span></Cell></InfoRow>}>
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.rectorFullName}</span></Cell></InfoRow>}>
                             ФИО ректора
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style = {{ color: '#838c98'}}>{user.rectorPostalAddress}</span></Cell></InfoRow>} >
+                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.rectorPostalAddress}</span></Cell></InfoRow>} >
                             Email ректора
                         </Cell>
 

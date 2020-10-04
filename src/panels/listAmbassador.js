@@ -136,7 +136,7 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                     Амбассадоры
                 </PanelHeader>
                 {userRole === 'staff' ?
-                    <Search value={search} onChange={onChangeSearch} after={null} /> : null}
+                    <Search autoFocus value={search} onChange={onChangeSearch} after={null} /> : null}
                 {userRole === 'staff' && !sortedAlphabet ?
                     <CellButton style={{ color: '#fc2c38' }} align='center' onClick={sortAlphabetically} >Сортировать по алфавиту</CellButton> : null}
                 {userRole === 'staff' && sortedAlphabet ?
