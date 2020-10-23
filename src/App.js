@@ -118,7 +118,7 @@ const App = () => {
 			postRequest('POST', REQUEST.ACCESS_FIND, vkID)
 				.then(data => {
 					setProfileInfo(data[0])
-					if (data === undefined) {
+					if (data[0] === undefined) {
 						setActivePanel(ROUTES.ALIENS)
 						setFetch(false)
 					}
