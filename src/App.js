@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { postRequest } from "./panels/functions/fetch.js";
-import { Panel } from '@vkontakte/vkui';
+import { Panel, ModalRoot, ModalCard, PanelHeaderButton, FormLayout, FormLayoutGroup, Button, ModalPage, ModalPageHeader, Cell, InfoRow, Link, CellButton, Separator } from '@vkontakte/vkui';
+import Icon24Write from '@vkontakte/icons/dist/24/write';
+import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
 import bridge from '@vkontakte/vk-bridge';
 import View from '@vkontakte/vkui/dist/components/View/View';
@@ -9,7 +11,6 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Home from './panels/Home';
 import Events from './panels/Events';
 import EditEvent from './panels/EditEvent';
-import Info from './panels/Info';
 import Achivements from './panels/Achivements';
 import Profile from './panels/Profile';
 import ListAmbassador from './panels/listAmbassador';
@@ -29,7 +30,14 @@ import ProfileForInfo from './panels/ProfileForInfo';
 import EditProfileForStaff from './panels/EditProfileForStaff';
 import EventsForInfo from './panels/EventsForInfo';
 import Works from './panels/Works';
+import { achivementsListReturn } from './panels/functions/achivementsListReturn'
 
+const REQUEST = {
+	ACCESS_FIND: 'https://ambassador-todo.herokuapp.com/access/find',
+	AMBO_EVENT: 'https://ambassador-todo.herokuapp.com/event/ambassador',
+	ACCESS_ROLE: 'https://ambassador-todo.herokuapp.com/access/role',
+	DELETE_EVENT: "https://ambassador-todo.herokuapp.com/event/delete"
+}
 
 const ROUTES = {
 	HOME: 'home',
@@ -56,19 +64,40 @@ const ROUTES = {
 	EVENTSFORINFO: 'eventsforinfo',
 	EDITPROFILEFORSTAFF: 'editprofileforstaff',
 	WORKS: 'works',
+	EVENTSINFO: 'eventsInfo',
+	CONFIRMDELETE: 'confirmdelete'
 };
 
-const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
-
-
 const App = () => {
+	const modalBack = () => {
+		setActiveModal(null);
+	};
+
+	const confirmDelete = () => {
+		postRequest('POST', REQUEST.DELETE_EVENT, JSON.stringify({ _id: amboEvent[eventId]._id }))
+			.then(data => {
+				setEventId(0)
+				setFetch(true)
+			})
+			.catch(err => console.log(err))
+	}
 
 	const [activePanel, setActivePanel] = useState(ROUTES.PROFILE);
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
-	const [isLoading, setIsLoading] = React.useState(true);
 	const [fetch, setFetch] = React.useState(true);
 	const [info, setInfo] = React.useState();
+	const [profileInfo, setProfileInfo] = React.useState();
+	const [allAmbs, setAllAmbs] = React.useState();
+	const [amboEvent, setAmboEvent] = React.useState(null);
+	const [achievementsList, setAchievementsList] = React.useState('');
+	const [activeModal, setActiveModal] = React.useState(null);
+	const [eventId, setEventId] = React.useState(0);
+
+	const go = e => {
+		setActivePanel(e.currentTarget.dataset.to);
+		setInfo(e.currentTarget.dataset.id);
+	};
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data } }) => {
@@ -81,30 +110,35 @@ const App = () => {
 		fetchData();
 	}, []);
 
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
-		setInfo(e.currentTarget.dataset.id);
-	};
-
 	if (fetch) {
 		if (fetchedUser != null) {
 			const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-			postRequest('POST', requestURL, vkID)
-
+			postRequest('POST', REQUEST.ACCESS_FIND, vkID)
 				.then(data => {
+					setProfileInfo(data[0])
 					if (data[0].vkID === '') {
 						setActivePanel(ROUTES.WORKS)
-						setIsLoading(false)
 						setFetch(false)
 					}
 					else if (data[0].role === 'ambassador') {
-						setActivePanel(ROUTES.PROFILE)
-						setIsLoading(false)
-						setFetch(false)
+						setAchievementsList(achivementsListReturn(data[0].achievements))
+						postRequest('POST', REQUEST.ACCESS_ROLE, JSON.stringify({ role: "ambassador" }))
+							.then(data => {
+								let filtredUsers = data.filter(function (i, n) { return (i.role === "ambassador" && i.grade) })
+								setAllAmbs(filtredUsers);
+							})
+						postRequest('POST', REQUEST.AMBO_EVENT, JSON.stringify({ "ambassador": data[0].fullName }))
+							.then(events => {
+								if (events.length > 0) {
+									setAmboEvent(events)
+								}else{
+									setAmboEvent(null)
+								}
+								setFetch(false)
+							})
 					}
 					else if (data[0].role === 'mentor' || data[0].role === 'staff') {
 						setActivePanel(ROUTES.PROFILEMRG)
-						setIsLoading(false)
 						setFetch(false)
 					}
 				})
@@ -112,7 +146,90 @@ const App = () => {
 		}
 	}
 
-	if (isLoading === true) {
+	const modal = (
+		<ModalRoot
+			activeModal={activeModal}
+			onClose={modalBack}
+		>
+			<ModalPage
+				id={ROUTES.EVENTSINFO}
+				onClose={modalBack}
+				header={
+					<ModalPageHeader
+						left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}
+						right={<PanelHeaderButton style={{ color: '#fc2c38' }} onMouseUp={modalBack} onClick={go} data-to='editevent' data-id={amboEvent ? amboEvent[eventId]._id : 'empty'}><Icon24Write /></PanelHeaderButton>}>
+						{amboEvent ? amboEvent[eventId].nameEvent : 'empty'}
+					</ModalPageHeader>}>
+				<Cell multiline>
+					<InfoRow header="Формат мероприятия">
+						{amboEvent ? amboEvent[eventId].eventForm : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Место проведения">
+						{amboEvent ? amboEvent[eventId].eventPlace : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Формат участия">
+						{amboEvent ? amboEvent[eventId].participationForm : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Дата проведения">
+						{amboEvent ? amboEvent[eventId].date : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Тип мероприятия">
+						{amboEvent ? amboEvent[eventId].eventType : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Краткое описание">
+						{amboEvent ? amboEvent[eventId].description : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Количество участников">
+						{amboEvent ? amboEvent[eventId].participants : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Ссылки">
+						<Link style={{ color: "#fc2c38" }} href={amboEvent ? amboEvent[eventId].publicationLinks : 'empty'} target="_blank"><span href={amboEvent ? amboEvent[eventId].publicationLinks : 'empty'} >{amboEvent ? amboEvent[eventId].publicationLinks : 'empty'}</span></Link>
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Заметки">
+						{amboEvent ? amboEvent[eventId].notes : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Separator></Separator>
+				<CellButton style={{ color: "#fc2c38", marginBottom: 50 }} align='center' onClick={() => { setActiveModal(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
+			</ModalPage>
+
+			<ModalCard
+				id={ROUTES.CONFIRMDELETE}
+				onClose={() => { setActiveModal(ROUTES.EVENTSINFO); }}
+				header={
+					<ModalPageHeader>
+						Удалить мероприятие?
+		</ModalPageHeader>
+				}
+			>
+				<FormLayout>
+					<FormLayoutGroup>
+						<Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmDelete} > Да </Button>
+
+						<Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={() => { setActiveModal(ROUTES.EVENTSINFO); }}> Нет </Button>
+					</FormLayoutGroup>
+				</FormLayout>
+			</ModalCard>
+		</ModalRoot>
+	)
+
+	if (fetch) {
 		return (
 			<Panel>
 				<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
@@ -122,32 +239,29 @@ const App = () => {
 		)
 	}
 
-
-
 	return (
-		<View activePanel={activePanel} popout={popout}>
-			<Profile id='profile' fetchedUser={fetchedUser} go={go} />
+		<View activePanel={activePanel} popout={popout} modal={modal}>
+			<Profile id='profile' fetchedUser={fetchedUser} go={go} amboEvent={amboEvent} profileInfo={profileInfo} achievementsList={achievementsList} />
 			<Badge id='badge' go={go} />
-			<Home id='home' fetchedUser={fetchedUser} go={go} />
+			<Home id='home' fetchedUser={fetchedUser} go={go} setFetchApp={setFetch} />
 			<AddEventFirst id='addeventfirst' go={go} />
 			<AddEventSecondVnesh id='addeventsecondvnesh' go={go} />
-			<Editprofile id='editprofile' fetchedUser={fetchedUser} go={go} />
+			<Editprofile id='editprofile' fetchedUser={fetchedUser} profileInfo={profileInfo} go={go} setFetchApp={setFetch} />
 			<AddEventSecondVnutr id='addeventsecondvnutr' go={go} />
+			<Achivements id='achivements' fetchedUser={fetchedUser} go={go} allAmbs={allAmbs} profileInfo={profileInfo} />
 			<AddEventSecondHelp id='addeventsecondhelp' go={go} />
-			<AddEventVneshOff fetchedUser={fetchedUser} id='addeventvneshoff' go={go} />
-			<AddEventVnutrOnl fetchedUser={fetchedUser} id='addeventvnutronl' go={go} />
-			<AddEventVnutrOff fetchedUser={fetchedUser} id='addeventvnutroff' go={go} />
-			<AddEventHelpOnl fetchedUser={fetchedUser} id='addeventhelponl' go={go} />
-			<AddEventHelpOff fetchedUser={fetchedUser} id='addeventhelpoff' go={go} />
-			<Achivements id='achivements' fetchedUser={fetchedUser} go={go} />
-			<Info id='info' go={go} />
-			<Events id='events' fetchedUser={fetchedUser} go={go} />
+			<AddEventVneshOff fetchedUser={fetchedUser} id='addeventvneshoff' go={go} setFetchApp={setFetch} />
+			<AddEventVnutrOnl fetchedUser={fetchedUser} id='addeventvnutronl' go={go} setFetchApp={setFetch} />
+			<AddEventVnutrOff fetchedUser={fetchedUser} id='addeventvnutroff' go={go} setFetchApp={setFetch} />
+			<AddEventHelpOnl fetchedUser={fetchedUser} id='addeventhelponl' go={go} setFetchApp={setFetch} />
+			<AddEventHelpOff fetchedUser={fetchedUser} id='addeventhelpoff' go={go} setFetchApp={setFetch} />
 			<ProfileForInfo id='profileforinfo' fetchedUser={fetchedUser} go={go} info={info} />
 			<EventsForInfo id='eventsforinfo' go={go} info={info} />
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} />
+			<Events id='events' go={go} amboEvent={amboEvent} setFetch={setFetch} setActiveModal={setActiveModal} setEventId={setEventId} />
 			<ListAmbassador id='listambassador' fetchedUser={fetchedUser} go={go} />
 			<EditProfileForStaff id='editprofileforstaff' go={go} info={info} />
-			<EditEvent id='editevent' fetchedUser={fetchedUser} go={go} info={info} />
+			<EditEvent id='editevent' fetchedUser={fetchedUser} go={go} info={info} setFetchApp={setFetch} profileInfo={profileInfo} />
 			<Works id='works' />
 		</View>
 	);

@@ -5,9 +5,8 @@ import { FormLayout, ScreenSpinner, Select, Input, Group, Button, PanelHeader, P
 
 const requestUpdateURL = 'https://ambassador-todo.herokuapp.com/event/update'
 const requestFindURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
-const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const EditEvent = ({ fetchedUser, info, id, go }) => {
+const EditEvent = ({ info, id, go, setFetchApp, profileInfo }) => {
 
     const [nameEvent, setNameEvent] = React.useState();
     const [links, setLinks] = React.useState();
@@ -15,7 +14,6 @@ const EditEvent = ({ fetchedUser, info, id, go }) => {
     const [notes, setNotes] = React.useState();
     const [callback, setCallback] = React.useState();
     const [fetch, setFetch] = React.useState(true);
-    const [user, setUser] = React.useState();
     const [eventInfo, setEventInfo] = React.useState();
     const [place, setPlace] = React.useState();
     const [participants, setParticipants] = React.useState();
@@ -23,19 +21,13 @@ const EditEvent = ({ fetchedUser, info, id, go }) => {
     const [participationForm, setParticipationForm] = React.useState();
     const [eventForm, setEventForm] = React.useState();
 
-    if (fetch && fetchedUser != null) {
-        const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-        postRequest('POST', userRequestURL, vkID)
+    if (fetch) {
+        const eventID = JSON.stringify({ "_id": info })
+        postRequest('POST', requestFindURL, eventID)
             .then(data => {
-                setUser(data[0].role)
-                const eventID = JSON.stringify({ "_id": info })
-                postRequest('POST', requestFindURL, eventID)
-                    .then(data => {
-                        setEventInfo(data[0])
-                        setFetch(false)
-                    })
+                setEventInfo(data[0])
+                setFetch(false)
             })
-            .catch(err => console.log(err))
     }
 
     const onChangeNameEvent = (event) => {
@@ -94,6 +86,7 @@ const EditEvent = ({ fetchedUser, info, id, go }) => {
             eventForm: eventForm,
         })
         postRequest('POST', requestUpdateURL, body)
+            .then(setFetchApp(true))
             .catch(err => console.log(err))
 
     }
@@ -113,9 +106,9 @@ const EditEvent = ({ fetchedUser, info, id, go }) => {
         <Panel id={id}>
 
             <PanelHeader
-                left={user === 'ambassador' ? <PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="events" /> : <PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" />}>
+                left={profileInfo.role === 'ambassador' ? <PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="events" /> : <PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" />}>
                 Редактирование мероприятия</PanelHeader>
-            {user === 'ambassador' ? <Group>
+            {profileInfo.role === 'ambassador' ? <Group>
                 <FormLayout>
                     <Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" placeholder={eventInfo ? eventInfo.nameEvent : null} />
                     <Textarea onChange={onChangeDescription} name="description" top="Краткое описание" placeholder={eventInfo ? eventInfo.description : null} />
@@ -136,15 +129,15 @@ const EditEvent = ({ fetchedUser, info, id, go }) => {
                         <Textarea onChange={onChangeNotes} name="notes" top="Заметки" placeholder={eventInfo ? eventInfo.notes : null} />
 
                         <Select onChange={onChangeParticipationForm} top="Формат участия" placeholder={eventInfo ? eventInfo.participationForm : null} >
-                                <option value="Внешнее">Внешнее мероприятие</option>
-                                <option value="Внутреннее">Внутреннее мероприятие</option>
-                                <option value="Помощь и поддержка">Помощь и поддержка</option>
-                            </Select>
+                            <option value="Внешнее">Внешнее мероприятие</option>
+                            <option value="Внутреннее">Внутреннее мероприятие</option>
+                            <option value="Помощь и поддержка">Помощь и поддержка</option>
+                        </Select>
 
-                            <Select onChange={onChangeEventForm} top="Формат мероприятия" placeholder={eventInfo ? eventInfo.eventForm : null} >
-                                <option value="Онлайн">Онлайн</option>
-                                <option value="Офлайн">Офлайн</option>
-                            </Select>
+                        <Select onChange={onChangeEventForm} top="Формат мероприятия" placeholder={eventInfo ? eventInfo.eventForm : null} >
+                            <option value="Онлайн">Онлайн</option>
+                            <option value="Офлайн">Офлайн</option>
+                        </Select>
 
                         {eventInfo.participationForm === 'Внешнее' ? <Group>
                             {eventInfo.eventForm === 'Онлайн' ? <Select onChange={onChangeEventType} top="Тип мероприятия" placeholder={eventInfo ? eventInfo.eventType : null} >
@@ -207,7 +200,7 @@ const EditEvent = ({ fetchedUser, info, id, go }) => {
                             </Select> : null}
                         </Group> : null}
 
-                        <Input onChange={onChangePlace} type="text" name="name" top="Место проведения" placeholder={eventInfo ? eventInfo.eventPlace : null}/>
+                        <Input onChange={onChangePlace} type="text" name="name" top="Место проведения" placeholder={eventInfo ? eventInfo.eventPlace : null} />
                         <Select onChange={onChangeParticipants} top="Количество участников" placeholder={eventInfo ? eventInfo.participants : null}>
                             <option value="1-29 человек">1-29 человек</option>
                             <option value="30-99 человек">30-99 человек</option>

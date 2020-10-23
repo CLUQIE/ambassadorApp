@@ -6,7 +6,7 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const Home = ({ fetchedUser, id, go }) => {
+const Home = ({ fetchedUser, id, go, setFetchApp }) => {
 
 	const formatDate = (date) => {
 		let newDate = date.slice(8, 10) + '.' + date.slice(5, 7) + '.' + date.slice(0, 4);
@@ -27,17 +27,17 @@ const Home = ({ fetchedUser, id, go }) => {
 	const [fetch, setFetch] = React.useState(true);
 
 
-if (fetch){
-	if (fetchedUser != null) {
-		const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-		postRequest('POST', userRequestURL, vkID)
-			.then(data => {
-				setUser(data[0])
-				setFetch(false)
-			})
-			.catch(err => console.log(err))
+	if (fetch) {
+		if (fetchedUser != null) {
+			const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+			postRequest('POST', userRequestURL, vkID)
+				.then(data => {
+					setUser(data[0])
+					setFetch(false)
+				})
+				.catch(err => console.log(err))
+		}
 	}
-}
 
 
 
@@ -94,8 +94,8 @@ if (fetch){
 			notes: notes,
 		})
 		postRequest('POST', requestURL, body)
+			.then(setFetchApp(true))
 			.catch(err => console.log(err))
-
 	}
 
 
@@ -111,29 +111,29 @@ if (fetch){
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />
-					<Input onChange={onChangeDate} type="date" name="name" top="Дата проведения" required/>
-					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required/>
+					<Input onChange={onChangeDate} type="date" name="name" top="Дата проведения" required />
+					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required />
 
-					<Select  onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
+					<Select onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
 						<option value="Воркшоп/мастер-класс">Воркшоп/мастер-класс</option>
 						<option value="Выступление">Выступление</option>
 						<option value="Пост в соц.сетях">Пост в соц.сетях</option>
 						<option value="Конкурс">Конкурс</option>
-					</Select> 
-					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required/>
-					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников"/>
-					<Select  onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
+					</Select>
+					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required />
+					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников" />
+					<Select onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
 						<option value="1-29 человек">1-29 человек</option>
 						<option value="30-99 человек">30-99 человек</option>
 						<option value="100-299 человек">100-299 человек</option>
 						<option value="300-999 человек">300-999 человек</option>
 						<option value="1000 и более">1000 и более</option>
-					</Select> 
+					</Select>
 					<Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" />
 					<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
 
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
-			
+
 				</FormLayout>
 			</Group>
 

@@ -1,18 +1,14 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Select, ScreenSpinner } from '@vkontakte/vkui';
+import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Select } from '@vkontakte/vkui';
 
-const Editprofile = ({ fetchedUser, id, go }) => {
+const Editprofile = ({ id, go, profileInfo, setFetchApp }) => {
 	const formatDate = (date) => {
 		let newDate = date.slice(8, 10) + '.' + date.slice(5, 7) + '.' + date.slice(0, 4);
 		return newDate
 	}
 
-	const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
-
-	const [isLoading, setIsLoading] = React.useState(true);
-	const [user, setUser] = React.useState();
 	const [university, setUniversity] = React.useState();
 	const [phone, setPhone] = React.useState();
 	const [personalemail, setPersonalEmail] = React.useState();
@@ -30,9 +26,6 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 	const [fullNameLatin, setFullNameLatin] = React.useState();
 	const [town, setTown] = React.useState();
 	const [universityShortly, setUniversityShortly] = React.useState();
-	const [fetch, setFetch] = React.useState(true);
-
-
 
 	const onChangeUniversityShortly = (event) => {
 		setUniversityShortly(event.target.value)
@@ -103,8 +96,8 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 
 	const onClickForm = () => {
 		let body = JSON.stringify({
-			_id: user._id,
-			vkID: user.vkID,
+			_id: profileInfo._id,
+			vkID: profileInfo.vkID,
 			avatar: " ",
 			achievements: " ",
 			phoneNumber: phone,
@@ -126,31 +119,9 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 			clothingSize: clothingsize
 		})
 		postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
+		.then(setFetchApp(true))
 
 	}
-	if (fetch) {
-		if (fetchedUser != null) {
-			const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-			postRequest('POST', requestURL, vkID)
-				.then(data => {
-					setUser(data[0])
-					setIsLoading(false)
-					setFetch(false)
-				})
-				.catch(err => console.log(err))
-		}
-	}
-
-	if (isLoading === true) {
-		return (
-			<Panel id={id}>
-				<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-					<ScreenSpinner style={{ marginTop: '50%' }} />
-				</div>
-			</Panel>
-		)
-	}
-
 
 	return (
 
@@ -160,18 +131,18 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="profile" onMouseUp={go} />}>Редактирование профиля</PanelHeader>
 			<Group>
 				<FormLayout>
-					<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="Ф.И.О." required />
-					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(user.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введи телефон в формате 8005553535 (без 7, +7, 8)" required />
-					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} type="text" name="fullname" top="Амбассадорская почта" required />
-					<Input onChange={onChangePersonalEmail} placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
-					<Input onChange={onChangeBirthday} placeholder={user.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
-					<Input onChange={onChangeTown} placeholder={user.town} type="text" name="city" top="Город" required />
-					<Input onChange={onChangeUniversity} placeholder={user.university} type="text" name="university" top="Учебное заведение" bottom="Полное наименование" required />
-					<Input onChange={onChangeUniversityShortly} placeholder={user.universityShortly} type="text" name="university" top="Учебное заведение" bottom="Краткое наименование" required />
-					<Input onChange={onChangeUniversityPostalAddress} placeholder={user.universityPostalAddress} bottom="С индексом для отправки писем" type="text" name="pochtavuz" top="Почтовый адрес вуза" required />
-					<Input onChange={onChangeRectorFullName} placeholder={user.rectorFullName} type="text" name="fiorector" top="Ф.И.О. ректора" required />
-					<Input onChange={onChangeRectorPostalAddress} placeholder={user.rectorPostalAddress} ype="text" name="emailrector" top="Электронный адрес ректора" required />
-					<Select onChange={onChangeStatusInUniversity} placeholder={user.statusInUniversity} bottom="Курс, на который ты уже перешёл" top="Статус в вузе" >
+					<Input onChange={onChangeFullName} placeholder={profileInfo.fullName} type="text" name="fullname" top="Ф.И.О." required />
+					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(profileInfo.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введи телефон в формате 8005553535 (без 7, +7, 8)" required />
+					<Input onChange={onChangeFullNameLatin} placeholder={profileInfo.latinFullName} type="text" name="fullname" top="Амбассадорская почта" required />
+					<Input onChange={onChangePersonalEmail} placeholder={profileInfo.personalEmail} type="text" name="email" top="Личная почта" required />
+					<Input onChange={onChangeBirthday} placeholder={profileInfo.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
+					<Input onChange={onChangeTown} placeholder={profileInfo.town} type="text" name="city" top="Город" required />
+					<Input onChange={onChangeUniversity} placeholder={profileInfo.university} type="text" name="university" top="Учебное заведение" bottom="Полное наименование" required />
+					<Input onChange={onChangeUniversityShortly} placeholder={profileInfo.universityShortly} type="text" name="university" top="Учебное заведение" bottom="Краткое наименование" required />
+					<Input onChange={onChangeUniversityPostalAddress} placeholder={profileInfo.universityPostalAddress} bottom="С индексом для отправки писем" type="text" name="pochtavuz" top="Почтовый адрес вуза" required />
+					<Input onChange={onChangeRectorFullName} placeholder={profileInfo.rectorFullName} type="text" name="fiorector" top="Ф.И.О. ректора" required />
+					<Input onChange={onChangeRectorPostalAddress} placeholder={profileInfo.rectorPostalAddress} ype="text" name="emailrector" top="Электронный адрес ректора" required />
+					<Select onChange={onChangeStatusInUniversity} placeholder={profileInfo.statusInUniversity} bottom="Курс, на который ты уже перешёл" top="Статус в вузе" >
 						<option value="1 курс бакалавриат">1 курс бакалавриат</option>
 						<option value="2 курс бакалавриат">2 курс бакалавриат</option>
 						<option value="3 курс бакалавриат">3 курс бакалавриат</option>
@@ -187,11 +158,11 @@ const Editprofile = ({ fetchedUser, id, go }) => {
 						<option value="Аспирант">Аспирант</option>
 						<option value="Сотрудник вуза">Сотрудник вуза</option>
 					</Select>
-					<Input onChange={onChangeFacultyFull} placeholder={user.facultyFull} bottom="Полное наименование" type="text" name="facultatifull" top="Факультет" required />
-					<Input onChange={onChangeFacultyShortly} placeholder={user.facultyShortly} bottom="Краткое наименование" type="text" name="facultatiless" top="Факультет" required />
-					<Input onChange={onChangeSpecialty} placeholder={user.specialty} type="text" name="speciality" top="Специальность" required />
-					<Input onChange={onChangePersonalPostalAddress} placeholder={user.personalPostalAddress} bottom="Куда присылать мерч и другие посылки" type="text" name="pochtaadress" top="Твой почтовый адрес (с индексом)" required />
-					<Select onChange={onChangeClothingSize} placeholder={user.clothingSize} top="Размер одежды (для бомбера)" >
+					<Input onChange={onChangeFacultyFull} placeholder={profileInfo.facultyFull} bottom="Полное наименование" type="text" name="facultatifull" top="Факультет" required />
+					<Input onChange={onChangeFacultyShortly} placeholder={profileInfo.facultyShortly} bottom="Краткое наименование" type="text" name="facultatiless" top="Факультет" required />
+					<Input onChange={onChangeSpecialty} placeholder={profileInfo.specialty} type="text" name="speciality" top="Специальность" required />
+					<Input onChange={onChangePersonalPostalAddress} placeholder={profileInfo.personalPostalAddress} bottom="Куда присылать мерч и другие посылки" type="text" name="pochtaadress" top="Твой почтовый адрес (с индексом)" required />
+					<Select onChange={onChangeClothingSize} placeholder={profileInfo.clothingSize} top="Размер одежды (для бомбера)" >
 						<option value="XS мужской">XS мужской</option>
 						<option value="S мужской">S мужской</option>
 						<option value="M мужской">M мужской</option>

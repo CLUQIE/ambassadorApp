@@ -6,7 +6,7 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const AddEventHelpOff = ({ fetchedUser, id, go }) => {
+const AddEventHelpOff = ({ fetchedUser, id, go, setFetchApp }) => {
 	const formatDate = (date) => {
 		let newDate = date.slice(8, 10) + '.' + date.slice(5, 7) + '.' + date.slice(0, 4);
 		return newDate
@@ -90,8 +90,8 @@ const AddEventHelpOff = ({ fetchedUser, id, go }) => {
 			university: user.university
 		})
 		postRequest('POST', requestURL, body)
+			.then(setFetchApp(true))
 			.catch(err => console.log(err))
-
 	}
 
 
@@ -105,18 +105,18 @@ const AddEventHelpOff = ({ fetchedUser, id, go }) => {
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />
-					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required/>
+					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required />
 					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required />
 
 					<Select onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
 						<option value="Выступление на мероприятиях (День ИТ-знаний, Проектория, Цифровой прорыв, Урок цифры)">Выступление на мероприятиях (День ИТ-знаний, Проектория, Цифровой прорыв, Урок цифры)</option>
 						<option value="Волонтерство">Волонтерство</option>
 						<option value="Организация мероприятия">Организация мероприятия</option>
-                        <option value="Информирование">Информирование</option>
-					</Select> 
-					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required/>				
+						<option value="Информирование">Информирование</option>
+					</Select>
+					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required />
 					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников" />
-					<Select  onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
+					<Select onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
 						<option value="1-29 человек">1-29 человек</option>
 						<option value="30-99 человек">30-99 человек</option>
 						<option value="100-299 человек">100-299 человек</option>
@@ -127,7 +127,7 @@ const AddEventHelpOff = ({ fetchedUser, id, go }) => {
 					<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
 
 					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
-			
+
 				</FormLayout>
 			</Group>
 

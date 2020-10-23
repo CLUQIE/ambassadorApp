@@ -6,7 +6,7 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const AddEventVnutrOff = ({ fetchedUser, id, go }) => {
+const AddEventVnutrOff = ({ fetchedUser, id, go, setFetchApp }) => {
 	const formatDate = (date) => {
 		let newDate = date.slice(8, 10) + '.' + date.slice(5, 7) + '.' + date.slice(0, 4);
 		return newDate
@@ -93,8 +93,8 @@ const AddEventVnutrOff = ({ fetchedUser, id, go }) => {
 			university: user.university
 		})
 		postRequest('POST', requestURL, body)
+			.then(setFetchApp(true))
 			.catch(err => console.log(err))
-
 	}
 
 
@@ -128,7 +128,7 @@ const AddEventVnutrOff = ({ fetchedUser, id, go }) => {
 					</Select>
 					<Textarea onChange={onChangeDescription} name="description" top="Краткое описание" required />
 					<Input onChange={onChangeCallback} type="text" name="participants" top="Отзывы участников" />
-					<Select  onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
+					<Select onChange={onChangeParticipants} top="Количество участников" placeholder=" " required>
 						<option value="1-29 человек">1-29 человек</option>
 						<option value="30-99 человек">30-99 человек</option>
 						<option value="100-299 человек">100-299 человек</option>

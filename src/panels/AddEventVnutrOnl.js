@@ -6,7 +6,7 @@ import { FormLayout, Input, Group, Button, PanelHeader, Panel, Textarea, Select,
 const requestURL = 'https://ambassador-todo.herokuapp.com/event'
 const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 
-const AddEventVnutrOnl = ({ fetchedUser, id, go }) => {
+const AddEventVnutrOnl = ({ fetchedUser, id, go, setFetchApp }) => {
 	const formatDate = (date) => {
 		let newDate = date.slice(8, 10) + '.' + date.slice(5, 7) + '.' + date.slice(0, 4);
 		return newDate
@@ -91,8 +91,8 @@ const AddEventVnutrOnl = ({ fetchedUser, id, go }) => {
 			university: user.university
 		})
 		postRequest('POST', requestURL, body)
+			.then(setFetchApp(true))
 			.catch(err => console.log(err))
-
 	}
 
 
