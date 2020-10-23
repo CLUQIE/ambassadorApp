@@ -1,51 +1,51 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b5ee1f25569779353bb9bc0ea1510c06",
+    "revision": "2c82fb11ab6c8988a03d264a25b73820",
     "url": "/ambassadorApp/index.html"
   },
   {
-    "revision": "fa0abdde65e781b69499",
+    "revision": "4b3869ff74323c6888b5",
     "url": "/ambassadorApp/static/css/2.4911f66b.chunk.css"
   },
   {
-    "revision": "9d4ad05fc55f38ba80dc",
+    "revision": "f881e0b6fe926ff3d5b7",
     "url": "/ambassadorApp/static/css/main.7876847b.chunk.css"
   },
   {
-    "revision": "fa0abdde65e781b69499",
-    "url": "/ambassadorApp/static/js/2.38e13bc3.chunk.js"
+    "revision": "4b3869ff74323c6888b5",
+    "url": "/ambassadorApp/static/js/2.8f40e977.chunk.js"
   },
   {
     "revision": "f4aac9c965aa45c554c7c1d1e3f69ce3",
-    "url": "/ambassadorApp/static/js/2.38e13bc3.chunk.js.LICENSE.txt"
+    "url": "/ambassadorApp/static/js/2.8f40e977.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9d4ad05fc55f38ba80dc",
-    "url": "/ambassadorApp/static/js/main.af5377d4.chunk.js"
+    "revision": "f881e0b6fe926ff3d5b7",
+    "url": "/ambassadorApp/static/js/main.b4138f9a.chunk.js"
   },
   {
     "revision": "17a43eb23f4255587cc8",
     "url": "/ambassadorApp/static/js/runtime-main.2f928d8f.js"
   },
   {
-    "revision": "e1f691976d57742330512d060375bbbc",
-    "url": "/ambassadorApp/static/media/Брехняразрушатор.e1f69197.png"
+    "revision": "9b265314b41ea6e0895cf7acd0a7c64d",
+    "url": "/ambassadorApp/static/media/Брехняразрушатор.9b265314.png"
   },
   {
-    "revision": "15f8e80d0bf0abae6f76400615fe24aa",
-    "url": "/ambassadorApp/static/media/Достигатор.15f8e80d.png"
+    "revision": "2fb1ef2a002358e66e07d402b3eba772",
+    "url": "/ambassadorApp/static/media/Достигатор.2fb1ef2a.png"
   },
   {
-    "revision": "4e42a7c32df5882fb0d109090be1c8c2",
-    "url": "/ambassadorApp/static/media/Защищатор.4e42a7c3.png"
+    "revision": "15d4827730a66829867aa14aa550d3dc",
+    "url": "/ambassadorApp/static/media/Защищатор.15d48277.png"
   },
   {
-    "revision": "9c889ed3bbd43fa687bfe8c8a430e922",
-    "url": "/ambassadorApp/static/media/Идеявоплощатор.9c889ed3.png"
+    "revision": "af7ccc5ccdbcce75fe2da67c15aaae15",
+    "url": "/ambassadorApp/static/media/Идеявоплощатор.af7ccc5c.png"
   },
   {
-    "revision": "4ce27394aa79e875c77f87fecc74d6fb",
-    "url": "/ambassadorApp/static/media/Контентогенератор 5000.4ce27394.png"
+    "revision": "901c4de149ee2befc8013fab5a1ff458",
+    "url": "/ambassadorApp/static/media/Контентогенератор 5000.901c4de1.png"
   },
   {
     "revision": "7e874cfb321d46913f40928fb4c9272a",

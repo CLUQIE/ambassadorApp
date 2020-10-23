@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/ambassadorApp/static/css/main.7876847b.chunk.css",
-    "main.js": "/ambassadorApp/static/js/main.af5377d4.chunk.js",
-    "main.js.map": "/ambassadorApp/static/js/main.af5377d4.chunk.js.map",
+    "main.js": "/ambassadorApp/static/js/main.b4138f9a.chunk.js",
+    "main.js.map": "/ambassadorApp/static/js/main.b4138f9a.chunk.js.map",
     "runtime-main.js": "/ambassadorApp/static/js/runtime-main.2f928d8f.js",
     "runtime-main.js.map": "/ambassadorApp/static/js/runtime-main.2f928d8f.js.map",
     "static/css/2.4911f66b.chunk.css": "/ambassadorApp/static/css/2.4911f66b.chunk.css",
-    "static/js/2.38e13bc3.chunk.js": "/ambassadorApp/static/js/2.38e13bc3.chunk.js",
-    "static/js/2.38e13bc3.chunk.js.map": "/ambassadorApp/static/js/2.38e13bc3.chunk.js.map",
+    "static/js/2.8f40e977.chunk.js": "/ambassadorApp/static/js/2.8f40e977.chunk.js",
+    "static/js/2.8f40e977.chunk.js.map": "/ambassadorApp/static/js/2.8f40e977.chunk.js.map",
     "index.html": "/ambassadorApp/index.html",
-    "precache-manifest.64b2b47d7d6b7b67bfd88c67d814000d.js": "/ambassadorApp/precache-manifest.64b2b47d7d6b7b67bfd88c67d814000d.js",
+    "precache-manifest.d8b1f04eaf70a27157fdd78118612df8.js": "/ambassadorApp/precache-manifest.d8b1f04eaf70a27157fdd78118612df8.js",
     "service-worker.js": "/ambassadorApp/service-worker.js",
     "static/css/2.4911f66b.chunk.css.map": "/ambassadorApp/static/css/2.4911f66b.chunk.css.map",
     "static/css/main.7876847b.chunk.css.map": "/ambassadorApp/static/css/main.7876847b.chunk.css.map",
-    "static/js/2.38e13bc3.chunk.js.LICENSE.txt": "/ambassadorApp/static/js/2.38e13bc3.chunk.js.LICENSE.txt",
-    "static/media/Брехняразрушатор.png": "/ambassadorApp/static/media/Брехняразрушатор.e1f69197.png",
-    "static/media/Достигатор.png": "/ambassadorApp/static/media/Достигатор.15f8e80d.png",
-    "static/media/Защищатор.png": "/ambassadorApp/static/media/Защищатор.4e42a7c3.png",
-    "static/media/Идеявоплощатор.png": "/ambassadorApp/static/media/Идеявоплощатор.9c889ed3.png",
-    "static/media/Контентогенератор 5000.png": "/ambassadorApp/static/media/Контентогенератор 5000.4ce27394.png",
+    "static/js/2.8f40e977.chunk.js.LICENSE.txt": "/ambassadorApp/static/js/2.8f40e977.chunk.js.LICENSE.txt",
+    "static/media/Брехняразрушатор.png": "/ambassadorApp/static/media/Брехняразрушатор.9b265314.png",
+    "static/media/Достигатор.png": "/ambassadorApp/static/media/Достигатор.2fb1ef2a.png",
+    "static/media/Защищатор.png": "/ambassadorApp/static/media/Защищатор.15d48277.png",
+    "static/media/Идеявоплощатор.png": "/ambassadorApp/static/media/Идеявоплощатор.af7ccc5c.png",
+    "static/media/Контентогенератор 5000.png": "/ambassadorApp/static/media/Контентогенератор 5000.901c4de1.png",
     "static/media/Контентомейкинатор.png": "/ambassadorApp/static/media/Контентомейкинатор.7e874cfb.png",
     "static/media/Контроленатор.png": "/ambassadorApp/static/media/Контроленатор.f07ba627.png",
     "static/media/Мастератор 11000.png": "/ambassadorApp/static/media/Мастератор 11000.ae356729.png",
@@ -39,8 +39,8 @@
   "entrypoints": [
     "static/js/runtime-main.2f928d8f.js",
     "static/css/2.4911f66b.chunk.css",
-    "static/js/2.38e13bc3.chunk.js",
+    "static/js/2.8f40e977.chunk.js",
     "static/css/main.7876847b.chunk.css",
-    "static/js/main.af5377d4.chunk.js"
+    "static/js/main.b4138f9a.chunk.js"
   ]
 }
