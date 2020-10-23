@@ -30,6 +30,7 @@ import ProfileForInfo from './panels/ProfileForInfo';
 import EditProfileForStaff from './panels/EditProfileForStaff';
 import EventsForInfo from './panels/EventsForInfo';
 import Works from './panels/Works';
+import Aliens from './panels/Aliens';
 import { achivementsListReturn } from './panels/functions/achivementsListReturn'
 
 const REQUEST = {
@@ -64,6 +65,7 @@ const ROUTES = {
 	EVENTSFORINFO: 'eventsforinfo',
 	EDITPROFILEFORSTAFF: 'editprofileforstaff',
 	WORKS: 'works',
+	ALIENS: 'aliens',
 	EVENTSINFO: 'eventsInfo',
 	CONFIRMDELETE: 'confirmdelete'
 };
@@ -116,7 +118,11 @@ const App = () => {
 			postRequest('POST', REQUEST.ACCESS_FIND, vkID)
 				.then(data => {
 					setProfileInfo(data[0])
-					if (data[0].vkID === '') {
+					if (data === undefined) {
+						setActivePanel(ROUTES.ALIENS)
+						setFetch(false)
+					}
+					else if (data[0].vkID === '') {
 						setActivePanel(ROUTES.WORKS)
 						setFetch(false)
 					}
@@ -263,6 +269,7 @@ const App = () => {
 			<EditProfileForStaff id='editprofileforstaff' go={go} info={info} />
 			<EditEvent id='editevent' fetchedUser={fetchedUser} go={go} info={info} setFetchApp={setFetch} profileInfo={profileInfo} />
 			<Works id='works' />
+			<Aliens id='aliens'/>
 		</View>
 	);
 
