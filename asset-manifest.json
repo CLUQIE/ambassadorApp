@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/ambassadorApp/static/css/main.7876847b.chunk.css",
-    "main.js": "/ambassadorApp/static/js/main.69c5fbe1.chunk.js",
-    "main.js.map": "/ambassadorApp/static/js/main.69c5fbe1.chunk.js.map",
+    "main.js": "/ambassadorApp/static/js/main.ef0d20c6.chunk.js",
+    "main.js.map": "/ambassadorApp/static/js/main.ef0d20c6.chunk.js.map",
     "runtime-main.js": "/ambassadorApp/static/js/runtime-main.2f928d8f.js",
     "runtime-main.js.map": "/ambassadorApp/static/js/runtime-main.2f928d8f.js.map",
     "static/css/2.4911f66b.chunk.css": "/ambassadorApp/static/css/2.4911f66b.chunk.css",
-    "static/js/2.8f40e977.chunk.js": "/ambassadorApp/static/js/2.8f40e977.chunk.js",
-    "static/js/2.8f40e977.chunk.js.map": "/ambassadorApp/static/js/2.8f40e977.chunk.js.map",
+    "static/js/2.3473937a.chunk.js": "/ambassadorApp/static/js/2.3473937a.chunk.js",
+    "static/js/2.3473937a.chunk.js.map": "/ambassadorApp/static/js/2.3473937a.chunk.js.map",
     "index.html": "/ambassadorApp/index.html",
-    "precache-manifest.5ab1374f9456432f34e6179cc9fb91db.js": "/ambassadorApp/precache-manifest.5ab1374f9456432f34e6179cc9fb91db.js",
+    "precache-manifest.c4194562660f3349a480c4b11210199e.js": "/ambassadorApp/precache-manifest.c4194562660f3349a480c4b11210199e.js",
     "service-worker.js": "/ambassadorApp/service-worker.js",
     "static/css/2.4911f66b.chunk.css.map": "/ambassadorApp/static/css/2.4911f66b.chunk.css.map",
     "static/css/main.7876847b.chunk.css.map": "/ambassadorApp/static/css/main.7876847b.chunk.css.map",
-    "static/js/2.8f40e977.chunk.js.LICENSE.txt": "/ambassadorApp/static/js/2.8f40e977.chunk.js.LICENSE.txt",
+    "static/js/2.3473937a.chunk.js.LICENSE.txt": "/ambassadorApp/static/js/2.3473937a.chunk.js.LICENSE.txt",
     "static/media/Брехняразрушатор.png": "/ambassadorApp/static/media/Брехняразрушатор.9b265314.png",
     "static/media/Достигатор.png": "/ambassadorApp/static/media/Достигатор.2fb1ef2a.png",
     "static/media/Защищатор.png": "/ambassadorApp/static/media/Защищатор.15d48277.png",
@@ -39,8 +39,8 @@
   "entrypoints": [
     "static/js/runtime-main.2f928d8f.js",
     "static/css/2.4911f66b.chunk.css",
-    "static/js/2.8f40e977.chunk.js",
+    "static/js/2.3473937a.chunk.js",
     "static/css/main.7876847b.chunk.css",
-    "static/js/main.69c5fbe1.chunk.js"
+    "static/js/main.ef0d20c6.chunk.js"
   ]
 }
