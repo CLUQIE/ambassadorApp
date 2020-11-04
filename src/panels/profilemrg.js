@@ -1,17 +1,13 @@
 import React from 'react';
-import { postRequest } from "./functions/fetch.js";
 import { excelReport } from "./functions/excelReport";
 import { profileReport } from "./functions/profileReport";
-import { View, Avatar, Counter, ModalPage, Select, PanelHeaderButton, RichCell, Div, Group, PanelHeader, Panel, ScreenSpinner, Epic, Tabbar, TabbarItem, Header, Cell, Button, ModalRoot, ModalCard, ModalPageHeader, FormLayoutGroup, FormLayout, CellButton } from '@vkontakte/vkui';
+import { View, Avatar, Counter, ModalPage, Select, PanelHeaderButton, RichCell, Div, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header, Cell, Button, ModalRoot, ModalCard, ModalPageHeader, FormLayoutGroup, FormLayout, CellButton } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
-
-const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
-const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
-const allEventsRequestURL = 'https://ambassador-todo.herokuapp.com/event'
+import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
 
 const ROUTES = {
     CONFIRM: 'confirm',
@@ -23,16 +19,10 @@ const ROUTES = {
     HELPANDSUPPORT: 'helpAndSupport',
 };
 
-const ProfileMrg = ({ fetchedUser, id, go }) => {
+const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, mentors }) => {
 
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [user, setUser] = React.useState();
     const [reportUsers, setReportUsers] = React.useState();
-    const [eventsData, setEventsData] = React.useState();
-    const [fetch, setFetch] = React.useState(true);
     const [activeModal, setActivePanel] = React.useState(null);
-    const [amboQuantity, setAmboQuantity] = React.useState();
-    const [eventQuantity, setEventQuantity] = React.useState();
     const [month, setMonth] = React.useState();
 
     const onChangeMonth = (event) => {
@@ -41,320 +31,277 @@ const ProfileMrg = ({ fetchedUser, id, go }) => {
 
     const confirmProfiles = () => {
         profileReport(reportUsers)
-}
+    }
 
-const confirm = () => {
-    let filtredEvents = eventsData.filter(function (i, n) { return (i.date) })
-    if (eventsData.length && filtredEvents.length !== 0) {
-        if (month === "all") {
-            filtredEvents = eventsData
+    const confirm = () => {
+        let filtredEvents = allEvents.filter(function (i, n) { return (i.date) })
+        if (allEvents.length && filtredEvents.length !== 0) {
+            if (month === "all") {
+                filtredEvents = allEvents
+            }
+            else {
+                filtredEvents = allEvents.filter(function (i, n) { return (i.date[3] + i.date[4] === month) })
+            }
+            excelReport(filtredEvents)
         }
         else {
-            filtredEvents = eventsData.filter(function (i, n) { return (i.date[3] + i.date[4] === month) })
+            setActivePanel(ROUTES.ATTENTION);
         }
-        excelReport(filtredEvents)
     }
-    else {
-        setActivePanel(ROUTES.ATTENTION);
+
+    const modalBack = () => {
+        setActivePanel(null);
     }
-}
 
-const modalBack = () => {
-    setActivePanel(null);
-}
-
-const modal = (
-    <ModalRoot
-        activeModal={activeModal}
-        onClose={modalBack}
-    >
-        <ModalCard
-            id={ROUTES.CONFIRM}
+    const modal = (
+        <ModalRoot
+            activeModal={activeModal}
             onClose={modalBack}
-            header={
-                <ModalPageHeader>
-                    Скачать файл?
-            </ModalPageHeader>
-            }
         >
-            <FormLayout>
-                <FormLayoutGroup>
-                    <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
+            <ModalCard
+                id={ROUTES.CONFIRM}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader>
+                        Скачать файл?
+            </ModalPageHeader>
+                }
+            >
+                <FormLayout>
+                    <FormLayoutGroup>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
 
-                    <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
-                </FormLayoutGroup>
-            </FormLayout>
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                    </FormLayoutGroup>
+                </FormLayout>
 
 
-        </ModalCard>
+            </ModalCard>
 
-        <ModalCard
-            id={ROUTES.ATTENTION}
-            onClose={modalBack}
-            header={
-                <Cell multiline>
-                    Мероприятия отсутствуют!
+            <ModalCard
+                id={ROUTES.ATTENTION}
+                onClose={modalBack}
+                header={
+                    <Cell multiline>
+                        Мероприятия отсутствуют!
                     </Cell>
-            }
+                }
 
-        ><Cell></Cell>
-        </ModalCard>
+            ><Cell></Cell>
+            </ModalCard>
 
-        <ModalPage
-            id={ROUTES.INSIDEEVENTS}
-            onClose={modalBack}
-            header={
-                <ModalPageHeader
-                    left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
-                    Формат мероприятий
+            <ModalPage
+                id={ROUTES.INSIDEEVENTS}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
+                        Формат мероприятий
                     </ModalPageHeader>}>
-            <Group>
-                <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внутреннее" && i.eventForm === "Онлайн") }).length : 'empty'} </Counter>}>
-                    Онлайн
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return (i.participationForm === "Внутреннее" && i.eventForm === "Онлайн") }).length : 'empty'} </Counter>}>
+                        Онлайн
                             </Cell>
-                <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
-                    Офлайн
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
                             </Cell>
-                <Cell></Cell>
-            </Group>
-        </ModalPage>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
 
-        <ModalPage
-            id={ROUTES.OUTSIDEEVENTS}
-            onClose={modalBack}
-            header={
-                <ModalPageHeader
-                    left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
-                    Формат мероприятий
+            <ModalPage
+                id={ROUTES.OUTSIDEEVENTS}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
+                        Формат мероприятий
                     </ModalPageHeader>}>
-            <Group>
-                <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
-                    Онлайн
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        Онлайн
                             </Cell>
-                <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
-                    Офлайн
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
                             </Cell>
-                <Cell></Cell>
-            </Group>
-        </ModalPage>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
 
-        <ModalPage
-            id={ROUTES.HELPANDSUPPORT}
-            onClose={modalBack}
-            header={
-                <ModalPageHeader
-                    left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
-                    Формат мероприятий
+            <ModalPage
+                id={ROUTES.HELPANDSUPPORT}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}><Icon24Back style={{ color: 'rgb(176,182,192)' }} /></PanelHeaderButton>}>
+                        Формат мероприятий
                     </ModalPageHeader>}>
-            <Group>
-                <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
-                    Онлайн
+                <Group>
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
+                        Онлайн
                             </Cell>
-                <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
-                    Офлайн
+                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
+                        Офлайн
                             </Cell>
-                <Cell></Cell>
-            </Group>
-        </ModalPage>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
 
-        <ModalPage
-            id={ROUTES.EVENTSREPORT}
-            onClose={modalBack}
-            header={
-                <ModalPageHeader
-                    left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
-                    Статистика мероприятий
+            <ModalPage
+                id={ROUTES.EVENTSREPORT}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Статистика мероприятий
                     </ModalPageHeader>}>
-            <Group>
-                <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter>{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length : 'empty'}</Counter>}>
-                    Внутренние мероприятия
+                <Group>
+                    <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter>{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length : 'empty'}</Counter>}>
+                        Внутренние мероприятия
                             </Cell>
-                <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter>{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" }).length : 'empty'}</Counter>}>
-                    Внешние мероприятия
+                    <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter>{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внешнее" }).length : 'empty'}</Counter>}>
+                        Внешние мероприятия
                             </Cell>
-                <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
-                    indicator={<Counter>{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length : 'empty'}</Counter>}>
-                    Помощь и поддержка
+                    <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        indicator={<Counter>{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length : 'empty'}</Counter>}>
+                        Помощь и поддержка
                             </Cell>
-                <Cell></Cell>
-            </Group>
-        </ModalPage>
+                    <Cell></Cell>
+                </Group>
+            </ModalPage>
 
-        <ModalCard
-            id={ROUTES.CONFIRMPROFILES}
-            onClose={modalBack}
-            header={
-                <ModalPageHeader>
-                    Скачать информацию?
+            <ModalCard
+                id={ROUTES.CONFIRMPROFILES}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader>
+                        Скачать информацию?
             </ModalPageHeader>
-            }
-        >
-            <FormLayout>
-                <FormLayoutGroup>
-                    <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmProfiles} > Да </Button>
+                }
+            >
+                <FormLayout>
+                    <FormLayoutGroup>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmProfiles} > Да </Button>
 
-                    <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
-                </FormLayoutGroup>
-            </FormLayout>
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                    </FormLayoutGroup>
+                </FormLayout>
+            </ModalCard>
 
-
-        </ModalCard>
-
-    </ModalRoot>
-)
-
-if (fetch && fetchedUser != null) {
-    const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-    postRequest('POST', requestURL, vkID)
-        .then(data => {
-            setUser(data[0]);
-            if (data[0].role === 'mentor') {
-                postRequest('POST', requestURL, JSON.stringify({ "mentor": data[0].fullName }))
-                    .then(ambassador => {
-                        setAmboQuantity(ambassador.length)
-                        let eventsForMentors = []
-                        for (let i = 0; i < ambassador.length; i++) {
-                            postRequest('POST', eventsRequestURL, JSON.stringify({ 'ambassador': ambassador[i].fullName }))
-                                .then(events => {
-                                    for (let i = 0; i < events.length; i++) {
-                                        eventsForMentors.push(events[i])
-                                    }
-                                    setEventsData(eventsForMentors)
-                                    setEventQuantity(eventsForMentors.length)
-                                })
-                        }
-                        setIsLoading(false)
-                        setFetch(false)
-                    })
-            }
-            if (data[0].role === 'staff') {
-                postRequest('POST', requestURL, JSON.stringify({ "role": "ambassador" }))
-                    .then(ambassador => {
-                        setAmboQuantity(ambassador.length)
-                        let sortUser = [];
-                        for (let i = 0; i < ambassador.length; i++) {
-                            sortUser.push({
-                                fullName: ambassador[i].fullName,
-                                _id: ambassador[i]._id,
-                                vkID: ambassador[i].vkID,
-                                role: ambassador[i].role,
-                                avatar: ambassador[i].avatar,
-                                achievements: ambassador[i].achievements,
-                                town: ambassador[i].town,
-                                birthday: ambassador[i].birthday,
-                                grade: ambassador[i].grade,
-                                phoneNumber: ambassador[i].phoneNumber,
-                                amboEmail: ambassador[i].amboEmail,
-                                personalEmail: ambassador[i].personalEmail,
-                                mentor: ambassador[i].mentor,
-                                university: ambassador[i].university,
-                                specialty: ambassador[i].specialty,
-                                statusInUniversity: ambassador[i].statusInUniversity,
-                                universityShortly: ambassador[i].universityShortly,
-                                universityPostalAddress: ambassador[i].universityPostalAddress,
-                                rectorFullName: ambassador[i].rectorFullName,
-                                rectorPostalAddress: ambassador[i].rectorPostalAddress,
-                                facultyFull: ambassador[i].facultyFull,
-                                facultyShortly: ambassador[i].facultyShortly,
-                                personalPostalAddress: ambassador[i].personalPostalAddress,
-                                clothingSize: ambassador[i].clothingSize,
-                                __v: ambassador[i].__v,
-                            })
-                        }
-                        setReportUsers(sortUser)
-                        postRequest('GET', allEventsRequestURL)
-                            .then(events => {
-                                setEventsData(events)
-                                setEventQuantity(events.length)
-                                setIsLoading(false)
-                                setFetch(false)
-                            })
-                    })
-            }
-        })
-        .catch(err => console.log(err))
-}
-
-if (isLoading === true) {
-    return (
-        <Panel id={id}>
-            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                <ScreenSpinner style={{ marginTop: '50%' }} />
-            </div>
-        </Panel>
+        </ModalRoot>
     )
-}
 
-return (
-    <View activePanel={id} modal={modal} >
-        <Panel id={id}>
-            <PanelHeader>
-                Профиль
+    const sort = () => {
+        let sortUser = [];
+        for (let i = 0; i < allAmbs.length; i++) {
+            sortUser.push({
+                fullName: allAmbs[i].fullName,
+                _id: allAmbs[i]._id,
+                vkID: allAmbs[i].vkID,
+                role: allAmbs[i].role,
+                avatar: allAmbs[i].avatar,
+                achievements: allAmbs[i].achievements,
+                town: allAmbs[i].town,
+                birthday: allAmbs[i].birthday,
+                grade: allAmbs[i].grade,
+                phoneNumber: allAmbs[i].phoneNumber,
+                amboEmail: allAmbs[i].amboEmail,
+                personalEmail: allAmbs[i].personalEmail,
+                mentor: allAmbs[i].mentor,
+                university: allAmbs[i].university,
+                specialty: allAmbs[i].specialty,
+                statusInUniversity: allAmbs[i].statusInUniversity,
+                universityShortly: allAmbs[i].universityShortly,
+                universityPostalAddress: allAmbs[i].universityPostalAddress,
+                rectorFullName: allAmbs[i].rectorFullName,
+                rectorPostalAddress: allAmbs[i].rectorPostalAddress,
+                facultyFull: allAmbs[i].facultyFull,
+                facultyShortly: allAmbs[i].facultyShortly,
+                personalPostalAddress: allAmbs[i].personalPostalAddress,
+                clothingSize: allAmbs[i].clothingSize,
+                __v: allAmbs[i].__v,
+            })
+        }
+        setReportUsers(sortUser)
+    }
+
+    return (
+        <View activePanel={id} modal={modal} >
+            <Panel id={id}>
+                <PanelHeader>
+                    Профиль
                 </PanelHeader>
-            <Group>
-                <RichCell
-                    href={"https://vk.com/id" + user.vkID}
-                    target="_blank"
-                    before={<Avatar size={72} src={fetchedUser.photo_100} />}>
-                    <span style={{ fontSize: '18px' }}>{user.fullName}</span>
-                    <br />
-                    <span style={{ fontSize: '14px', color: 'grey' }}>{user.role}</span>
-                    <br />
-                </RichCell>
-            </Group>
-            <Group style={{ marginBottom: 100 }} header={<Header mode="secondary">Информация о амбассадорах</Header>}>
-                <Cell indicator={amboQuantity} >
-                    Количество амбассадоров
+                <Group>
+                    <RichCell
+                        href={"https://vk.com/id" + profileInfo.vkID}
+                        target="_blank"
+                        before={<Avatar size={72} src={fetchedUser.photo_100} />}>
+                        <span style={{ fontSize: '18px' }}>{profileInfo.fullName}</span>
+                        <br />
+                        <span style={{ fontSize: '14px', color: 'grey' }}>{profileInfo.role}</span>
+                        <br />
+                    </RichCell>
+                </Group>
+                <Group style={{ marginBottom: 100 }} header={<Header mode="secondary">Информация о амбассадорах</Header>}>
+                    <Cell indicator={allAmbs.length} >
+                        Количество амбассадоров
                         </Cell>
-                <Cell indicator={eventQuantity} >
-                    Проведено мероприятий
+                    <Cell indicator={allEvents ? allEvents.length:0} >
+                        Проведено мероприятий
                         </Cell>
-                <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>
-                {navigator.appVersion.indexOf("Win")!==-1 || navigator.appVersion.indexOf("Mac")!==-1 ? <Group header={<Header mode="secondary">Статистика Excel</Header>}>
-                    <Div>
-                        <Select onChange={onChangeMonth} placeholder="Выберите месяц мероприятий" bottom="Выберите месяц" >
-                            <option value="09">Сентябрь</option>
-                            <option value="10">Октябрь</option>
-                            <option value="11">Ноябрь</option>
-                            <option value="12">Декабрь</option>
-                            <option value="01">Январь</option>
-                            <option value="02">Февраль</option>
-                            <option value="03">Март</option>
-                            <option value="04">Апрель</option>
-                            <option value="05">Май</option>
-                            <option value="all">За все время</option>
-                        </Select>
-                    </Div>
-                    <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
-                </Group> : null}
-                {user.role === 'staff' && ( navigator.appVersion.indexOf("Win")!==-1 || navigator.appVersion.indexOf("Mac")!==-1) ? <Group header={<Header mode="secondary">Информация из профиля в Excel</Header>}>
-                    <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRMPROFILES); }}>Скачать информацию</CellButton>
-                </Group> : null}
-            </Group>
+                    <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>
+                    {navigator.appVersion.indexOf("Win") !== -1 || navigator.appVersion.indexOf("Mac") !== -1 ? <Group header={<Header mode="secondary">Статистика Excel</Header>}>
+                        <Div>
+                            <Select onChange={onChangeMonth} placeholder="Выберите месяц мероприятий" bottom="Выберите месяц" >
+                                <option value="09">Сентябрь</option>
+                                <option value="10">Октябрь</option>
+                                <option value="11">Ноябрь</option>
+                                <option value="12">Декабрь</option>
+                                <option value="01">Январь</option>
+                                <option value="02">Февраль</option>
+                                <option value="03">Март</option>
+                                <option value="04">Апрель</option>
+                                <option value="05">Май</option>
+                                <option value="all">За все время</option>
+                            </Select>
+                        </Div>
+                        <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
+                    </Group> : null}
+                    {profileInfo.role === 'staff' && (navigator.appVersion.indexOf("Win") !== -1 || navigator.appVersion.indexOf("Mac") !== -1) ? <Group header={<Header mode="secondary">Информация из профиля в Excel</Header>}>
+                        <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRMPROFILES);}} onMouseUp={sort}>Скачать информацию</CellButton>
+                    </Group> : null}
+                    {profileInfo.role === 'staff' ? <Group header={<Header mode="secondary">Управление пользователями</Header>}>
+                        <CellButton style={{ color: "#fc2c38" }} onClick={go} data-to="adduser">Добавить пользователя</CellButton>
+                    </Group> : null}
+                </Group>
 
-            <Epic>
-                <Tabbar style={{ marginTop: '100px' }}>
-                    <TabbarItem onClick={go} data-to="listambassador" text="Амбассадоры">
-                        <Icon28Users3Outline />
-                    </TabbarItem>
+                <Epic>
+                    <Tabbar style={{ marginTop: '100px' }}>
+                        <TabbarItem onClick={go} data-to="listambassador" text="Амбассадоры">
+                            <Icon28Users3Outline />
+                        </TabbarItem>
 
-                    <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profilemrg" text="Профиль">
-                        <Icon28UserOutline style={{ color: "#fc2c38" }} width={32} height={32} />
-                    </TabbarItem>
-                </Tabbar>
-            </Epic>
+                        {profileInfo.role === 'staff' ? <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
+                            <Icon28GhostOutline  />
+                        </TabbarItem> : null}
 
-        </Panel>
-    </View>
-)
+                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profilemrg" text="Профиль">
+                            <Icon28UserOutline style={{ color: "#fc2c38" }}  />
+                        </TabbarItem>
+                    </Tabbar>
+                </Epic>
+
+            </Panel>
+        </View>
+    )
 }
 
 export default ProfileMrg;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { profileReport } from "./functions/profileReport"
 import { View, ModalRoot, ModalCard, FormLayout, FormLayoutGroup, InfoRow, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import { achivementsListReturn } from './functions/achivementsListReturn'
 
-const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
+const ProfileForInfo = ({ fetchedUser, id, go, info, setHistory, setFetchApp }) => {
 
+    const requestAccesDelete = 'https://ambassador-todo.herokuapp.com/access/delete'
     const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
     const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
     const achievementsRefList = ['Образоватор 1000', 'Образоватор 2000', 'Образоватор 3000', 'Текстонаписатор', 'Контроленатор', 'Брехняразрушатор', 'Контентогенератор 5000', 'Публичноговоратор 5000', 'Достигатор', 'Форматоприлагатор', 'Защищатор 3000', 'Нетворкинатор', 'Контентомейкинатор', 'Юнитопривлекатор', 'Проектопроцветатор 1000', 'Идеявоплощатор', 'Собиратор', 'Новостегенератор', 'Фидбекатор', 'Мастератор', 'Скиллопоглощатор 47000']
@@ -26,23 +26,27 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
     const [userRole, setUserRole] = React.useState();
-    const [reportUser, setReportUser] = React.useState();
     const [eventsData, setEventsData] = React.useState();
     const [fetch, setFetch] = React.useState(true);
     const [grade, setGrade] = React.useState();
-    const [activeModal, setActivePanel] = React.useState(null);
+    const [activeModal, setActiveModal] = React.useState(null);
     const [achievementsList, setAchievementsList] = React.useState('');
     const [newAchive, setNewAchive] = React.useState();
+
+    const confirm = () => {
+        postRequest('POST', requestAccesDelete, JSON.stringify({ _id: user._id }))
+            .then(data => {
+                setHistory('listambassador')
+                setFetchApp(true)
+            })
+    }
 
     const getPng = (list) => {
         setAchievementsList(achivementsListReturn(list))
     }
-    const confirm = () => {
-        profileReport(reportUser)
-    }
 
     const modalBack = () => {
-        setActivePanel(null);
+        setActiveModal(null);
     };
 
     const onChangeGrade = (event) => {
@@ -82,7 +86,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                 onClose={modalBack}
                 header={
                     <ModalPageHeader>
-                        Скачать профиль?
+                        Удалить пользователя?
             </ModalPageHeader>
                 }
             >
@@ -192,7 +196,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                     </ModalPageHeader>}>
                 <Group >
                     <Div>
-                        <Select onChange={onChangeAchive} top="Grade" placeholder='Выберите достижение' required>
+                        <Select onChange={onChangeAchive} top="Достижение" placeholder='Выберите достижение' required>
                             {achievementsRefList.map((achive, i) => (<option key={i + Date.now} value={achive} >{achive}</option>))}
                         </Select>
                     </Div>
@@ -240,33 +244,6 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                 postRequest('POST', requestURL, JSON.stringify({ "vkID": info }))
                     .then(data => {
                         setUser(data[0]);
-                        setReportUser([{
-                            fullName: data[0].fullName,
-                            _id: data[0]._id,
-                            vkID: data[0].vkID,
-                            role: data[0].role,
-                            avatar: data[0].avatar,
-                            achievements: data[0].achievements,
-                            town: data[0].town,
-                            birthday: data[0].birthday,
-                            grade: data[0].grade,
-                            phoneNumber: data[0].phoneNumber,
-                            amboEmail: data[0].amboEmail,
-                            personalEmail: data[0].personalEmail,
-                            mentor: data[0].mentor,
-                            university: data[0].university,
-                            specialty: data[0].specialty,
-                            statusInUniversity: data[0].statusInUniversity,
-                            universityShortly: data[0].universityShortly,
-                            universityPostalAddress: data[0].universityPostalAddress,
-                            rectorFullName: data[0].rectorFullName,
-                            rectorPostalAddress: data[0].rectorPostalAddress,
-                            facultyFull: data[0].facultyFull,
-                            facultyShortly: data[0].facultyShortly,
-                            personalPostalAddress: data[0].personalPostalAddress,
-                            clothingSize: data[0].clothingSize,
-                            __v: data[0].__v,
-                        }]);
                         getPng(data[0].achievements);
                         postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
                             .then(events => {
@@ -309,27 +286,28 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                                 <span style={{ fontSize: '14px', color: 'grey' }}>{user.grade}</span>
                                 <br />
                             </RichCell>
-                            <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.UPGRADE); }}>Изменить grade</CellButton>
+                            <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActiveModal(ROUTES.UPGRADE); }}>Изменить grade</CellButton>
                         </Group>
                     }
                     {userRole === "staff" ? <Group header={<Header mode="secondary">Staff функции</Header>}>
                         <CellButton
                             style={{ color: '#fc2c38' }}
-                            onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать профиль</CellButton>
-                        <CellButton
-                            style={{ color: '#fc2c38' }}
                             onClick={go}
                             data-to="editprofileforstaff"
                             data-id={user.vkID}>Редактировать профиль</CellButton>
+                            <CellButton
+                            style={{ color: '#fc2c38' }}
+                            onClick={() => { setActiveModal(ROUTES.CONFIRM); }}
+                            data-id={user.vkID}>Удалить пользователя</CellButton>
                     </Group> : null}
 
                     <Group header={<Header mode="secondary"> Достижения </Header>}>
                         <CellButton
                             style={{ color: '#fc2c38' }}
-                            onClick={() => { setActivePanel(ROUTES.ACHIVES); }}>Посмотреть достижения</CellButton>
+                            onClick={() => { setActiveModal(ROUTES.ACHIVES); }}>Посмотреть достижения</CellButton>
                         <CellButton
                             style={{ color: '#fc2c38' }}
-                            onClick={() => { setActivePanel(ROUTES.ADDACHIVE); }}
+                            onClick={() => { setActiveModal(ROUTES.ADDACHIVE); }}
                             data-id={user.vkID}> Присвоить достижение </CellButton>
                     </Group>
 
@@ -338,15 +316,15 @@ const ProfileForInfo = ({ fetchedUser, id, go, info }) => {
                             indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
                             Всего мероприятий
                             </Cell>
-                        <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell onClick={() => { setActiveModal(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length}</Counter>}>
                             Внутренние мероприятия
                             </Cell>
-                        <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell onClick={() => { setActiveModal(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" }).length}</Counter>}>
                             Внешние мероприятия
                             </Cell>
-                        <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell onClick={() => { setActiveModal(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length}</Counter>}>
                             Помощь и поддержка
                             </Cell>

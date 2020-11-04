@@ -1,36 +1,27 @@
 import React from 'react';
-import { postRequest } from "./functions/fetch.js"
-import { PanelHeader, CellButton, Search, Panel, Banner, Epic, Tabbar, TabbarItem, Group, ScreenSpinner, Placeholder, Div, Header, Button, Separator } from '@vkontakte/vkui';
+import { PanelHeader, CellButton, Search, Panel, Banner, Epic, Tabbar, TabbarItem, Group, Placeholder, Div, Header, Button, Separator } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon56UserAddOutline from '@vkontakte/icons/dist/56/user_add_outline';
+import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
 
-const userRequestURL = 'https://ambassador-todo.herokuapp.com/access/find'
+const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbassadors, mentors }) => {
 
-const ListAmbassador = ({ fetchedUser, id, go }) => {
-
-
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [fetch, setFetch] = React.useState(true);
     const [search, setSearch] = React.useState('');
-    const [ambassadors, setAmbassadors] = React.useState();
-    const [mentors, setMentors] = React.useState();
-    const [userRole, setUserRole] = React.useState();
     const [sortedAlphabet, setSortedAlphabet] = React.useState(true);
-    const [searchAmbassadors, setSearchAmbassadors] = React.useState();
 
 
     const onChangeSearch = (event) => {
         setSearch(event.target.value)
         if (/[а-я]/i.test(search)) {
             if (search === '') {
-                setAmbassadors(searchAmbassadors)
+                setAllAmbs(searchAmbassadors)
             } else {
-                setAmbassadors(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(search.toLowerCase()) > -1 }))
+                setAllAmbs(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(search.toLowerCase()) > -1 }))
             }
         } else {
             let replaceLangSearch = autoReplacerLang(search)
-            setAmbassadors(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(replaceLangSearch.toLowerCase()) > -1 }))
+            setAllAmbs(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(replaceLangSearch.toLowerCase()) > -1 }))
         }
     }
 
@@ -57,7 +48,7 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
     }
 
     const sortAlphabetically = () => {
-        let sortData = ambassadors.sort(function (a, b) {
+        let sortData = allAmbs.sort(function (a, b) {
             let aname = a.fullName.toLowerCase(),
                 bname = b.fullName.toLowerCase();
             if (aname < bname) return -1;
@@ -65,67 +56,19 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
             return null
         });
         setSortedAlphabet(true)
-        setAmbassadors(sortData)
+        setAllAmbs(sortData)
     }
     const sortByMentor = () => {
         let sortData = []
         for (let i = 0; i < mentors.length; i++) {
-            for (let j = 0; j < ambassadors.length; j++) {
-                if (ambassadors[j].mentor === mentors[i].fullName) sortData.push(ambassadors[j])
+            for (let j = 0; j < allAmbs.length; j++) {
+                if (allAmbs[j].mentor === mentors[i].fullName) sortData.push(allAmbs[j])
             }
 
         }
         setSortedAlphabet(false)
-        setAmbassadors(sortData)
+        setAllAmbs(sortData)
     }
-
-    if (fetch && fetchedUser != null) {
-        const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-        postRequest('POST', userRequestURL, vkID)
-            .then(data => {
-                setUserRole(data[0].role)
-                if (data[0].role === 'mentor') {
-                    postRequest('POST', userRequestURL, JSON.stringify({ "mentor": data[0].fullName }))
-                        .then(ambassadors => {
-                            setAmbassadors(ambassadors)
-                            setSearchAmbassadors(ambassadors)
-                            setIsLoading(false)
-                            setFetch(false)
-                        })
-                }
-                if (data[0].role === 'staff') {
-                    postRequest('POST', userRequestURL, JSON.stringify({ "role": 'ambassador' }))
-                        .then(ambassadors => {
-                            setAmbassadors(ambassadors.sort(function (a, b) {
-                                let aname = a.fullName.toLowerCase(),
-                                    bname = b.fullName.toLowerCase();
-                                if (aname < bname) return -1;
-                                if (aname > bname) return 1;
-                                return null
-                            }))
-                            setSearchAmbassadors(ambassadors)
-                            postRequest('POST', userRequestURL, JSON.stringify({ "role": 'mentor' }))
-                                .then(mentors => {
-                                    setMentors(mentors)
-                                    setIsLoading(false)
-                                    setFetch(false)
-                                })
-                        })
-                }
-            })
-            .catch(err => console.log(err))
-    }
-
-    if (isLoading === true) {
-        return (
-            <Panel id={id}>
-                <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                    <ScreenSpinner style={{ marginTop: '50%' }} />
-                </div>
-            </Panel>
-        )
-    }
-
 
     if (searchAmbassadors.length > 0) {
         return (
@@ -135,17 +78,17 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                 <PanelHeader>
                     Амбассадоры
                 </PanelHeader>
-                {userRole === 'staff' ?
+                {profileInfo.role === 'staff' ?
                     <Search autoFocus value={search} onChange={onChangeSearch} after={null} /> : null}
-                {userRole === 'staff' && !sortedAlphabet ?
+                {profileInfo.role === 'staff' && !sortedAlphabet ?
                     <CellButton style={{ color: '#fc2c38' }} align='center' onClick={sortAlphabetically} >Сортировать по алфавиту</CellButton> : null}
-                {userRole === 'staff' && sortedAlphabet ?
+                {profileInfo.role === 'staff' && sortedAlphabet ?
                     <CellButton style={{ color: '#fc2c38' }} align='center' onClick={sortByMentor} >Сортировать по наставнику</CellButton> : null}
                 <Group style={{ marginBottom: 50 }}>
-                    {ambassadors.map((user, id) => (
+                    {allAmbs.map((user, id) => (
                         <React.Fragment key={user._id}>
-                            {userRole === 'staff' && !sortedAlphabet && id === 0 ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
-                            {id !== 0 && userRole === 'staff' && !sortedAlphabet && ambassadors[id].mentor !== ambassadors[id - 1].mentor ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
+                            {profileInfo.role === 'staff' && !sortedAlphabet && id === 0 ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
+                            {id !== 0 && profileInfo.role === 'staff' && !sortedAlphabet && allAmbs[id].mentor !== allAmbs[id - 1].mentor ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
                             <Banner
                                 header={<React.Fragment>
                                     <span>{user.fullName}</span> <br />
@@ -167,6 +110,9 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                         <TabbarItem onClick={go} style={{ color: "#fc2c38" }} data-to="listambassador" text="Амбассадоры">
                             <Icon28Users3Outline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
+                        {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
+                            <Icon28GhostOutline width={32} height={32} />
+                        </TabbarItem> : null}
 
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline width={32} height={32} />
@@ -178,7 +124,7 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
 
         )
     }
-    if (ambassadors.length === 0 && userRole === "staff") {
+    if (allAmbs.length === 0 && profileInfo.role === "staff") {
         return (
             <Panel id={id}>
 
@@ -202,6 +148,10 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                         <TabbarItem onClick={go} style={{ color: "#fc2c38" }} data-to="listambassador" text="Амбассадоры">
                             <Icon28Users3Outline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
+
+                        {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
+                            <Icon28GhostOutline width={32} height={32} />
+                        </TabbarItem> : null}
 
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline width={32} height={32} />
@@ -235,8 +185,12 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
                             <Icon28Users3Outline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
 
+                        {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
+                            <Icon28GhostOutline  />
+                        </TabbarItem> : null}
+
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
-                            <Icon28UserOutline width={32} height={32} />
+                            <Icon28UserOutline  />
                         </TabbarItem>
                     </Tabbar>
                 </Epic>
@@ -246,6 +200,5 @@ const ListAmbassador = ({ fetchedUser, id, go }) => {
     }
 
 }
-
 
 export default ListAmbassador;

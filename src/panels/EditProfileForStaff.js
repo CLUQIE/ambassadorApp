@@ -3,7 +3,7 @@ import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
 import { FormLayout, Input, Group, Button, PanelHeader, Panel, PanelHeaderBack, Select, ScreenSpinner } from '@vkontakte/vkui';
 
-const EditProfileForStaff = ({ info, id, go }) => {
+const EditProfileForStaff = ({ info, id, go, mentors }) => {
 	const formatDate = (date) => {
 		let newDate = date.slice(8, 10) + '.' + date.slice(5, 7) + '.' + date.slice(0, 4);
 		return newDate
@@ -13,6 +13,8 @@ const EditProfileForStaff = ({ info, id, go }) => {
 
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [user, setUser] = React.useState();
+	const [role, setRole] = React.useState();
+	const [mentor, setMentor] = React.useState();
 	const [university, setUniversity] = React.useState();
 	const [phone, setPhone] = React.useState();
 	const [personalemail, setPersonalEmail] = React.useState();
@@ -36,6 +38,10 @@ const EditProfileForStaff = ({ info, id, go }) => {
 
 	const onChangeUniversityShortly = (event) => {
 		setUniversityShortly(event.target.value)
+	}
+
+	const onChangeRole = (event) => {
+		setRole(event.target.value)
 	}
 
 	const onChangeFullNameLatin = (event) => {
@@ -101,15 +107,21 @@ const EditProfileForStaff = ({ info, id, go }) => {
 		setTown(event.target.value)
 	}
 
+	const onChangeMentor = (event) => {
+        setMentor(event.target.value)
+    }
+
 	const onClickForm = () => {
 		let body = JSON.stringify({
 			_id: user._id,
 			vkID: user.vkID,
+			role: role,
 			avatar: " ",
 			achievements: " ",
 			phoneNumber: phone,
 			birthday: birthday,
 			fullName: fullName,
+			mentors: mentor,
 			latinFullName: fullNameLatin,
 			personalEmail: personalemail,
 			town: town,
@@ -129,14 +141,14 @@ const EditProfileForStaff = ({ info, id, go }) => {
 
 	}
 	if (fetch) {
-			const vkID = JSON.stringify({ "vkID": info })
-			postRequest('POST', requestURL, vkID)
-				.then(data => {
-					setUser(data[0])
-					setIsLoading(false)
-					setFetch(false)
-				})
-				.catch(err => console.log(err))
+		const vkID = JSON.stringify({ "vkID": info })
+		postRequest('POST', requestURL, vkID)
+			.then(data => {
+				setUser(data[0])
+				setIsLoading(false)
+				setFetch(false)
+			})
+			.catch(err => console.log(err))
 	}
 
 	if (isLoading === true) {
@@ -155,10 +167,17 @@ const EditProfileForStaff = ({ info, id, go }) => {
 		<Panel id={id}>
 
 			<PanelHeader
-				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="profileforinfo" onMouseUp={go} data-id={user.vkID}/>}>Редактирование профиля</PanelHeader>
+				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="profileforinfo" onMouseUp={go} data-id={user.vkID} />}>Редактирование профиля</PanelHeader>
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeFullName} placeholder={user.fullName} type="text" name="fullname" top="Ф.И.О." required />
+					<Select onChange={onChangeRole} top="Роль" >
+						<option value="ambassador">Амбассадор</option>
+						<option value="mentor">Наставник</option>
+					</Select>
+					<Select onChange={onChangeMentor} top="Наставник" placeholder='Выберите наставника' required>
+						{mentors.map((mentor, i) => (<option key={i + Date.now} value={mentor.fullName} >{mentor.fullName}</option>))}
+					</Select>
 					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(user.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введи телефон в формате 8005553535 (без 7, +7, 8)" required />
 					<Input onChange={onChangeFullNameLatin} placeholder={user.latinFullName} type="text" name="fullname" top="Амбассадорская почта" required />
 					<Input onChange={onChangePersonalEmail} placeholder={user.personalEmail} type="text" name="email" top="Личная почта" required />
