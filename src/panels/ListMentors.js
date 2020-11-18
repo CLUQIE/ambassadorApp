@@ -3,6 +3,7 @@ import { PanelHeader, Panel, Banner, Button, Epic, Tabbar, TabbarItem, Group } f
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
+import Icon28GraphOutline from '@vkontakte/icons/dist/28/graph_outline';
 
 const ListMentors = ({ id, go, mentors, setMentorInfo, setActiveModal }) => {
   
@@ -40,6 +41,10 @@ const ListMentors = ({ id, go, mentors, setMentorInfo, setActiveModal }) => {
                         <TabbarItem onClick={go} style={{ color: "#fc2c38" }} data-to="listmentors" text="Наставники">
                             <Icon28GhostOutline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
+
+                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
+                            <Icon28GraphOutline  />
+                        </TabbarItem> 
                         
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline  />

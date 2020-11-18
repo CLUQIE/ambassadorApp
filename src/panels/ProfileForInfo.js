@@ -6,7 +6,7 @@ import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import { achivementsListReturn } from './functions/achivementsListReturn'
 
-const ProfileForInfo = ({ fetchedUser, id, go, info, setHistory, setFetchApp }) => {
+const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel }) => {
 
     const requestAccesDelete = 'https://ambassador-todo.herokuapp.com/access/delete'
     const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
@@ -36,7 +36,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setHistory, setFetchApp }) 
     const confirm = () => {
         postRequest('POST', requestAccesDelete, JSON.stringify({ _id: user._id }))
             .then(data => {
-                setHistory('listambassador')
+                setActivePanel('listambassador')
                 setFetchApp(true)
             })
     }

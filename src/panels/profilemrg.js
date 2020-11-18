@@ -8,6 +8,7 @@ import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
+import Icon28GraphOutline from '@vkontakte/icons/dist/28/graph_outline';
 
 const ROUTES = {
     CONFIRM: 'confirm',
@@ -292,6 +293,11 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         {profileInfo.role === 'staff' ? <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
                             <Icon28GhostOutline  />
                         </TabbarItem> : null}
+
+                        {profileInfo.role === 'staff' ?
+                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
+                            <Icon28GraphOutline  />
+                        </TabbarItem> :null}
 
                         <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline style={{ color: "#fc2c38" }}  />

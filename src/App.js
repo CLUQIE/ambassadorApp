@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { postRequest } from "./panels/functions/fetch.js";
-import { Panel, ModalRoot, ModalCard, PanelHeaderButton, Group, Div, Select, FormLayout, FormLayoutGroup, Button, ModalPage, ModalPageHeader, Cell, InfoRow, Link, CellButton, Separator } from '@vkontakte/vkui';
+import { ModalRoot, ModalCard, PanelHeaderButton, Group, Div, Select, FormLayout, FormLayoutGroup, Button, ModalPage, ModalPageHeader, Cell, InfoRow, Link, CellButton, Separator } from '@vkontakte/vkui';
 import Icon24Write from '@vkontakte/icons/dist/24/write';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
@@ -33,11 +33,9 @@ import EventsForInfo from './panels/EventsForInfo';
 import AddUser from './panels/AddUser';
 import Works from './panels/Works';
 import Aliens from './panels/Aliens';
-import { achivementsListReturn } from './panels/functions/achivementsListReturn'
-
-function sleep() {
-	return false
-  }
+import Start from './panels/Start';
+import Statistics from './panels/Statistics';
+import { achivementsListReturn } from './panels/functions/achivementsListReturn';
 
 const REQUEST = {
 	ACCESS_FIND: 'https://ambassador-todo.herokuapp.com/access/find',
@@ -50,10 +48,12 @@ const REQUEST = {
 }
 
 const ROUTES = {
+	START: 'start',
 	HOME: 'home',
 	EVENTS: 'events',
 	EDITEVENT: 'editevent',
 	INFO: 'info',
+	STATISTICS: 'statistics',
 	ACHIVEMENTS: 'achivements',
 	PROFILE: 'profile',
 	EVENTSMENTOR: 'eventsmentor',
@@ -105,8 +105,7 @@ const App = () => {
 			.catch(err => console.log(err))
 	}
 
-	const [activePanel, setActivePanel] = useState(ROUTES.PROFILE);
-	const [history, setHistory] = useState(null);
+	const [activePanel, setActivePanel] = useState(ROUTES.START);
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 	const [fetch, setFetch] = React.useState(true);
@@ -139,7 +138,6 @@ const App = () => {
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
-		setHistory(e.currentTarget.dataset.to);
 		setInfo(e.currentTarget.dataset.id);
 	};
 
@@ -199,8 +197,7 @@ const App = () => {
 											}
 											setAllEvents(eventsForMentors)
 										})
-										.then(setActivePanel(ROUTES.PROFILEMRG),
-											setFetch(false))
+										.then(setFetch(false))
 								}
 							})
 					}
@@ -222,7 +219,6 @@ const App = () => {
 											.then(mentors => {
 												setMentors(mentors)
 											})
-											.then(history === null ? setActivePanel(ROUTES.PROFILEMRG) : setActivePanel(history),setFetch(false))
 									})
 							})
 					}
@@ -356,16 +352,6 @@ const App = () => {
 		</ModalRoot>
 	)
 
-	if (fetch) {
-		return (
-			<Panel>
-				<div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-					<ScreenSpinner style={{ marginTop: '50%' }} />
-				</div>
-			</Panel>
-		)
-	}
-
 	return (
 		<View activePanel={activePanel} popout={popout} modal={modal}>
 			<Profile id='profile' fetchedUser={fetchedUser} go={go} amboEvent={amboEvent} profileInfo={profileInfo} achievementsList={achievementsList} />
@@ -382,7 +368,7 @@ const App = () => {
 			<AddEventVnutrOff fetchedUser={fetchedUser} id='addeventvnutroff' go={go} setFetchApp={setFetch} />
 			<AddEventHelpOnl fetchedUser={fetchedUser} id='addeventhelponl' go={go} setFetchApp={setFetch} />
 			<AddEventHelpOff fetchedUser={fetchedUser} id='addeventhelpoff' go={go} setFetchApp={setFetch} />
-			<ProfileForInfo id='profileforinfo' fetchedUser={fetchedUser} go={go} info={info} setFetchApp={setFetch} setHistory={setHistory} />
+			<ProfileForInfo id='profileforinfo' fetchedUser={fetchedUser} go={go} info={info} setFetchApp={setFetch} setActivePanel={setActivePanel} />
 			<EventsForInfo id='eventsforinfo' go={go} info={info} />
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} profileInfo={profileInfo} allAmbs={allAmbs} allEvents={allEvents} mentors={mentors} />
 			<Events id='events' go={go} amboEvent={amboEvent} setFetch={setFetch} setActiveModal={setActiveModal} setEventId={setEventId} />
@@ -393,6 +379,8 @@ const App = () => {
 			<AddUser id='adduser' go={go} setFetchApp={setFetch} mentors={mentors} />
 			<Works id='works' />
 			<Aliens id='aliens' />
+			<Statistics id='statistics' go={go} allAmbs={allAmbs} allEvents={allEvents} />
+			<Start id='start' fetchedUser={fetchedUser} amboEvent={amboEvent} allAmbs={allAmbs} mentors={mentors} profileInfo={profileInfo} setActivePanel={setActivePanel} />
 		</View>
 	);
 

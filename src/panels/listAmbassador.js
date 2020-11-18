@@ -4,6 +4,7 @@ import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon56UserAddOutline from '@vkontakte/icons/dist/56/user_add_outline';
 import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
+import Icon28GraphOutline from '@vkontakte/icons/dist/28/graph_outline';
 
 const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbassadors, mentors }) => {
 
@@ -79,7 +80,7 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                     Амбассадоры
                 </PanelHeader>
                 {profileInfo.role === 'staff' ?
-                    <Search autoFocus value={search} onChange={onChangeSearch} after={null} /> : null}
+                    <Search  value={search} onChange={onChangeSearch} after={null} /> : null}
                 {profileInfo.role === 'staff' && !sortedAlphabet ?
                     <CellButton style={{ color: '#fc2c38' }} align='center' onClick={sortAlphabetically} >Сортировать по алфавиту</CellButton> : null}
                 {profileInfo.role === 'staff' && sortedAlphabet ?
@@ -113,6 +114,11 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                         {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
                             <Icon28GhostOutline width={32} height={32} />
                         </TabbarItem> : null}
+
+                        {profileInfo.role === 'staff' ?
+                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
+                            <Icon28GraphOutline  />
+                        </TabbarItem> :null}
 
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline width={32} height={32} />
@@ -153,6 +159,11 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                             <Icon28GhostOutline width={32} height={32} />
                         </TabbarItem> : null}
 
+                        {profileInfo.role === 'staff' ?
+                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
+                            <Icon28GraphOutline  />
+                        </TabbarItem> :null}
+
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline width={32} height={32} />
                         </TabbarItem>
@@ -188,6 +199,11 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                         {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
                             <Icon28GhostOutline  />
                         </TabbarItem> : null}
+
+                        {profileInfo.role === 'staff' ?
+                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
+                            <Icon28GraphOutline  />
+                        </TabbarItem> :null}
 
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline  />
