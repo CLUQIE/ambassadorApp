@@ -1,13 +1,11 @@
 import React from 'react';
 import { postRequest } from "./functions/fetch.js"
-import { View, Div, CellButton, ModalCard, FormLayout, Separator, FormLayoutGroup, Button, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, ScreenSpinner, Cell, InfoRow, Placeholder } from '@vkontakte/vkui';
+import { View, Div, CellButton, ModalCard, FormLayout, Separator, FormLayoutGroup, Button, ModalRoot, ModalPage, ModalPageHeader, Banner, Group, PanelHeader, Panel, PanelHeaderButton, Cell, InfoRow, Placeholder } from '@vkontakte/vkui';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel'
 import Icon20CalendarOutline from '@vkontakte/icons/dist/20/calendar_outline';
 import Icon56AccessibilityOutline from '@vkontakte/icons/dist/56/accessibility_outline';
 import Icon24Write from '@vkontakte/icons/dist/24/write';
 
-const requestURL = "https://ambassador-todo.herokuapp.com/event/ambassador"
-const userRequestURL = "https://ambassador-todo.herokuapp.com/access/find"
 const requestDeleteURL = "https://ambassador-todo.herokuapp.com/event/delete"
 
 const ROUTES = {
@@ -15,14 +13,12 @@ const ROUTES = {
     CONFIRMDELETE: 'confirmdelete'
 };
 
-const EventsForInfo = ({ id, go, info }) => {
+const EventsForInfo = ({ id, go, info, allEvents, setFetchApp, setPanel }) => {
 
-
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [eventsData, setEventsData] = React.useState();
+    let filtredEvents = allEvents.filter(function (i, n) { return i.ambassador === info});
+    const [eventsData, setEventsData] = React.useState(filtredEvents);
     const [activeModal, setActivePanel] = React.useState(null);
     const [eventId, setEventId] = React.useState(0);
-    const [fetch, setFetch] = React.useState(true);
 
     const modalBack = () => {
         setActivePanel(null);
@@ -31,32 +27,9 @@ const EventsForInfo = ({ id, go, info }) => {
     const confirmDelete = () => {
         postRequest('POST', requestDeleteURL, JSON.stringify({ _id: eventsData[eventId]._id }))
             .catch(err => console.log(err))
-        setFetch(true)
+        setFetchApp(true)
+        setPanel('listambassador')
 
-    }
-
-    if (fetch) {
-        postRequest('POST', userRequestURL, JSON.stringify({ "vkID": info }))
-            .then(data => {
-                postRequest('POST', requestURL, JSON.stringify({ ambassador: data[0].fullName }))
-                    .then(data => {
-                        setEventsData(data)
-                        setIsLoading(false)
-                        setFetch(false)
-                    })
-                    .catch(err => console.log(err))
-            })
-            .catch(err => console.log(err))
-    }
-
-    if (isLoading === true) {
-        return (
-            <Panel id={id}>
-                <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                    <ScreenSpinner style={{ marginTop: '50%' }} />
-                </div>
-            </Panel>
-        )
     }
 
     if (eventsData.length > 0) {
@@ -108,6 +81,11 @@ const EventsForInfo = ({ id, go, info }) => {
                     <Cell multiline>
                         <InfoRow header="Количество участников">
                             {eventsData ? eventsData[eventId].participants : 'empty'}
+                        </InfoRow>
+                    </Cell>
+                    <Cell multiline>
+                        <InfoRow header="Отзывы участников">
+                            {eventsData ? eventsData[eventId].participantsCallback : 'empty'}
                         </InfoRow>
                     </Cell>
                     <Cell multiline>

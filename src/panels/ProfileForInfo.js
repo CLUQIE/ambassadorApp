@@ -1,16 +1,14 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { postRequest } from "./functions/fetch.js";
-import { View, ModalRoot, ModalCard, FormLayout, FormLayoutGroup, InfoRow, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, ScreenSpinner, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { View, ModalRoot, ModalCard, FormLayout, FormLayoutGroup, Input, InfoRow, Avatar, Div, ModalPage, ModalPageHeader, Select, Button, RichCell, Group, PanelHeader, Panel, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import { achivementsListReturn } from './functions/achivementsListReturn'
 
-const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel }) => {
+const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel, allEvents, allAmbs, profileInfo }) => {
 
     const requestAccesDelete = 'https://ambassador-todo.herokuapp.com/access/delete'
-    const requestURL = 'https://ambassador-todo.herokuapp.com/access/find'
-    const eventsRequestURL = 'https://ambassador-todo.herokuapp.com/event/ambassador'
     const achievementsRefList = ['Образоватор 1000', 'Образоватор 2000', 'Образоватор 3000', 'Текстонаписатор', 'Контроленатор', 'Брехняразрушатор', 'Контентогенератор 5000', 'Публичноговоратор 5000', 'Достигатор', 'Форматоприлагатор', 'Защищатор 3000', 'Нетворкинатор', 'Контентомейкинатор', 'Юнитопривлекатор', 'Проектопроцветатор 1000', 'Идеявоплощатор', 'Собиратор', 'Новостегенератор', 'Фидбекатор', 'Мастератор', 'Скиллопоглощатор 47000']
 
     const ROUTES = {
@@ -20,29 +18,32 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
         HELPANDSUPPORT: 'helpAndSupport',
         UPGRADE: 'upgrade',
         ADDACHIVE: 'addAchive',
-        ACHIVES: 'achives'
+        ACHIVES: 'achives',
+        ADDCOINS: 'addcoins',
     };
-
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [user, setUser] = React.useState();
-    const [userRole, setUserRole] = React.useState();
-    const [eventsData, setEventsData] = React.useState();
+    let userRole = profileInfo.role;
+    info !== undefined ? info = info.split(',') : info = ['Акопян Тина Кареновна', 0];
+    let filtredEvents = allEvents.filter(function (i, n) { return i.ambassador === info[0] });
+    const [user, setUser] = React.useState(allAmbs[info[1]]);
+    const [eventsData, setEventsData] = React.useState(filtredEvents);
     const [fetch, setFetch] = React.useState(true);
     const [grade, setGrade] = React.useState();
     const [activeModal, setActiveModal] = React.useState(null);
     const [achievementsList, setAchievementsList] = React.useState('');
     const [newAchive, setNewAchive] = React.useState();
-
-    const confirm = () => {
-        postRequest('POST', requestAccesDelete, JSON.stringify({ _id: user._id }))
-            .then(data => {
-                setActivePanel('listambassador')
-                setFetchApp(true)
-            })
-    }
+    const [newCoins, setNewCoins] = React.useState();
 
     const getPng = (list) => {
         setAchievementsList(achivementsListReturn(list))
+    }
+    if (user && fetch && user.achievements !== undefined) {
+        getPng(user.achievements)
+        setFetch(false)
+    }
+
+    const confirm = () => {
+        postRequest('POST', requestAccesDelete, JSON.stringify({ _id: user._id }))
+        .then(setActivePanel('start'),setFetchApp(true))
     }
 
     const modalBack = () => {
@@ -57,6 +58,10 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
         setNewAchive(achive.target.value + ',')
     }
 
+    const onChangeCoins = (coins) => {
+        setNewCoins(coins.target.value)
+    }
+
     const addNewAchive = () => {
         let body = JSON.stringify({
             _id: user._id,
@@ -64,6 +69,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
             achievements: user.achievements + newAchive,
         })
         postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
+        .then(setActivePanel('start'),setFetchApp(true))
     }
 
     const onClickForm = () => {
@@ -73,7 +79,18 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
             grade: grade,
         })
         postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
-        setFetch(true)
+        .then(setActivePanel('start'),setFetchApp(true))
+    }
+
+    const onClickCoins = () => {
+        let body = JSON.stringify({
+            _id: user._id,
+            vkID: user.vkID,
+            coins: newCoins,
+        })
+        postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
+            .then(setActivePanel('start'),setFetchApp(true))
+
     }
 
     const profileModal = (
@@ -233,39 +250,23 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
                 </Group>
                 <Cell> </Cell>
             </ModalPage>
+
+            <ModalPage
+                id={ROUTES.ADDCOINS}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader
+                        left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
+                        Изменить баланс
+                    </ModalPageHeader>}>
+                <Group>
+                    <Input onChange={onChangeCoins}  type="text" name="coins" top="Новый баланс"/>
+                    <Button style={{ backgroundColor: '#fc2c38', marginTop:20 }} type='submit' size='xl' onClick={onClickCoins} onMouseUp={modalBack}>Изменить</Button>
+                </Group>
+                <Cell> </Cell>
+            </ModalPage>
         </ModalRoot>
     )
-
-    if (fetch && fetchedUser != null) {
-        const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-        postRequest('POST', requestURL, vkID)
-            .then(data => {
-                setUserRole(data[0].role)
-                postRequest('POST', requestURL, JSON.stringify({ "vkID": info }))
-                    .then(data => {
-                        setUser(data[0]);
-                        getPng(data[0].achievements);
-                        postRequest('POST', eventsRequestURL, JSON.stringify({ "ambassador": data[0].fullName }))
-                            .then(events => {
-                                setEventsData(events)
-                                setIsLoading(false)
-                                setFetch(false)
-                            })
-                    })
-                    .catch(err => console.log(err))
-            })
-    }
-
-
-    if (isLoading === true) {
-        return (
-            <Panel id={id}>
-                <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                    <ScreenSpinner style={{ marginTop: '50%' }} />
-                </div>
-            </Panel>
-        )
-    }
 
     return (
         <View activePanel={id} modal={profileModal}>
@@ -289,13 +290,17 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
                             <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActiveModal(ROUTES.UPGRADE); }}>Изменить grade</CellButton>
                         </Group>
                     }
+                    <Group>
+                        <Cell indicator={<Counter>{user.coins ? user.coins : '0'}</Counter>}>{String.fromCodePoint(0xD83D, 0xDCB3)} Баланс</Cell>
+                        <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActiveModal(ROUTES.ADDCOINS); }}>Изменить баланс</CellButton>
+                    </Group>
                     {userRole === "staff" ? <Group header={<Header mode="secondary">Staff функции</Header>}>
                         <CellButton
                             style={{ color: '#fc2c38' }}
                             onClick={go}
                             data-to="editprofileforstaff"
                             data-id={user.vkID}>Редактировать профиль</CellButton>
-                            <CellButton
+                        <CellButton
                             style={{ color: '#fc2c38' }}
                             onClick={() => { setActiveModal(ROUTES.CONFIRM); }}
                             data-id={user.vkID}>Удалить пользователя</CellButton>

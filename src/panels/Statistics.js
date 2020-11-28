@@ -1,12 +1,12 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Counter, RichCell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header, Cell } from '@vkontakte/vkui';
+import { Counter, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header, Cell } from '@vkontakte/vkui';
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
 import Icon28GraphOutline from '@vkontakte/icons/dist/28/graph_outline';
 
-const Statistics = ({ id, go, allAmbs, allEvents }) => {
+const Statistics = ({ id, go, allAmbs, allEvents, mentors }) => {
     const date = new Date();
     const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
     let valuesForTopNow = []
@@ -44,23 +44,35 @@ const Statistics = ({ id, go, allAmbs, allEvents }) => {
             {
                 label: 'Внутренние',
                 data: inEvents,
+                borderColor: [
+                    'rgba(252, 43, 56, 1)',
+                ],
                 backgroundColor: [
-                    'rgba(255, 206, 86, 0.6)',
-                ]
+                    'rgba(252, 43, 56, 0)',
+                ],
+                borderWidth: 5,
             },
             {
                 label: 'Внешние',
                 data: outEvents,
+                borderColor: [
+                    'rgba(255, 202, 205, 1)',
+                ],
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.6)',
-                ]
+                    'rgba(255, 202, 205, 0)',
+                ],
+                borderWidth: 5,
             },
             {
                 label: 'Помощь и поддержка',
                 data: helpEvents,
+                borderColor: [
+                    'rgba(51, 51, 51, 1)'
+                ],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)'
-                ]
+                    'rgba(51, 51, 51, 0)'
+                ],
+                borderWidth: 5,
             }
         ]
     }
@@ -71,49 +83,49 @@ const Statistics = ({ id, go, allAmbs, allEvents }) => {
                 Статистика
                 </PanelHeader>
             <Group>
-                <RichCell
-                    target="_blank"
-                    before={<span style={{ fontSize: '40px', alignItems: 'center' }}>Всего мероприятий: {allEvents ? allEvents.length : 0}</span>}>
-                </RichCell>
+                <Cell
+                    align='center'
+                >
+                    <span style={{ fontSize: '30px' }}>Всего мероприятий:{allEvents ? allEvents.length : 0} </span></Cell>
             </Group>
             <Group header={<Header style={{ color: "#fc2c38" }} >Расширенная статистика</Header>}>
-            <Line
-                data={data}
-                width={10}
-                height={10}
-            />
+                <Line
+                    data={data}
+                    width={10}
+                    height={10}
+                />
             </Group>
             <Group header={<Header style={{ color: "#fc2c38" }} >Последний месяц</Header>}>
-            { inEventsNow > inEventsPrev ?
-                <Cell
-                    indicator={<Counter key={Date.now()}>{inEventsNow}</Counter>}>
-                    Внутренние мероприятия(увел. на {inEventsNow - inEventsPrev})
+                {inEventsNow > inEventsPrev ?
+                    <Cell
+                        indicator={<Counter key={Date.now()}>{inEventsNow}</Counter>}>
+                        Внутренние мероприятия(увел. на {inEventsNow - inEventsPrev})
                 </Cell> :
-                <Cell
-                    indicator={<Counter key={Date.now()}>{inEventsNow}</Counter>}>
-                    Внутренние мероприятия(умен. на {inEventsPrev - inEventsNow})
+                    <Cell
+                        indicator={<Counter key={Date.now()}>{inEventsNow}</Counter>}>
+                        Внутренние мероприятия(умен. на {inEventsPrev - inEventsNow})
                 </Cell>}
 
-            { outEventsNow > outEventsPrev ?
-                <Cell indicator={<Counter key={Date.now()}>{outEventsNow}</Counter>}>
-                    Внешние мероприятия(увел. на {outEventsNow - outEventsPrev})
+                {outEventsNow > outEventsPrev ?
+                    <Cell indicator={<Counter key={Date.now()}>{outEventsNow}</Counter>}>
+                        Внешние мероприятия(увел. на {outEventsNow - outEventsPrev})
                             </Cell> :
-                <Cell indicator={<Counter key={Date.now()}>{outEventsNow}</Counter>}>
-                    Внешние мероприятия(умен. на {outEventsPrev - outEventsNow})
+                    <Cell indicator={<Counter key={Date.now()}>{outEventsNow}</Counter>}>
+                        Внешние мероприятия(умен. на {outEventsPrev - outEventsNow})
                             </Cell>}
 
-            { helpEventsNow > helpEventsPrev ?
-                <Cell indicator={<Counter key={Date.now()}>{helpEventsNow}</Counter>}>
-                    Помощь и поддержка(увел. на {helpEventsNow - helpEventsPrev})
+                {helpEventsNow > helpEventsPrev ?
+                    <Cell indicator={<Counter key={Date.now()}>{helpEventsNow}</Counter>}>
+                        Помощь и поддержка(увел. на {helpEventsNow - helpEventsPrev})
                             </Cell> :
-                <Cell indicator={<Counter key={Date.now()}>{helpEventsNow}</Counter>}>
-                    Помощь и поддержка(умен. на {helpEventsPrev - helpEventsNow})
+                    <Cell indicator={<Counter key={Date.now()}>{helpEventsNow}</Counter>}>
+                        Помощь и поддержка(умен. на {helpEventsPrev - helpEventsNow})
                                         </Cell>}
 
-            <Cell indicator={<Counter key={Date.now()}>{inEventsNow + outEventsNow + helpEventsNow}</Counter>}>
-                Всего мероприятий
+                <Cell indicator={<Counter key={Date.now()}>{inEventsNow + outEventsNow + helpEventsNow}</Counter>}>
+                    Всего мероприятий
                             </Cell>
-                            </Group>
+            </Group>
             <Group header={<Header style={{ color: "#fc2c38" }} >5 активных за последний месяц</Header>}>
                 <Cell indicator={<Counter key={Date.now()}>{valuesForTopNow[valuesForTopNow.length - 1].events}</Counter>}> {valuesForTopNow[valuesForTopNow.length - 1].name}</Cell>
                 <Cell indicator={<Counter key={Date.now()}>{valuesForTopNow[valuesForTopNow.length - 2].events}</Counter>}> {valuesForTopNow[valuesForTopNow.length - 2].name}</Cell>
@@ -148,7 +160,7 @@ const Statistics = ({ id, go, allAmbs, allEvents }) => {
                     <TabbarItem onClick={go} data-to="listambassador" text="Амбассадоры">
                         <Icon28Users3Outline />
                     </TabbarItem>
-                    <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
+                    <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
                         <Icon28GhostOutline />
                     </TabbarItem>
 

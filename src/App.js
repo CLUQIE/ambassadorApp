@@ -94,7 +94,6 @@ const App = () => {
 				setEventId(0)
 				setFetch(true)
 			})
-			.catch(err => console.log(err))
 	}
 
 	const confirmDeleteMentor = () => {
@@ -102,7 +101,6 @@ const App = () => {
 			.then(data => {
 				setFetch(true)
 			})
-			.catch(err => console.log(err))
 	}
 
 	const [activePanel, setActivePanel] = useState(ROUTES.START);
@@ -121,6 +119,7 @@ const App = () => {
 	const [mentors, setMentors] = React.useState();
 	const [role, setRole] = React.useState();
 	const [mentorInfo, setMentorInfo] = React.useState();
+
 
 	const onChangeRole = (event) => {
 		setRole(event.target.value)
@@ -223,7 +222,6 @@ const App = () => {
 							})
 					}
 				})
-				.catch(err => console.log(err))
 		}
 	}
 
@@ -274,6 +272,11 @@ const App = () => {
 				<Cell multiline>
 					<InfoRow header="Количество участников">
 						{amboEvent ? amboEvent[eventId].participants : 'empty'}
+					</InfoRow>
+				</Cell>
+				<Cell multiline>
+					<InfoRow header="Отзывы участников">
+						{amboEvent ? amboEvent[eventId].participantsCallback : 'empty'}
 					</InfoRow>
 				</Cell>
 				<Cell multiline>
@@ -351,7 +354,6 @@ const App = () => {
 			</ModalPage>
 		</ModalRoot>
 	)
-
 	return (
 		<View activePanel={activePanel} popout={popout} modal={modal}>
 			<Profile id='profile' fetchedUser={fetchedUser} go={go} amboEvent={amboEvent} profileInfo={profileInfo} achievementsList={achievementsList} />
@@ -368,19 +370,19 @@ const App = () => {
 			<AddEventVnutrOff fetchedUser={fetchedUser} id='addeventvnutroff' go={go} setFetchApp={setFetch} />
 			<AddEventHelpOnl fetchedUser={fetchedUser} id='addeventhelponl' go={go} setFetchApp={setFetch} />
 			<AddEventHelpOff fetchedUser={fetchedUser} id='addeventhelpoff' go={go} setFetchApp={setFetch} />
-			<ProfileForInfo id='profileforinfo' fetchedUser={fetchedUser} go={go} info={info} setFetchApp={setFetch} setActivePanel={setActivePanel} />
-			<EventsForInfo id='eventsforinfo' go={go} info={info} />
+			<ProfileForInfo id='profileforinfo' fetchedUser={fetchedUser} go={go} info={info} setFetchApp={setFetch} setActivePanel={setActivePanel} allAmbs={allAmbs} allEvents={allEvents} profileInfo={profileInfo} />
+			<EventsForInfo id='eventsforinfo' go={go} info={info} allEvents={allEvents} setFetchApp={setFetch} setPanel={setActivePanel} />
 			<ProfileMrg id='profilemrg' fetchedUser={fetchedUser} go={go} profileInfo={profileInfo} allAmbs={allAmbs} allEvents={allEvents} mentors={mentors} />
 			<Events id='events' go={go} amboEvent={amboEvent} setFetch={setFetch} setActiveModal={setActiveModal} setEventId={setEventId} />
-			<ListAmbassador id='listambassador' go={go} profileInfo={profileInfo} allAmbs={allAmbs} setAllAmbs={setAllAmbs} searchAmbassadors={searchAmbassadors} mentors={mentors} />
+			<ListAmbassador id='listambassador' go={go} allEvents={allEvents} profileInfo={profileInfo} allAmbs={allAmbs} setAllAmbs={setAllAmbs} searchAmbassadors={searchAmbassadors} mentors={mentors} />
 			<ListMentors id='listmentors' go={go} mentors={mentors} setMentorInfo={setMentorInfo} setActiveModal={setActiveModal} />
 			<EditProfileForStaff id='editprofileforstaff' go={go} info={info} />
 			<EditEvent id='editevent' fetchedUser={fetchedUser} go={go} info={info} setFetchApp={setFetch} profileInfo={profileInfo} />
 			<AddUser id='adduser' go={go} setFetchApp={setFetch} mentors={mentors} />
 			<Works id='works' />
 			<Aliens id='aliens' />
-			<Statistics id='statistics' go={go} allAmbs={allAmbs} allEvents={allEvents} />
-			<Start id='start' fetchedUser={fetchedUser} amboEvent={amboEvent} allAmbs={allAmbs} mentors={mentors} profileInfo={profileInfo} setActivePanel={setActivePanel} />
+			<Statistics id='statistics' go={go} allAmbs={allAmbs} allEvents={allEvents} mentors={mentors} />
+			<Start id='start' fetchedUser={fetchedUser} allAmbs={allAmbs} profileInfo={profileInfo} setActivePanel={setActivePanel} />
 		</View>
 	);
 

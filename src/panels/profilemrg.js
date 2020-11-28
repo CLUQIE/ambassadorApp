@@ -258,7 +258,8 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                     <Cell indicator={allEvents ? allEvents.length:0} >
                         Проведено мероприятий
                         </Cell>
-                    <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>
+                        {profileInfo.role === 'mentor' ?
+                    <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>:null}
                     {navigator.appVersion.indexOf("Win") !== -1 || navigator.appVersion.indexOf("Mac") !== -1 ? <Group header={<Header mode="secondary">Статистика Excel</Header>}>
                         <Div>
                             <Select onChange={onChangeMonth} placeholder="Выберите месяц мероприятий" bottom="Выберите месяц" >
@@ -295,7 +296,7 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         </TabbarItem> : null}
 
                         {profileInfo.role === 'staff' ?
-                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
+                        <TabbarItem  onClick={allEvents ? go : null} data-to="statistics" text="Статистика">
                             <Icon28GraphOutline  />
                         </TabbarItem> :null}
 

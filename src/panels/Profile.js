@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { achieveDescription, typeDescription } from './functions/AchieveDescription'
-import { View, ModalRoot, HorizontalScroll, Avatar, Tabs, TabsItem, Div, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { View, ModalRoot, HorizontalScroll, Avatar, Banner, Tabs, TabsItem, Div, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import { fullListPng } from './functions/achivementsListReturn'
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
@@ -34,7 +34,7 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
     };
 
     const [activeModal, setActivePanel] = React.useState(null);
-    const [activeTab, setActiveTab] = React.useState({ type: 'types', name: 'Типы достижений'});
+    const [activeTab, setActiveTab] = React.useState({ type: 'types', name: 'Типы достижений' });
     const [achieveDescripActive, setAchieveDescripActive] = React.useState(1);
 
     const profileModal = (
@@ -189,7 +189,7 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                     </Group> : <Group >
                         <Div>
                             {typeDescription ? typeDescription.map((desc, i) => (
-                                <Group key={i + Date.now} header={<Header mode="secondary">{desc.type}</Header>}><Div>{desc.description}</Div></Group>)): null}
+                                <Group key={i + Date.now} header={<Header mode="secondary">{desc.type}</Header>}><Div>{desc.description}</Div></Group>)) : null}
                         </Div>
                     </Group>}
                 <Cell> </Cell>
@@ -236,6 +236,9 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                             </RichCell>
                         </Group>
                     }
+                    <Group>
+                <Cell indicator={<Counter>{profileInfo.coins ? profileInfo.coins : '0'}</Counter>}>{String.fromCodePoint(0xD83D, 0xDCB3)} Баланс</Cell>
+                    </Group>
 
                     <Group header={<Header mode="secondary">Статистика</Header>}>
                         <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
@@ -254,13 +257,13 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                             indicator={<Counter key={profileInfo._id}>{amboEvent ? amboEvent.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length : 0}</Counter>}>
                             Помощь и поддержка
                             </Cell>
-                
+
                         <Group header={<Header mode="secondary" aside={<CellButton style={{ color: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}>Подробнее</CellButton>}>Достижения</Header>}>
-                            <HorizontalScroll style={profileInfo && profileInfo.achievements !== ' ' ? { paddingTop: 10 }: { paddingTop: 0 }} >
+                            <HorizontalScroll style={profileInfo && profileInfo.achievements !== ' ' ? { paddingTop: 10 } : { paddingTop: 0 }} >
                                 {profileInfo && profileInfo.achievements !== ' ' ?
                                     <div style={{ display: 'flex' }}>
                                         {achievementsList ? achievementsList.map((ref) => (ref.map((ref, i) => (
-                                            <div onClick={() => { setActivePanel(ROUTES.ACHIVESDESCRIPTION); setAchieveDescripActive(achieveDescription.findIndex((element,id)=>{if(element.name === ref.name)return true}))}} key={i + Date.now} style={{ ...itemStyle, paddingLeft: 5, paddingRight: 5 }}>
+                                            <div onClick={() => { setActivePanel(ROUTES.ACHIVESDESCRIPTION); setAchieveDescripActive(achieveDescription.findIndex((element, id) => { if (element.name === ref.name) return true })) }} key={i + Date.now} style={{ ...itemStyle, paddingLeft: 5, paddingRight: 5 }}>
                                                 <Avatar size={72} style={{ marginBottom: 1 }} src={ref.png}></Avatar>
                                             </div>)))) : null}
                                     </div> : <CellButton align='center' style={{ fontSize: '18px', color: 'grey' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}> Твои достижения еще впереди!</CellButton>}

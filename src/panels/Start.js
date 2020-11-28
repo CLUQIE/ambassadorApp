@@ -1,7 +1,7 @@
 import React from 'react';
 import { Div, Group, Panel, Placeholder, ScreenSpinner } from '@vkontakte/vkui';
 
-const Start = ({ id, setActivePanel, allAmbs, amboEvent, mentors, profileInfo, fetchedUser }) => {
+const Start = ({ id, setActivePanel, allAmbs, profileInfo, fetchedUser }) => {
     if (profileInfo) {
         if (profileInfo.role === 'ambassador' && allAmbs ) {
             const stateAmb = () => {
@@ -40,7 +40,7 @@ const Start = ({ id, setActivePanel, allAmbs, amboEvent, mentors, profileInfo, f
 
             </Panel>)
         }
-        else if (profileInfo.role === 'staff' && allAmbs && mentors) {
+        else if (profileInfo.role === 'staff' && allAmbs) {
             const stateStaff = () => {
                 setActivePanel('profilemrg')
             }

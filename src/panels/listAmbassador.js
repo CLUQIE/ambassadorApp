@@ -5,7 +5,7 @@ import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon56UserAddOutline from '@vkontakte/icons/dist/56/user_add_outline';
 import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
 import Icon28GraphOutline from '@vkontakte/icons/dist/28/graph_outline';
-
+ 
 const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbassadors, mentors }) => {
 
     const [search, setSearch] = React.useState('');
@@ -97,8 +97,8 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                                 </React.Fragment>}
                                 actions={
                                     <React.Fragment>
-                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id={user.vkID}>Профиль</Button>
-                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="eventsforinfo" data-id={user.vkID}>Мероприятия</Button>
+                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id={[user.fullName,id]}>Профиль</Button>
+                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="eventsforinfo" data-id={user.fullName}>Мероприятия</Button>
                                     </React.Fragment>
                                 }
                             />
@@ -111,7 +111,7 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                         <TabbarItem onClick={go} style={{ color: "#fc2c38" }} data-to="listambassador" text="Амбассадоры">
                             <Icon28Users3Outline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
-                        {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
+                        {profileInfo.role === 'staff' ? <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
                             <Icon28GhostOutline width={32} height={32} />
                         </TabbarItem> : null}
 
@@ -155,7 +155,7 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                             <Icon28Users3Outline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
 
-                        {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
+                        {profileInfo.role === 'staff' ? <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
                             <Icon28GhostOutline width={32} height={32} />
                         </TabbarItem> : null}
 
@@ -196,7 +196,7 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                             <Icon28Users3Outline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
 
-                        {profileInfo.role === 'staff' ? <TabbarItem onClick={go} data-to="listmentors" text="Наставники">
+                        {profileInfo.role === 'staff' ? <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
                             <Icon28GhostOutline  />
                         </TabbarItem> : null}
 
