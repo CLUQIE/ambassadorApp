@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1418f9bcf647759424e18fa5e9861123",
+    "revision": "7d623b7a4d285f4bbdd0fc4cb007d2e0",
     "url": "/ambassadorApp/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ambassadorApp/static/css/2.4911f66b.chunk.css"
   },
   {
-    "revision": "f4bd549758f9c882ba98",
+    "revision": "ba25279e074eaf5e296d",
     "url": "/ambassadorApp/static/css/main.7876847b.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ambassadorApp/static/js/2.2120f3e1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f4bd549758f9c882ba98",
-    "url": "/ambassadorApp/static/js/main.500be661.chunk.js"
+    "revision": "ba25279e074eaf5e296d",
+    "url": "/ambassadorApp/static/js/main.82746650.chunk.js"
   },
   {
     "revision": "17a43eb23f4255587cc8",
