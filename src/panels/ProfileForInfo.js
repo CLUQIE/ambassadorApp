@@ -6,7 +6,7 @@ import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import { achivementsListReturn } from './functions/achivementsListReturn'
 
-const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel, allEvents, allAmbs, profileInfo }) => {
+const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, allAmbs, profileInfo }) => {
 
     const requestAccesDelete = 'https://ambassador-todo.herokuapp.com/access/delete'
     const achievementsRefList = ['Образоватор 1000', 'Образоватор 2000', 'Образоватор 3000', 'Текстонаписатор', 'Контроленатор', 'Брехняразрушатор', 'Контентогенератор 5000', 'Публичноговоратор 5000', 'Достигатор', 'Форматоприлагатор', 'Защищатор 3000', 'Нетворкинатор', 'Контентомейкинатор', 'Юнитопривлекатор', 'Проектопроцветатор 1000', 'Идеявоплощатор', 'Собиратор', 'Новостегенератор', 'Фидбекатор', 'Мастератор', 'Скиллопоглощатор 47000']
@@ -23,9 +23,8 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
     };
     let userRole = profileInfo.role;
     info !== undefined ? info = info.split(',') : info = ['Акопян Тина Кареновна', 0];
-    let filtredEvents = allEvents.filter(function (i, n) { return i.ambassador === info[0] });
-    const [user, setUser] = React.useState(allAmbs[info[1]]);
-    const [eventsData, setEventsData] = React.useState(filtredEvents);
+    const user = allAmbs[info[1]]
+    let eventsData = allEvents.filter(function (i, n) { return i.ambassador === info[0] });
     const [fetch, setFetch] = React.useState(true);
     const [grade, setGrade] = React.useState();
     const [activeModal, setActiveModal] = React.useState(null);
@@ -43,7 +42,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
 
     const confirm = () => {
         postRequest('POST', requestAccesDelete, JSON.stringify({ _id: user._id }))
-        .then(setActivePanel('start'),setFetchApp(true))
+            .then(setActivePanel('start'), setFetchApp(true))
     }
 
     const modalBack = () => {
@@ -69,7 +68,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
             achievements: user.achievements + newAchive,
         })
         postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
-        .then(setActivePanel('start'),setFetchApp(true))
+            .then(data => { setActivePanel('start'); setFetchApp(true) })
     }
 
     const onClickForm = () => {
@@ -79,7 +78,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
             grade: grade,
         })
         postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
-        .then(setActivePanel('start'),setFetchApp(true))
+            .then(data => { setActivePanel('start'); setFetchApp(true) })
     }
 
     const onClickCoins = () => {
@@ -89,7 +88,7 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
             coins: newCoins,
         })
         postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
-            .then(setActivePanel('start'),setFetchApp(true))
+            .then(data => { setActivePanel('start'); setFetchApp(true) })
 
     }
 
@@ -260,8 +259,8 @@ const ProfileForInfo = ({ fetchedUser, id, go, info, setFetchApp, setActivePanel
                         Изменить баланс
                     </ModalPageHeader>}>
                 <Group>
-                    <Input onChange={onChangeCoins}  type="text" name="coins" top="Новый баланс"/>
-                    <Button style={{ backgroundColor: '#fc2c38', marginTop:20 }} type='submit' size='xl' onClick={onClickCoins} onMouseUp={modalBack}>Изменить</Button>
+                    <Input onChange={onChangeCoins} type="text" name="coins" top="Новый баланс" />
+                    <Button style={{ backgroundColor: '#fc2c38', marginTop: 20 }} type='submit' size='xl' onClick={onClickCoins} onMouseUp={modalBack}>Изменить</Button>
                 </Group>
                 <Cell> </Cell>
             </ModalPage>

@@ -49,7 +49,7 @@ const Events = ({ id, go, amboEvent, setActiveModal, setEventId }) => {
                             <Icon28NewsfeedOutline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
 
-                        <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
+                        <TabbarItem onClick={go} data-to="achivements" text="Грейды">
                             <Icon28FireOutline />
                         </TabbarItem>
 
@@ -85,7 +85,7 @@ const Events = ({ id, go, amboEvent, setActiveModal, setEventId }) => {
                             <Icon28NewsfeedOutline style={{ color: "#fc2c38" }} />
                         </TabbarItem>
 
-                        <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
+                        <TabbarItem onClick={go} data-to="achivements" text="Грейды">
                             <Icon28FireOutline />
                         </TabbarItem>
 

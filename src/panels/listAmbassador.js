@@ -5,48 +5,47 @@ import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon56UserAddOutline from '@vkontakte/icons/dist/56/user_add_outline';
 import Icon28GhostOutline from '@vkontakte/icons/dist/28/ghost_outline';
 import Icon28GraphOutline from '@vkontakte/icons/dist/28/graph_outline';
- 
+
 const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbassadors, mentors }) => {
 
     const [search, setSearch] = React.useState('');
     const [sortedAlphabet, setSortedAlphabet] = React.useState(true);
 
-
     const onChangeSearch = (event) => {
-        setSearch(event.target.value)
-        if (/[а-я]/i.test(search)) {
-            if (search === '') {
-                setAllAmbs(searchAmbassadors)
-            } else {
-                setAllAmbs(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(search.toLowerCase()) > -1 }))
-            }
-        } else {
-            let replaceLangSearch = autoReplacerLang(search)
-            setAllAmbs(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(replaceLangSearch.toLowerCase()) > -1 }))
-        }
-    }
+           setSearch(event.target.value)
+           if (/[а-я]/i.test(search)) {
+               if (search === '') {
+                   setAllAmbs(searchAmbassadors)
+               } else {
+                   setAllAmbs(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(search.toLowerCase()) > -1 }))
+               }
+           } else {
+               let replaceLangSearch = autoReplacerLang(search)
+               setAllAmbs(searchAmbassadors.filter(function (i, n) { return i.fullName.toLowerCase().indexOf(replaceLangSearch.toLowerCase()) > -1 }))
+           }
+       }
 
-    const autoReplacerLang = (str) => {
-        let replacer = {
-            "q": "й", "w": "ц", "e": "у", "r": "к", "t": "е", "y": "н", "u": "г",
-            "i": "ш", "o": "щ", "p": "з", "[": "х", "]": "ъ", "a": "ф", "s": "ы",
-            "d": "в", "f": "а", "g": "п", "h": "р", "j": "о", "k": "л", "l": "д",
-            ";": "ж", "'": "э", "z": "я", "x": "ч", "c": "с", "v": "м", "b": "и",
-            "n": "т", "m": "ь", ",": "б", ".": "ю", "/": ".",
-        };
-        let replace
-        for (let i = 0; i < str.length; i++) {
-            if (replacer[str[i].toLowerCase()] !== undefined) {
-                if (str[i] === str[i].toLowerCase()) {
-                    replace = replacer[str[i].toLowerCase()];
-                } else if (str[i] === str[i].toUpperCase()) {
-                    replace = replacer[str[i].toLowerCase()].toUpperCase();
-                }
-                str = str.replace(str[i], replace);
-            }
-        }
-        return str;
-    }
+      const autoReplacerLang = (str) => {
+          let replacer = {
+              "q": "й", "w": "ц", "e": "у", "r": "к", "t": "е", "y": "н", "u": "г",
+              "i": "ш", "o": "щ", "p": "з", "[": "х", "]": "ъ", "a": "ф", "s": "ы",
+              "d": "в", "f": "а", "g": "п", "h": "р", "j": "о", "k": "л", "l": "д",
+              ";": "ж", "'": "э", "z": "я", "x": "ч", "c": "с", "v": "м", "b": "и",
+              "n": "т", "m": "ь", ",": "б", ".": "ю", "/": ".",
+          };
+          let replace
+          for (let i = 0; i < str.length; i++) {
+              if (replacer[str[i].toLowerCase()] !== undefined) {
+                  if (str[i] === str[i].toLowerCase()) {
+                      replace = replacer[str[i].toLowerCase()];
+                  } else if (str[i] === str[i].toUpperCase()) {
+                      replace = replacer[str[i].toLowerCase()].toUpperCase();
+                  }
+                  str = str.replace(str[i], replace);
+              }
+          }
+          return str;
+      }
 
     const sortAlphabetically = () => {
         let sortData = allAmbs.sort(function (a, b) {
@@ -73,19 +72,17 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
 
     if (searchAmbassadors.length > 0) {
         return (
-
             <Panel id={id}>
-
                 <PanelHeader>
                     Амбассадоры
                 </PanelHeader>
                 {profileInfo.role === 'staff' ?
                     <Search  value={search} onChange={onChangeSearch} after={null} /> : null}
-                {profileInfo.role === 'staff' && !sortedAlphabet ?
+                                {profileInfo.role === 'staff' && !sortedAlphabet ?
                     <CellButton style={{ color: '#fc2c38' }} align='center' onClick={sortAlphabetically} >Сортировать по алфавиту</CellButton> : null}
                 {profileInfo.role === 'staff' && sortedAlphabet ?
                     <CellButton style={{ color: '#fc2c38' }} align='center' onClick={sortByMentor} >Сортировать по наставнику</CellButton> : null}
-                <Group style={{ marginBottom: 50 }}>
+                {searchAmbassadors.length > 0 ? <Group style={{ marginBottom: 50 }}>
                     {allAmbs.map((user, id) => (
                         <React.Fragment key={user._id}>
                             {profileInfo.role === 'staff' && !sortedAlphabet && id === 0 ? <Group header={<Header aside='Наставник'>{user.mentor} </Header>}><Separator /></Group> : null}
@@ -97,14 +94,23 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                                 </React.Fragment>}
                                 actions={
                                     <React.Fragment>
-                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id={[user.fullName,id]}>Профиль</Button>
+                                        <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="profileforinfo" data-id={[user.fullName, id]}>Профиль</Button>
                                         <Button style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={go} data-to="eventsforinfo" data-id={user.fullName}>Мероприятия</Button>
                                     </React.Fragment>
                                 }
                             />
                         </React.Fragment>
                     ))}
-                </Group>
+                </Group> : <Group>
+                        <Div>
+                            <Placeholder
+                                icon={<Icon56UserAddOutline style={{ color: 'rgb(176,182,192)' }} />}
+                                stretched
+                            >
+                                Нет таких амбассадоров<br />
+                            </Placeholder>
+                        </Div>
+                    </Group>}
 
                 <Epic>
                     <Tabbar style={{ marginTop: '100px' }}>
@@ -116,105 +122,18 @@ const ListAmbassador = ({ id, go, profileInfo, allAmbs, setAllAmbs, searchAmbass
                         </TabbarItem> : null}
 
                         {profileInfo.role === 'staff' ?
-                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
-                            <Icon28GraphOutline  />
-                        </TabbarItem> :null}
+                            <TabbarItem onClick={go} data-to="statistics" text="Статистика">
+                                <Icon28GraphOutline />
+                            </TabbarItem> : null}
 
                         <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
                             <Icon28UserOutline width={32} height={32} />
                         </TabbarItem>
                     </Tabbar>
                 </Epic>
-
-            </Panel>
-
-        )
-    }
-    if (allAmbs.length === 0 && profileInfo.role === "staff") {
-        return (
-            <Panel id={id}>
-
-                <PanelHeader>
-                    Амбассадоры
-                    </PanelHeader>
-                <Search value={search} onChange={onChangeSearch} after={null} />
-                <Group>
-                    <Div>
-                        <Placeholder
-                            icon={<Icon56UserAddOutline style={{ color: 'rgb(176,182,192)' }} />}
-                            stretched
-                        >
-                            Нет таких амбассадоров<br />
-                        </Placeholder>
-                    </Div>
-                </Group>
-
-                <Epic>
-                    <Tabbar style={{ marginTop: '100px' }}>
-                        <TabbarItem onClick={go} style={{ color: "#fc2c38" }} data-to="listambassador" text="Амбассадоры">
-                            <Icon28Users3Outline style={{ color: "#fc2c38" }} />
-                        </TabbarItem>
-
-                        {profileInfo.role === 'staff' ? <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
-                            <Icon28GhostOutline width={32} height={32} />
-                        </TabbarItem> : null}
-
-                        {profileInfo.role === 'staff' ?
-                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
-                            <Icon28GraphOutline  />
-                        </TabbarItem> :null}
-
-                        <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
-                            <Icon28UserOutline width={32} height={32} />
-                        </TabbarItem>
-                    </Tabbar>
-                </Epic>
-
             </Panel>
         )
     }
-    if (searchAmbassadors.length === 0) {
-        return (
-            <Panel id={id}>
-                <PanelHeader>
-                    Амбассадоры
-                </PanelHeader>
-                <Group>
-                    <Div>
-                        <Placeholder
-                            icon={<Icon56UserAddOutline style={{ color: 'rgb(176,182,192)' }} />}
-                            stretched
-                        >
-                            Нет амбассадоров<br />
-                        </Placeholder>
-                    </Div>
-                </Group>
-
-                <Epic>
-                    <Tabbar style={{ marginTop: '100px' }}>
-                        <TabbarItem onClick={go} style={{ color: "#fc2c38" }} data-to="listambassador" text="Амбассадоры">
-                            <Icon28Users3Outline style={{ color: "#fc2c38" }} />
-                        </TabbarItem>
-
-                        {profileInfo.role === 'staff' ? <TabbarItem onClick={mentors ? go : null} data-to="listmentors" text="Наставники">
-                            <Icon28GhostOutline  />
-                        </TabbarItem> : null}
-
-                        {profileInfo.role === 'staff' ?
-                        <TabbarItem  onClick={go} data-to="statistics" text="Статистика">
-                            <Icon28GraphOutline  />
-                        </TabbarItem> :null}
-
-                        <TabbarItem onClick={go} data-to="profilemrg" text="Профиль">
-                            <Icon28UserOutline  />
-                        </TabbarItem>
-                    </Tabbar>
-                </Epic>
-
-            </Panel>
-        )
-    }
-
 }
 
 export default ListAmbassador;

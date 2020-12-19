@@ -11,7 +11,7 @@ const Achivements = ({ fetchedUser, id, go, allAmbs, profileInfo }) => {
         <Panel id={id}>
 
             <PanelHeader>
-                Рейтинг
+               Грейды
             </PanelHeader>
             {fetchedUser &&
                 <SimpleCell href={"https://vk.com/id" + profileInfo.vkID} target="_blank" after={profileInfo.grade} description={profileInfo.universityShortly}>{profileInfo.fullName}</SimpleCell>}
@@ -28,7 +28,7 @@ const Achivements = ({ fetchedUser, id, go, allAmbs, profileInfo }) => {
                         <Icon28NewsfeedOutline />
                     </TabbarItem>
 
-                    <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="achivements" text="Рейтинг">
+                    <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="achivements" text="Грейды">
                         <Icon28FireOutline style={{ color: "#fc2c38" }} />
                     </TabbarItem>
 

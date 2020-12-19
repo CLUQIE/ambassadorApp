@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatPhoneNumber } from 'react-phone-number-input/input';
 import { achieveDescription, typeDescription } from './functions/AchieveDescription'
-import { View, ModalRoot, HorizontalScroll, Avatar, Banner, Tabs, TabsItem, Div, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
+import { View, ModalRoot, HorizontalScroll, Avatar, Tabs, TabsItem, Div, ModalPage, ModalPageHeader, RichCell, Group, PanelHeader, Panel, Epic, Tabbar, TabbarItem, Header, Cell, PanelHeaderButton, Counter, CellButton } from '@vkontakte/vkui';
 import { fullListPng } from './functions/achivementsListReturn'
 import Icon28UserOutline from '@vkontakte/icons/dist/28/user_outline';
 import Icon28NewsfeedOutline from '@vkontakte/icons/dist/28/newsfeed_outline';
@@ -304,7 +304,7 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                             <Icon28NewsfeedOutline />
                         </TabbarItem>
 
-                        <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">
+                        <TabbarItem onClick={go} data-to="achivements" text="Грейды">
                             <Icon28FireOutline />
                         </TabbarItem>
 

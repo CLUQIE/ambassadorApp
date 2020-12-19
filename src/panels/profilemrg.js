@@ -36,12 +36,13 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
 
     const confirm = () => {
         let filtredEvents = allEvents.filter(function (i, n) { return (i.date) })
+    console.log(allEvents)
         if (allEvents.length && filtredEvents.length !== 0) {
             if (month === "all") {
                 filtredEvents = allEvents
             }
             else {
-                filtredEvents = allEvents.filter(function (i, n) { return (i.date[3] + i.date[4] === month) })
+                filtredEvents = allEvents.filter(function (i, n) { return i.date && (i.date[3] + i.date[4] === month) })
             }
             excelReport(filtredEvents)
         }
@@ -252,7 +253,7 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                     </RichCell>
                 </Group>
                 <Group style={{ marginBottom: 100 }} header={<Header mode="secondary">Информация о амбассадорах</Header>}>
-                    <Cell indicator={allAmbs.length} >
+                    <Cell indicator={allAmbs ? allAmbs.length:0} >
                         Количество амбассадоров
                         </Cell>
                     <Cell indicator={allEvents ? allEvents.length:0} >
@@ -260,7 +261,7 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         </Cell>
                         {profileInfo.role === 'mentor' ?
                     <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>:null}
-                    {navigator.appVersion.indexOf("Win") !== -1 || navigator.appVersion.indexOf("Mac") !== -1 ? <Group header={<Header mode="secondary">Статистика Excel</Header>}>
+                    <Group header={<Header mode="secondary">Статистика Excel</Header>}>
                         <Div>
                             <Select onChange={onChangeMonth} placeholder="Выберите месяц мероприятий" bottom="Выберите месяц" >
                                 <option value="09">Сентябрь</option>
@@ -276,7 +277,7 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                             </Select>
                         </Div>
                         <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
-                    </Group> : null}
+                    </Group>
                     {profileInfo.role === 'staff' && (navigator.appVersion.indexOf("Win") !== -1 || navigator.appVersion.indexOf("Mac") !== -1) ? <Group header={<Header mode="secondary">Информация из профиля в Excel</Header>}>
                         <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRMPROFILES);}} onMouseUp={sort}>Скачать информацию</CellButton>
                     </Group> : null}

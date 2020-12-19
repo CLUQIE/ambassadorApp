@@ -182,6 +182,29 @@ const App = () => {
 								setFetch(false)
 							})
 					}
+					else if (data[0].role === 'staff') {
+						postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "role": "ambassador" }))
+							.then(ambassador => {
+								setAllAmbs(ambassador.sort(function (a, b) {
+									let aname = a.fullName.toLowerCase(),
+										bname = b.fullName.toLowerCase();
+									if (aname < bname) return -1;
+									if (aname > bname) return 1;
+									return null
+								}))
+								setSearchAmbassadors(ambassador)
+								if(fetch){
+								postRequest('GET', REQUEST.ALL_EVENTS)
+									.then(events => {
+										setAllEvents(events)
+										postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "role": 'mentor' }))
+											.then(mentors => {
+												setMentors(mentors)
+											})
+											.then(setFetch(false))
+									})}
+							})
+					}
 					else if (data[0].role === 'mentor') {
 						postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "mentor": data[0].fullName }))
 							.then(ambassador => {
@@ -198,27 +221,6 @@ const App = () => {
 										})
 										.then(setFetch(false))
 								}
-							})
-					}
-					else if (data[0].role === 'staff') {
-						postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "role": "ambassador" }))
-							.then(ambassador => {
-								setAllAmbs(ambassador.sort(function (a, b) {
-									let aname = a.fullName.toLowerCase(),
-										bname = b.fullName.toLowerCase();
-									if (aname < bname) return -1;
-									if (aname > bname) return 1;
-									return null
-								}))
-								setSearchAmbassadors(ambassador)
-								postRequest('GET', REQUEST.ALL_EVENTS)
-									.then(events => {
-										setAllEvents(events)
-										postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "role": 'mentor' }))
-											.then(mentors => {
-												setMentors(mentors)
-											})
-									})
 							})
 					}
 				})
