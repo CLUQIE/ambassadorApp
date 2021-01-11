@@ -24,10 +24,16 @@ const Statistics = ({ id, go, allAmbs, allEvents, mentors }) => {
     let outEventsPrev = allEvents.filter(function (i, n) { return i.date && i.participationForm === "Внешнее" && i.date[3] + i.date[4] == date.getMonth() }).length
     let helpEventsPrev = allEvents.filter(function (i, n) { return i.date && i.participationForm === "Помощь и поддержка" && i.date[3] + i.date[4] == date.getMonth() }).length
 
-    for (let i = 8; i < date.getMonth() + 2; i++) {
-        inEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.participationForm === "Внутреннее") }).length)
-        outEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.participationForm === "Внешнее") }).length)
-        helpEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.participationForm === "Помощь и поддержка") }).length)
+    for (let i = 8; i < 13; i++) {
+        inEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i &&  event.date.substr(6,9) == date.getFullYear()-1 && event.participationForm === "Внутреннее") }).length)
+        outEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.date.substr(6,9) == date.getFullYear()-1 && event.participationForm === "Внешнее") }).length)
+        helpEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.date.substr(6,9) == date.getFullYear()-1 && event.participationForm === "Помощь и поддержка") }).length)
+        labelsMonths.push(months[i - 1])
+    }
+    for (let i = 1; i < 8; i++) {
+        inEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.date.substr(6,9) == date.getFullYear() && event.participationForm === "Внутреннее") }).length)
+        outEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.date.substr(6,9) == date.getFullYear() && event.participationForm === "Внешнее") }).length)
+        helpEvents.push(allEvents.filter(function (event, n) { return (event.date && event.date[3] + event.date[4] == i && event.date.substr(6,9) == date.getFullYear() && event.participationForm === "Помощь и поддержка") }).length)
         labelsMonths.push(months[i - 1])
     }
 
