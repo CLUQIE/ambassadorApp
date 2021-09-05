@@ -5,6 +5,7 @@ import { View, ModalRoot, ModalCard, FormLayout, FormLayoutGroup, Input, InfoRow
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import { achivementsListReturn } from './functions/achivementsListReturn'
+import { ProgressTab } from './functions/progressFunctions.js';
 
 const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, allAmbs, profileInfo }) => {
 
@@ -20,9 +21,10 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
         ADDACHIVE: 'addAchive',
         ACHIVES: 'achives',
         ADDCOINS: 'addcoins',
+        CONFIRMEDU: 'confirmedu',
     };
     let userRole = profileInfo.role;
-    info !== undefined ? info = info.split(',') : info = ['Акопян Тина Кареновна', 0];
+    info !== undefined ? info = info.split(',') : info = [' ', 0];
     const user = allAmbs[info[1]]
     let eventsData = allEvents.filter(function (i, n) { return i.ambassador === info[0] });
     const [fetch, setFetch] = React.useState(true);
@@ -31,6 +33,7 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
     const [achievementsList, setAchievementsList] = React.useState('');
     const [newAchive, setNewAchive] = React.useState();
     const [newCoins, setNewCoins] = React.useState();
+    const [activeTask, setActiveTask] = React.useState(null);
 
     const getPng = (list) => {
         setAchievementsList(achivementsListReturn(list))
@@ -43,6 +46,30 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
     const confirm = () => {
         postRequest('POST', requestAccesDelete, JSON.stringify({ _id: user._id }))
             .then(setActivePanel('start'), setFetchApp(true))
+    }
+
+    const confirmTask = () => {
+        let newEduKey = user.eduKey
+        newEduKey.push(activeTask.key)
+        let body = JSON.stringify({
+            _id: user._id,
+            vkID: user.vkID,
+            eduKey: newEduKey,
+        })
+        postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
+            .then(data => { setActivePanel('start'); setFetchApp(true) })
+    }
+    const unConfirmTask = () => {
+        if (user.eduKey.indexOf(activeTask.key) > -1) {
+            let newEdukey = user.eduKey.filter((e) => e != activeTask.key)
+            let body = JSON.stringify({
+                _id: user._id,
+                vkID: user.vkID,
+                eduKey: newEdukey,
+            })
+            postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
+                .then(data => { setActivePanel('start'); setFetchApp(true) })
+        }
     }
 
     const modalBack = () => {
@@ -103,13 +130,13 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                 header={
                     <ModalPageHeader>
                         Удалить пользователя?
-            </ModalPageHeader>
+                    </ModalPageHeader>
                 }
             >
                 <FormLayout>
                     <FormLayoutGroup>
-                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
-                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#2787F5', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#2787F5', color: 'white' }} onClick={modalBack}> Нет </Button>
                     </FormLayoutGroup>
                 </FormLayout>
 
@@ -125,14 +152,14 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внутреннее" && i.eventForm === "Онлайн") }).length : 'empty'} </Counter>}>
                         Онлайн
-                            </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    </Cell>
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
-                            </Cell>
+                    </Cell>
                 </Group>
             </ModalPage>
 
@@ -145,14 +172,14 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
-                            </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    </Cell>
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
-                            </Cell>
+                    </Cell>
                 </Group>
             </ModalPage>
 
@@ -165,14 +192,14 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
-                            </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    </Cell>
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{eventsData ? eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
-                            </Cell>
+                    </Cell>
                 </Group>
             </ModalPage>
 
@@ -196,7 +223,7 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                     </Div>
                     <Cell> </Cell>
                     <Div>
-                        <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={modalBack} >Изменить</Button>
+                        <Button style={{ backgroundColor: '#2787F5' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={modalBack} >Изменить</Button>
                     </Div>
                 </Group>
                 <Cell> </Cell>
@@ -218,7 +245,7 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                     </Div>
                     <Cell> </Cell>
                     <Div>
-                        <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={addNewAchive} onMouseUp={modalBack} >Присвоить</Button>
+                        <Button style={{ backgroundColor: '#2787F5' }} type='submit' size='xl' onClick={addNewAchive} onMouseUp={modalBack} >Присвоить</Button>
                     </Div>
                 </Group>
                 <Cell> </Cell>
@@ -260,10 +287,28 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                     </ModalPageHeader>}>
                 <Group>
                     <Input onChange={onChangeCoins} type="text" name="coins" top="Новый баланс" />
-                    <Button style={{ backgroundColor: '#fc2c38', marginTop: 20 }} type='submit' size='xl' onClick={onClickCoins} onMouseUp={modalBack}>Изменить</Button>
+                    <Button style={{ backgroundColor: '#2787F5', marginTop: 20 }} type='submit' size='xl' onClick={onClickCoins} onMouseUp={modalBack}>Изменить</Button>
                 </Group>
                 <Cell> </Cell>
             </ModalPage>
+
+            <ModalCard
+                id={ROUTES.CONFIRMEDU}
+                onClose={modalBack}
+                header={
+                    <ModalPageHeader>
+                        Выполнено?
+                    </ModalPageHeader>
+                }
+            >
+                <FormLayout>
+                    <FormLayoutGroup>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#2787F5', color: 'white' }} onMouseUp={() => { if (activeTask.done) { modalBack() } else { confirmTask(); modalBack() } }} > Да </Button>
+
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#2787F5', color: 'white' }} onClick={() => { if (!activeTask.done) { modalBack() } else { unConfirmTask(); modalBack() } }}> Нет </Button>
+                    </FormLayoutGroup>
+                </FormLayout>
+            </ModalCard>
         </ModalRoot>
     )
 
@@ -272,9 +317,9 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
             <Panel id={id}>
 
                 <PanelHeader
-                    left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>
+                    left={<PanelHeaderButton style={{ color: "#2787F5" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>
                     Профиль
-            </PanelHeader>
+                </PanelHeader>
                 <div style={{ marginBottom: 50 }}>
                     {
                         <Group>
@@ -286,52 +331,54 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                                 <span style={{ fontSize: '14px', color: 'grey' }}>{user.grade}</span>
                                 <br />
                             </RichCell>
-                            <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActiveModal(ROUTES.UPGRADE); }}>Изменить grade</CellButton>
+                            <CellButton style={{ color: '#2787F5' }} onClick={() => { setActiveModal(ROUTES.UPGRADE); }}>Изменить grade</CellButton>
                         </Group>
                     }
-                    <Group>
+                    {/*  <Group>
                         <Cell indicator={<Counter>{user.coins ? user.coins : '0'}</Counter>}>{String.fromCodePoint(0xD83D, 0xDCB3)} Баланс</Cell>
-                        <CellButton style={{ color: '#fc2c38' }} onClick={() => { setActiveModal(ROUTES.ADDCOINS); }}>Изменить баланс</CellButton>
-                    </Group>
+                        <CellButton style={{ color: '#2787F5' }} onClick={() => { setActiveModal(ROUTES.ADDCOINS); }}>Изменить баланс</CellButton>
+                    </Group> */}
                     {userRole === "staff" ? <Group header={<Header mode="secondary">Staff функции</Header>}>
                         <CellButton
-                            style={{ color: '#fc2c38' }}
+                            style={{ color: '#2787F5' }}
                             onClick={go}
                             data-to="editprofileforstaff"
                             data-id={user.vkID}>Редактировать профиль</CellButton>
                         <CellButton
-                            style={{ color: '#fc2c38' }}
+                            style={{ color: '#2787F5' }}
                             onClick={() => { setActiveModal(ROUTES.CONFIRM); }}
                             data-id={user.vkID}>Удалить пользователя</CellButton>
                     </Group> : null}
 
-                    <Group header={<Header mode="secondary"> Достижения </Header>}>
+                    {/* <Group header={<Header mode="secondary"> Достижения </Header>}>
                         <CellButton
-                            style={{ color: '#fc2c38' }}
+                            style={{ color: '#2787F5' }}
                             onClick={() => { setActiveModal(ROUTES.ACHIVES); }}>Посмотреть достижения</CellButton>
                         <CellButton
-                            style={{ color: '#fc2c38' }}
+                            style={{ color: '#2787F5' }}
                             onClick={() => { setActiveModal(ROUTES.ADDACHIVE); }}
                             data-id={user.vkID}> Присвоить достижение </CellButton>
-                    </Group>
+                    </Group> */}
+
+                    <ProgressTab profileInfo={user} amboEvent={eventsData} role={userRole} setActiveModal={setActiveModal} activeTask={setActiveTask} />
 
                     <Group header={<Header mode="secondary">Статистика</Header>}>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.length}</Counter>}>
                             Всего мероприятий
-                            </Cell>
-                        <Cell onClick={() => { setActiveModal(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        </Cell>
+                        <Cell onClick={() => { setActiveModal(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length}</Counter>}>
                             Внутренние мероприятия
-                            </Cell>
-                        <Cell onClick={() => { setActiveModal(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        </Cell>
+                        <Cell onClick={() => { setActiveModal(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Внешнее" }).length}</Counter>}>
                             Внешние мероприятия
-                            </Cell>
-                        <Cell onClick={() => { setActiveModal(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        </Cell>
+                        <Cell onClick={() => { setActiveModal(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={user._id}>{eventsData.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length}</Counter>}>
                             Помощь и поддержка
-                            </Cell>
+                        </Cell>
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
@@ -344,9 +391,9 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{formatPhoneNumber(user.phoneNumber)}</span></Cell></InfoRow>} >
                             Номер телефона
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.personalEmail}</span></Cell></InfoRow>} >
+                        {/* <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.personalEmail}</span></Cell></InfoRow>} >
                             Email
-                        </Cell>
+                        </Cell> */}
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.universityShortly}</span></Cell></InfoRow>} >
                             Учебное заведение
                         </Cell>
@@ -356,7 +403,7 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                         <Cell multiline indicator={<InfoRow><Cell multiline ><span style={{ color: '#838c98' }}>{user.personalPostalAddress}</span></Cell></InfoRow>} >
                             Почтовый адрес (с индексом)
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.latinFullName}</span></Cell></InfoRow>}>
+                        {/*   <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.latinFullName}</span></Cell></InfoRow>}>
                             Амбассадорская почта
                         </Cell>
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.university}</span></Cell></InfoRow>} >
@@ -367,17 +414,17 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                         </Cell>
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.facultyShortly} </span></Cell></InfoRow>}>
                             Краткое название факультета
-                        </Cell>
+                        </Cell> */}
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.statusInUniversity}</span></Cell></InfoRow>} >
                             Статус
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.facultyFull}</span></Cell></InfoRow>} >
+                        {/* <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.facultyFull}</span></Cell></InfoRow>} >
                             Факультет
-                        </Cell>
+                        </Cell> */}
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.specialty}</span></Cell></InfoRow>} >
                             Специальность
                         </Cell>
-                        <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.universityPostalAddress}</span></Cell></InfoRow>} >
+                        {/* <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.universityPostalAddress}</span></Cell></InfoRow>} >
                             Адрес учебного заведения
                         </Cell>
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.rectorFullName}</span></Cell></InfoRow>}>
@@ -385,7 +432,7 @@ const ProfileForInfo = ({ id, go, info, setFetchApp, setActivePanel, allEvents, 
                         </Cell>
                         <Cell multiline indicator={<InfoRow><Cell multiline><span style={{ color: '#838c98' }}>{user.rectorPostalAddress}</span></Cell></InfoRow>} >
                             Email ректора
-                        </Cell>
+                        </Cell> */}
 
                     </Group>
                 </div>

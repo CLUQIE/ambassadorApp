@@ -104,7 +104,7 @@ const AddEventVnutrOnl = ({ fetchedUser, id, go, setFetchApp }) => {
 		<Panel id={id}>
 
 			<PanelHeader
-				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondvnutr" />}>
+				left={<PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="addeventsecondvnutr" />}>
 				Форма отчета</PanelHeader>
 			<Group>
 				<FormLayout>
@@ -136,7 +136,7 @@ const AddEventVnutrOnl = ({ fetchedUser, id, go, setFetchApp }) => {
 					<Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" />
 					<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
 
-					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
+					<Button style={{ backgroundColor: '#2787F5' }} type='submit' disabled={!date || !nameEvent || !participants || !eventType || !description} size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
 
 				</FormLayout>
 			</Group>

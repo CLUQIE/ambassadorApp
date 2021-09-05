@@ -119,7 +119,7 @@ const Editprofile = ({ id, go, profileInfo, setFetchApp }) => {
 			clothingSize: clothingsize
 		})
 		postRequest('POST', 'https://ambassador-todo.herokuapp.com/access/update', body)
-		.then(setFetchApp(true))
+			.then(setFetchApp(true))
 
 	}
 
@@ -128,20 +128,22 @@ const Editprofile = ({ id, go, profileInfo, setFetchApp }) => {
 		<Panel id={id}>
 
 			<PanelHeader
-				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="profile" onMouseUp={go} />}>Редактирование профиля</PanelHeader>
+				left={<PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="profile" onMouseUp={go} />}>Редактирование профиля</PanelHeader>
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeFullName} placeholder={profileInfo.fullName} type="text" name="fullname" top="Ф.И.О." required />
 					<Input onChange={onChangePhone} placeholder={formatPhoneNumber(profileInfo.phoneNumber)} pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" type="text" name="phonenumber" top="Телефон" bottom="Введи телефон в формате 8005553535 (без 7, +7, 8)" required />
-					<Input onChange={onChangeFullNameLatin} placeholder={profileInfo.latinFullName} type="text" name="fullname" top="Амбассадорская почта" required />
+					{/* <Input onChange={onChangeFullNameLatin} placeholder={profileInfo.latinFullName} type="text" name="fullname" top="Амбассадорская почта" required />
 					<Input onChange={onChangePersonalEmail} placeholder={profileInfo.personalEmail} type="text" name="email" top="Личная почта" required />
+					 */}
 					<Input onChange={onChangeBirthday} placeholder={profileInfo.birthday} type="date" name="dateofbirth" top="Дата рождения" required />
 					<Input onChange={onChangeTown} placeholder={profileInfo.town} type="text" name="city" top="Город" required />
-					<Input onChange={onChangeUniversity} placeholder={profileInfo.university} type="text" name="university" top="Учебное заведение" bottom="Полное наименование" required />
+					{/* 					<Input onChange={onChangeUniversity} placeholder={profileInfo.university} type="text" name="university" top="Учебное заведение" bottom="Полное наименование" required />*/}
 					<Input onChange={onChangeUniversityShortly} placeholder={profileInfo.universityShortly} type="text" name="university" top="Учебное заведение" bottom="Краткое наименование" required />
-					<Input onChange={onChangeUniversityPostalAddress} placeholder={profileInfo.universityPostalAddress} bottom="С индексом для отправки писем" type="text" name="pochtavuz" top="Почтовый адрес вуза" required />
+					{/* <Input onChange={onChangeUniversityPostalAddress} placeholder={profileInfo.universityPostalAddress} bottom="С индексом для отправки писем" type="text" name="pochtavuz" top="Почтовый адрес вуза" required />
 					<Input onChange={onChangeRectorFullName} placeholder={profileInfo.rectorFullName} type="text" name="fiorector" top="Ф.И.О. ректора" required />
-					<Input onChange={onChangeRectorPostalAddress} placeholder={profileInfo.rectorPostalAddress} ype="text" name="emailrector" top="Электронный адрес ректора" required />
+					 <Input onChange={onChangeRectorPostalAddress} placeholder={profileInfo.rectorPostalAddress} ype="text" name="emailrector" top="Электронный адрес ректора" required />
+					*/}
 					<Select onChange={onChangeStatusInUniversity} placeholder={profileInfo.statusInUniversity} bottom="Курс, на который ты уже перешёл" top="Статус в вузе" >
 						<option value="1 курс бакалавриат">1 курс бакалавриат</option>
 						<option value="2 курс бакалавриат">2 курс бакалавриат</option>
@@ -158,8 +160,8 @@ const Editprofile = ({ id, go, profileInfo, setFetchApp }) => {
 						<option value="Аспирант">Аспирант</option>
 						<option value="Сотрудник вуза">Сотрудник вуза</option>
 					</Select>
-					<Input onChange={onChangeFacultyFull} placeholder={profileInfo.facultyFull} bottom="Полное наименование" type="text" name="facultatifull" top="Факультет" required />
-					<Input onChange={onChangeFacultyShortly} placeholder={profileInfo.facultyShortly} bottom="Краткое наименование" type="text" name="facultatiless" top="Факультет" required />
+					{/* <Input onChange={onChangeFacultyFull} placeholder={profileInfo.facultyFull} bottom="Полное наименование" type="text" name="facultatifull" top="Факультет" required />
+					<Input onChange={onChangeFacultyShortly} placeholder={profileInfo.facultyShortly} bottom="Краткое наименование" type="text" name="facultatiless" top="Факультет" required /> */}
 					<Input onChange={onChangeSpecialty} placeholder={profileInfo.specialty} type="text" name="speciality" top="Специальность" required />
 					<Input onChange={onChangePersonalPostalAddress} placeholder={profileInfo.personalPostalAddress} bottom="Куда присылать мерч и другие посылки" type="text" name="pochtaadress" top="Твой почтовый адрес (с индексом)" required />
 					<Select onChange={onChangeClothingSize} placeholder={profileInfo.clothingSize} top="Размер одежды (для бомбера)" >
@@ -176,7 +178,7 @@ const Editprofile = ({ id, go, profileInfo, setFetchApp }) => {
 						<option value="L женский">L женский</option>
 						<option value="XL женский">XL женский</option>
 					</Select>
-					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
+					<Button style={{ backgroundColor: '#2787F5' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profile">Добавить</Button>
 				</FormLayout>
 			</Group>
 

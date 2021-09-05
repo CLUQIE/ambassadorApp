@@ -11,19 +11,19 @@ const AddEventFirst = ({ id, go }) => {
         <Panel id={id}>
 
             <PanelHeader
-                left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="events" />}>
+                left={<PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="events" />}>
                 Форма отчета</PanelHeader>
             <Placeholder>
                 Выберите формат участия
             </Placeholder>
             <Div>
-                <Button  style={{backgroundColor: '#fc2c38'}}  size="xl" onClick={go} data-to="addeventsecondvnesh">Внешнее мероприятие</Button>
+                <Button  style={{backgroundColor: '#2787F5'}}  size="xl" onClick={go} data-to="addeventsecondvnesh">Внешнее мероприятие</Button>
             </Div>
             <Div>
-                <Button style={{backgroundColor: '#fc2c38'}} size="xl" onClick={go} data-to="addeventsecondvnutr">Внутреннее мероприятие</Button>
+                <Button style={{backgroundColor: '#2787F5'}} size="xl" onClick={go} data-to="addeventsecondvnutr">Внутреннее мероприятие</Button>
             </Div>
             <Div>
-                <Button style={{backgroundColor: '#fc2c38'}} size="xl" onClick={go} data-to="addeventsecondhelp">Помощь и поддержка</Button>
+                <Button style={{backgroundColor: '#2787F5'}} size="xl" onClick={go} data-to="addeventsecondhelp">Помощь и поддержка</Button>
             </Div>
 
 

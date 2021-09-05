@@ -28,8 +28,8 @@ const Achivements = ({ fetchedUser, id, go, allAmbs, profileInfo }) => {
                         <Icon28NewsfeedOutline />
                     </TabbarItem>
 
-                    <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="achivements" text="Грейды">
-                        <Icon28FireOutline style={{ color: "#fc2c38" }} />
+                    <TabbarItem style={{ color: "#2787F5" }} onClick={go} data-to="achivements" text="Грейды">
+                        <Icon28FireOutline style={{ color: "#2787F5" }} />
                     </TabbarItem>
 
                     <TabbarItem onClick={go} data-to="profile" text="Профиль">

@@ -106,7 +106,7 @@ const EditEvent = ({ info, id, go, setFetchApp, profileInfo }) => {
         <Panel id={id}>
 
             <PanelHeader
-                left={profileInfo.role === 'ambassador' ? <PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="events" /> : <PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" />}>
+                left={profileInfo.role === 'ambassador' ? <PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="events" /> : <PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="listambassador" />}>
                 Редактирование мероприятия</PanelHeader>
             {profileInfo.role === 'ambassador' ? <Group>
                 <FormLayout>
@@ -116,7 +116,7 @@ const EditEvent = ({ info, id, go, setFetchApp, profileInfo }) => {
                     <Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" placeholder={eventInfo ? eventInfo.publicationLinks : null} />
                     <Textarea onChange={onChangeNotes} name="notes" top="Заметки" placeholder={eventInfo ? eventInfo.notes : null} />
 
-                    <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Обновить</Button>
+                    <Button style={{ backgroundColor: '#2787F5' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Обновить</Button>
 
                 </FormLayout>
             </Group> :
@@ -209,7 +209,7 @@ const EditEvent = ({ info, id, go, setFetchApp, profileInfo }) => {
                             <option value="1000 и более">1000 и более</option>
                         </Select>
 
-                        <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Обновить</Button>
+                        <Button style={{ backgroundColor: '#2787F5' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Обновить</Button>
 
                     </FormLayout>
                 </Group>}

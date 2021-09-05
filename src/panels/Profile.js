@@ -9,6 +9,8 @@ import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 import Icon28WriteOutline from '@vkontakte/icons/dist/28/write_outline';
 import Icon16Like from '@vkontakte/icons/dist/16/like';
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
+import { ProgressTab } from './functions/progressFunctions';
+
 
 const itemStyle = {
     flexShrink: 0,
@@ -19,6 +21,10 @@ const itemStyle = {
     alignItems: 'center',
     fontSize: 12
 };
+
+const grades = ['Freshman', 'Trainee', 'Junior', 'Middle', 'Senior']
+
+
 const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList }) => {
 
     const ROUTES = {
@@ -53,40 +59,40 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                 <Group>
                     <Cell multiline indicator={<Cell>{profileInfo ? profileInfo.clothingSize : 'empty'}</Cell>} >
                         Размер одежды
-                        </Cell>
+                    </Cell>
                     <Cell multiline indicator={<Cell>{profileInfo ? profileInfo.personalPostalAddress : 'empty'}</Cell>} >
                         Почтовый адрес (с индексом)
-                        </Cell>
-                    <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.latinFullName : 'empty'}</Cell>} >
+                    </Cell>
+                    {/*  <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.latinFullName : 'empty'}</Cell>} >
                         Амбассадорская почта
-                        </Cell>
-                    <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.university : 'empty'}</Cell>}>
-                        Полное название учебного заведения
-                        </Cell>
-                    <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.facultyFull : 'empty'}</Cell>} >
+                    </Cell> */}
+                    <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.universityShortly : 'empty'}</Cell>}>
+                        Название учебного заведения
+                    </Cell>
+                    {/*  <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.facultyFull : 'empty'}</Cell>} >
                         Полное название факультета
-                        </Cell>
+                    </Cell>
                     <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.facultyShortly : 'empty'}</Cell>}  >
                         Краткое название факультета
-                        </Cell>
+                    </Cell> */}
                     <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.statusInUniversity : 'empty'}</Cell>}  >
                         Статус
-                        </Cell>
-                    <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.facultyFull : 'empty'} </Cell>}>
+                    </Cell>
+                    {/* <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.facultyFull : 'empty'} </Cell>}>
                         Факультет
-                        </Cell>
+                    </Cell> */}
                     <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.specialty : 'empty'} </Cell>}>
                         Специальность
-                        </Cell>
-                    <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.universityPostalAddress : 'empty'} </Cell>}>
+                    </Cell>
+                    {/*  <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.universityPostalAddress : 'empty'} </Cell>}>
                         Адрес учебного заведения
-                        </Cell>
+                    </Cell>
                     <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.rectorFullName : 'empty'}</Cell>} >
                         Ф.И.О. ректора
-                        </Cell>
+                    </Cell>
                     <Cell multiline indicator={<Cell >{profileInfo ? profileInfo.rectorPostalAddress : 'empty'}</Cell>} >
                         Email ректора
-                        </Cell>
+                    </Cell> */}
 
 
                 </Group>
@@ -102,14 +108,14 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{amboEvent ? amboEvent.filter(function (i, n) { return (i.participationForm === "Внутреннее" && i.eventForm === "Онлайн") }).length : 'empty'} </Counter>}>
                         Онлайн
-                            </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    </Cell>
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{amboEvent ? amboEvent.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
-                            </Cell>
+                    </Cell>
                 </Group>
             </ModalPage>
 
@@ -122,14 +128,14 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{amboEvent ? amboEvent.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
-                            </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    </Cell>
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{amboEvent ? amboEvent.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
-                            </Cell>
+                    </Cell>
                 </Group>
             </ModalPage>
 
@@ -142,14 +148,14 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{amboEvent ? amboEvent.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
-                            </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    </Cell>
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{amboEvent ? amboEvent.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
-                            </Cell>
+                    </Cell>
                 </Group>
             </ModalPage>
             <ModalPage
@@ -166,13 +172,13 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                         selected={activeTab.type === 'achieves'}
                     >
                         Достижения
-              </TabsItem>
+                    </TabsItem>
                     <TabsItem
                         onClick={() => setActiveTab({ type: 'types', name: 'Типы достижений' })}
                         selected={activeTab.type === 'types'}
                     >
                         Типы
-              </TabsItem>
+                    </TabsItem>
                 </Tabs>
                 {activeTab.type === 'achieves' ?
                     <Group >
@@ -219,9 +225,9 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
             <Panel id={id}>
 
                 <PanelHeader
-                    left={<PanelHeaderButton><Icon28WriteOutline style={{ color: "#fc2c38" }} onClick={go} data-to="editprofile" /></PanelHeaderButton>}>
+                    left={<PanelHeaderButton><Icon28WriteOutline style={{ color: "#2787F5" }} onClick={go} data-to="editprofile" /></PanelHeaderButton>}>
                     Профиль
-            </PanelHeader>
+                </PanelHeader>
                 <div style={{ marginBottom: 100 }}>
                     {fetchedUser &&
                         <Group>
@@ -236,29 +242,31 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                             </RichCell>
                         </Group>
                     }
-                    <Group>
+                    {/* <Group>
                 <Cell indicator={<Counter>{profileInfo.coins ? profileInfo.coins : '0'}</Counter>}>{String.fromCodePoint(0xD83D, 0xDCB3)} Баланс</Cell>
-                    </Group>
+                    </Group> */}
+
+                    <ProgressTab profileInfo={profileInfo} amboEvent={amboEvent} />
 
                     <Group header={<Header mode="secondary">Статистика</Header>}>
-                        <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        <Cell before={<Avatar style={{ background: '#2787F5 ' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={profileInfo._id}>{amboEvent ? amboEvent.length : 0}</Counter>}>
                             Всего мероприятий
-                            </Cell>
-                        <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        </Cell>
+                        <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#2787F5 ' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={profileInfo._id}>{amboEvent ? amboEvent.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length : 0}</Counter>}>
                             Внутренние мероприятия
-                            </Cell>
-                        <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        </Cell>
+                        <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#2787F5 ' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={profileInfo._id}>{amboEvent ? amboEvent.filter(function (i, n) { return i.participationForm === "Внешнее" }).length : 0}</Counter>}>
                             Внешние мероприятия
-                            </Cell>
-                        <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                        </Cell>
+                        <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#2787F5 ' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                             indicator={<Counter key={profileInfo._id}>{amboEvent ? amboEvent.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length : 0}</Counter>}>
                             Помощь и поддержка
-                            </Cell>
+                        </Cell>
 
-                        <Group header={<Header mode="secondary" aside={<CellButton style={{ color: '#fc2c38' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}>Подробнее</CellButton>}>Достижения</Header>}>
+                        {/* <Group header={<Header mode="secondary" aside={<CellButton style={{ color: '#2787F5' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}>Подробнее</CellButton>}>Достижения</Header>}>
                             <HorizontalScroll style={profileInfo && profileInfo.achievements !== ' ' ? { paddingTop: 10 } : { paddingTop: 0 }} >
                                 {profileInfo && profileInfo.achievements !== ' ' ?
                                     <div style={{ display: 'flex' }}>
@@ -268,7 +276,7 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                                             </div>)))) : null}
                                     </div> : <CellButton align='center' style={{ fontSize: '18px', color: 'grey' }} onClick={() => { setActivePanel(ROUTES.ACHIVES); }}> Твои достижения еще впереди!</CellButton>}
                             </HorizontalScroll>
-                        </Group>
+                        </Group> */}
 
                     </Group>
                     <Group header={<Header mode="secondary">Информация о пользователе</Header>}>
@@ -278,12 +286,12 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                         <Cell multiline indicator={profileInfo.birthday} >
                             Дата рождения
                         </Cell>
-                        <Cell multiline indicator={formatPhoneNumber(profileInfo.phoneNumber)} >
+                        {/*  <Cell multiline indicator={formatPhoneNumber(profileInfo.phoneNumber)} >
                             Номер телефона
                         </Cell>
-                        <Cell multiline indicator={profileInfo.personalEmail} >
+                       <Cell multiline indicator={profileInfo.personalEmail} >
                             Email
-                        </Cell>
+                        </Cell> */}
                         <Cell multiline indicator={<div className="IndicatorOverflow">{profileInfo.universityShortly}</div>}
                         >
                             Учебное заведение
@@ -292,7 +300,7 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                             Статус
                         </Cell>
                         <CellButton
-                            style={{ color: '#fc2c38' }}
+                            style={{ color: '#2787F5' }}
                             onClick={() => { setActivePanel(ROUTES.PROFILEINFO); }}>Дополнительная информация</CellButton>
                     </Group>
                 </div>
@@ -308,8 +316,8 @@ const Profile = ({ fetchedUser, id, go, amboEvent, profileInfo, achievementsList
                             <Icon28FireOutline />
                         </TabbarItem>
 
-                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profile" text="Профиль">
-                            <Icon28UserOutline style={{ color: "#fc2c38" }} width={32} height={32} />
+                        <TabbarItem style={{ color: "#2787F5 " }} onClick={go} data-to="profile" text="Профиль">
+                            <Icon28UserOutline style={{ color: "#2787F5" }} width={32} height={32} />
                         </TabbarItem>
                     </Tabbar>
                 </Epic>

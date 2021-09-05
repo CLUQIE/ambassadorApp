@@ -20,7 +20,10 @@ export function profileReport(data) {
     let sortData = data.map((element) => {
         delete element._id;
         delete element.__v;
+        delete element.eduKey;
+        delete element.generation;
         delete element.role;
+        delete element.coins;
         delete element.vkID;
         delete element.avatar;
         delete element.achievements;
@@ -38,7 +41,7 @@ export function profileReport(data) {
         .done(function (result) {
             let urlDownload = 'https://exporter.azurewebsites.net/api/export/GetFile/' + result;
             urlDownload += "?fileName=AmbassadorsProfile&extension=" + ext;
-            window.location.href=urlDownload
+            window.location.href = urlDownload
         })
         .fail(function (f) {
             alert("error:" + f.responseText);

@@ -18,7 +18,7 @@ const Events = ({ id, go, amboEvent, setActiveModal, setEventId }) => {
         return (
             <Panel id={id}>
                 <PanelHeader
-                    left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#fc2c38" }} onClick={go} data-to="addeventfirst" /></PanelHeaderButton>}>
+                    left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#2787F5" }} onClick={go} data-to="addeventfirst" /></PanelHeaderButton>}>
                     Мероприятия
                 </PanelHeader>
                 <Group>
@@ -26,7 +26,7 @@ const Events = ({ id, go, amboEvent, setActiveModal, setEventId }) => {
                         {amboEvent.map((event, id) => (
                             <Banner key={event._id}
                                 header={<React.Fragment>
-                                    <span style={{ fontWeight: '300', color: "#fc2c38", marginBottom: '10px' }}>{event.eventForm}, {event.eventType}</span> <br />
+                                    <span style={{ fontWeight: '300', color: "#2787F5", marginBottom: '10px' }}>{event.eventForm}, {event.eventType}</span> <br />
                                     <span>{event.nameEvent}</span>
                                 </React.Fragment>}
                                 subheader={<React.Fragment>
@@ -45,8 +45,8 @@ const Events = ({ id, go, amboEvent, setActiveModal, setEventId }) => {
                 </Group>
                 <Epic style={{ marginTop: '100px' }}>
                     <Tabbar>
-                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="events" text="Мероприятия">
-                            <Icon28NewsfeedOutline style={{ color: "#fc2c38" }} />
+                        <TabbarItem style={{ color: "#2787F5" }} onClick={go} data-to="events" text="Мероприятия">
+                            <Icon28NewsfeedOutline style={{ color: "#2787F5" }} />
                         </TabbarItem>
 
                         <TabbarItem onClick={go} data-to="achivements" text="Грейды">
@@ -66,7 +66,7 @@ const Events = ({ id, go, amboEvent, setActiveModal, setEventId }) => {
         return (
             <Panel id={id}>
                 <PanelHeader
-                    left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#fc2c38" }} onClick={go} data-to="addeventfirst" /></PanelHeaderButton>}>
+                    left={<PanelHeaderButton><Icon28AddOutline style={{ color: "#2787F5" }} onClick={go} data-to="addeventfirst" /></PanelHeaderButton>}>
                     Мероприятия
             </PanelHeader>
                 <Group>
@@ -81,8 +81,8 @@ const Events = ({ id, go, amboEvent, setActiveModal, setEventId }) => {
                 </Group>
                 <Epic style={{ marginTop: '100px' }}>
                     <Tabbar>
-                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="events" text="Мероприятия">
-                            <Icon28NewsfeedOutline style={{ color: "#fc2c38" }} />
+                        <TabbarItem style={{ color: "#2787F5" }} onClick={go} data-to="events" text="Мероприятия">
+                            <Icon28NewsfeedOutline style={{ color: "#2787F5" }} />
                         </TabbarItem>
 
                         <TabbarItem onClick={go} data-to="achivements" text="Грейды">

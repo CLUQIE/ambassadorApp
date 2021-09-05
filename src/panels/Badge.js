@@ -14,7 +14,7 @@ const Badge = ({ id, go }) => {
 		<Panel id={id}>
 
 			<PanelHeader
-            left={<PanelHeaderBack style={{color: "#fc2c38"}} onClick={go} data-to="profile"/>}>Достижения</PanelHeader>
+            left={<PanelHeaderBack style={{color: "#2787F5"}} onClick={go} data-to="profile"/>}>Достижения</PanelHeader>
             <Group separator="hide">
                 
 			    <CardGrid>

@@ -4,3 +4,11 @@
     align-items: center;
     margin-bottom: 0px;
 }
+
+/* .Progress__in{
+    background: #fc2c38 !important;
+} */
+
+.progress-cell .Cell__children{
+    width: 80vw;
+}

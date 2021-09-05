@@ -44,7 +44,7 @@ const EventsForInfo = ({ id, go, info, allEvents, setFetchApp, setPanel }) => {
                     header={
                         <ModalPageHeader
                             left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}
-                            right={<PanelHeaderButton style={{ color: '#fc2c38' }} onMouseUp={modalBack} onClick={go} data-to='editevent' data-id={eventsData ? eventsData[eventId]._id : 'empty'}><Icon24Write /></PanelHeaderButton>}>
+                            right={<PanelHeaderButton style={{ color: '#2787F5' }} onMouseUp={modalBack} onClick={go} data-to='editevent' data-id={eventsData ? eventsData[eventId]._id : 'empty'}><Icon24Write /></PanelHeaderButton>}>
                             {eventsData ? eventsData[eventId].nameEvent : 'empty'}
                         </ModalPageHeader>}>
                     <Cell multiline>
@@ -99,7 +99,7 @@ const EventsForInfo = ({ id, go, info, allEvents, setFetchApp, setPanel }) => {
                         </InfoRow>
                     </Cell>
                     <Separator></Separator>
-                    <CellButton style={{ color: "#fc2c38", marginBottom: 50 }} align='center' onClick={() => { setActivePanel(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
+                    <CellButton style={{ color: "#2787F5", marginBottom: 50 }} align='center' onClick={() => { setActivePanel(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
                 </ModalPage>
 
                 <ModalCard
@@ -113,9 +113,9 @@ const EventsForInfo = ({ id, go, info, allEvents, setFetchApp, setPanel }) => {
                 >
                     <FormLayout>
                         <FormLayoutGroup>
-                            <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmDelete} > Да </Button>
+                            <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#2787F5', color: 'white' }} onMouseUp={modalBack} onClick={confirmDelete} > Да </Button>
 
-                            <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={() => { setActivePanel(ROUTES.EVENTSINFO); }}> Нет </Button>
+                            <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#2787F5', color: 'white' }} onClick={() => { setActivePanel(ROUTES.EVENTSINFO); }}> Нет </Button>
                         </FormLayoutGroup>
                     </FormLayout>
                 </ModalCard>
@@ -126,7 +126,7 @@ const EventsForInfo = ({ id, go, info, allEvents, setFetchApp, setPanel }) => {
             <View activePanel={id} modal={modal}>
                 <Panel id={id}>
                     <PanelHeader
-                        left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>
+                        left={<PanelHeaderButton style={{ color: "#2787F5" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>
                         Мероприятия
                 </PanelHeader>
                     <Group>
@@ -134,7 +134,7 @@ const EventsForInfo = ({ id, go, info, allEvents, setFetchApp, setPanel }) => {
                             {eventsData.map((event, eventId) => (
                                 <Banner key={event._id}
                                     header={<React.Fragment>
-                                        <span style={{ fontWeight: '300', color: "#fc2c38", marginBottom: '10px' }}>{event.eventForm}, {event.eventType}</span> <br />
+                                        <span style={{ fontWeight: '300', color: "#2787F5", marginBottom: '10px' }}>{event.eventForm}, {event.eventType}</span> <br />
                                         <span>{event.nameEvent}</span>
 
                                     </React.Fragment>}
@@ -162,7 +162,7 @@ const EventsForInfo = ({ id, go, info, allEvents, setFetchApp, setPanel }) => {
     return (
         <Panel id={id}>
             <PanelHeader
-                left={<PanelHeaderButton style={{ color: "#fc2c38" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>                Мероприятия
+                left={<PanelHeaderButton style={{ color: "#2787F5" }} onClick={go} data-to="listambassador" > <Icon24Cancel /></PanelHeaderButton>}>                Мероприятия
         </PanelHeader>
             <Group>
                 <Div>

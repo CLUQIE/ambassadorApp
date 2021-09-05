@@ -71,9 +71,9 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
             >
                 <FormLayout>
                     <FormLayoutGroup>
-                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#2787F5', color: 'white' }} onMouseUp={modalBack} onClick={confirm} > Да </Button>
 
-                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#2787F5', color: 'white' }} onClick={modalBack}> Нет </Button>
                     </FormLayoutGroup>
                 </FormLayout>
 
@@ -101,11 +101,11 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return (i.participationForm === "Внутреннее" && i.eventForm === "Онлайн") }).length : 'empty'} </Counter>}>
                         Онлайн
                             </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внутреннее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
                             </Cell>
@@ -122,11 +122,11 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return (i.participationForm === "Внешнее" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
                             </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внешнее" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
                             </Cell>
@@ -143,11 +143,11 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         Формат мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return (i.participationForm === "Помощь и поддержка" && i.eventForm === "Онлайн") }).length : 'empty'}</Counter>}>
                         Онлайн
                             </Cell>
-                    <Cell before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter >{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" && i.eventForm === "Офлайн" }).length : 'empty'}</Counter>}>
                         Офлайн
                             </Cell>
@@ -164,15 +164,15 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         Статистика мероприятий
                     </ModalPageHeader>}>
                 <Group>
-                    <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell onClick={() => { setActivePanel(ROUTES.INSIDEEVENTS); }} before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter>{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внутреннее" }).length : 'empty'}</Counter>}>
                         Внутренние мероприятия
                             </Cell>
-                    <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell onClick={() => { setActivePanel(ROUTES.OUTSIDEEVENTS); }} before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter>{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Внешнее" }).length : 'empty'}</Counter>}>
                         Внешние мероприятия
                             </Cell>
-                    <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#fc2c38' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
+                    <Cell onClick={() => { setActivePanel(ROUTES.HELPANDSUPPORT); }} before={<Avatar style={{ background: '#2787F5' }} size={28} shadow={false}><Icon16Like fill="var(--white)" /></Avatar>}
                         indicator={<Counter>{allEvents ? allEvents.filter(function (i, n) { return i.participationForm === "Помощь и поддержка" }).length : 'empty'}</Counter>}>
                         Помощь и поддержка
                             </Cell>
@@ -191,9 +191,9 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
             >
                 <FormLayout>
                     <FormLayoutGroup>
-                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmProfiles} > Да </Button>
+                        <Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#2787F5', color: 'white' }} onMouseUp={modalBack} onClick={confirmProfiles} > Да </Button>
 
-                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+                        <Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#2787F5', color: 'white' }} onClick={modalBack}> Нет </Button>
                     </FormLayoutGroup>
                 </FormLayout>
             </ModalCard>
@@ -260,7 +260,7 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                         Проведено мероприятий
                         </Cell>
                         {profileInfo.role === 'mentor' ?
-                    <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>:null}
+                    <CellButton style={{ color: "#2787F5" }} onClick={() => { setActivePanel(ROUTES.EVENTSREPORT); }}>Статистика мероприятий</CellButton>:null}
                     <Group header={<Header mode="secondary">Статистика Excel</Header>}>
                         <Div>
                             <Select onChange={onChangeMonth} placeholder="Выберите месяц мероприятий" bottom="Выберите месяц" >
@@ -276,13 +276,13 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                                 <option value="all">За все время</option>
                             </Select>
                         </Div>
-                        <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
+                        <CellButton style={{ color: "#2787F5" }} onClick={() => { setActivePanel(ROUTES.CONFIRM); }}>Скачать отчет</CellButton>
                     </Group>
                     {profileInfo.role === 'staff' && (navigator.appVersion.indexOf("Win") !== -1 || navigator.appVersion.indexOf("Mac") !== -1) ? <Group header={<Header mode="secondary">Информация из профиля в Excel</Header>}>
-                        <CellButton style={{ color: "#fc2c38" }} onClick={() => { setActivePanel(ROUTES.CONFIRMPROFILES);}} onMouseUp={sort}>Скачать информацию</CellButton>
+                        <CellButton style={{ color: "#2787F5" }} onClick={() => { setActivePanel(ROUTES.CONFIRMPROFILES);}} onMouseUp={sort}>Скачать информацию</CellButton>
                     </Group> : null}
                     {profileInfo.role === 'staff' ? <Group header={<Header mode="secondary">Управление пользователями</Header>}>
-                        <CellButton style={{ color: "#fc2c38" }} onClick={go} data-to="adduser">Добавить пользователя</CellButton>
+                        <CellButton style={{ color: "#2787F5" }} onClick={go} data-to="adduser">Добавить пользователя</CellButton>
                     </Group> : null}
                 </Group>
 
@@ -301,8 +301,8 @@ const ProfileMrg = ({ fetchedUser, id, go, profileInfo, allAmbs, allEvents, ment
                             <Icon28GraphOutline  />
                         </TabbarItem> :null}
 
-                        <TabbarItem style={{ color: "#fc2c38" }} onClick={go} data-to="profilemrg" text="Профиль">
-                            <Icon28UserOutline style={{ color: "#fc2c38" }}  />
+                        <TabbarItem style={{ color: "#2787F5" }} onClick={go} data-to="profilemrg" text="Профиль">
+                            <Icon28UserOutline style={{ color: "#2787F5" }}  />
                         </TabbarItem>
                     </Tabbar>
                 </Epic>

@@ -100,14 +100,14 @@ const AddEventHelpOff = ({ fetchedUser, id, go, setFetchApp }) => {
 		<Panel id={id}>
 
 			<PanelHeader
-				left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventsecondhelp" />}>
+				left={<PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="addeventsecondhelp" />}>
 				Форма отчета</PanelHeader>
 			<Group>
 				<FormLayout>
 					<Input onChange={onChangeNameEvent} type="text" name="name" top="Название мероприятия" required />
 					<Input onChange={onChangeDate} type="date" name="data" top="Дата проведения" required />
-					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required />
 
+					<Input onChange={onChangePlace} type="text" name="name" top="Место проведения" required />
 					<Select onChange={onChangeEventType} top="Тип мероприятия" placeholder=" " required>
 						<option value="Выступление на мероприятиях (День ИТ-знаний, Проектория, Цифровой прорыв, Урок цифры)">Выступление на мероприятиях (День ИТ-знаний, Проектория, Цифровой прорыв, Урок цифры)</option>
 						<option value="Волонтерство">Волонтерство</option>
@@ -126,7 +126,7 @@ const AddEventHelpOff = ({ fetchedUser, id, go, setFetchApp }) => {
 					<Textarea onChange={onChangeLinks} name="links" top="Ссылки на посты" />
 					<Textarea onChange={onChangeNotes} name="notes" top="Заметки" />
 
-					<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
+					<Button style={{ backgroundColor: '#2787F5' }} type='submit' disabled={!date || !nameEvent || !participants || !eventType || !description} size='xl' onClick={onClickForm} onMouseUp={go} data-to="events">Добавить</Button>
 
 				</FormLayout>
 			</Group>

@@ -150,82 +150,84 @@ const App = () => {
 		}
 		fetchData();
 	}, []);
-
-	if (fetch) {
-		if (fetchedUser != null) {
-			const vkID = JSON.stringify({ "vkID": fetchedUser.id })
-			postRequest('POST', REQUEST.ACCESS_FIND, vkID)
-				.then(data => {
-					setProfileInfo(data[0])
-					if (data[0] === undefined) {
-						setActivePanel(ROUTES.ALIENS)
-						setFetch(false)
-					}
-					else if (data[0].vkID === '') {
-						setActivePanel(ROUTES.WORKS)
-						setFetch(false)
-					}
-					else if (data[0].role === 'ambassador') {
-						setAchievementsList(achivementsListReturn(data[0].achievements))
-						postRequest('POST', REQUEST.ACCESS_ROLE, JSON.stringify({ role: "ambassador" }))
-							.then(data => {
-								let filtredUsers = data.filter(function (i, n) { return (i.role === "ambassador" && i.grade) })
-								setAllAmbs(filtredUsers);
-							})
-						postRequest('POST', REQUEST.AMBO_EVENT, JSON.stringify({ "ambassador": data[0].fullName }))
-							.then(events => {
-								if (events.length > 0) {
-									setAmboEvent(events)
-								} else {
-									setAmboEvent(null)
-								}
-								setFetch(false)
-							})
-					}
-					else if (data[0].role === 'staff') {
-						postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "role": "ambassador" }))
-							.then(ambassador => {
-								setAllAmbs(ambassador.sort(function (a, b) {
-									let aname = a.fullName.toLowerCase(),
-										bname = b.fullName.toLowerCase();
-									if (aname < bname) return -1;
-									if (aname > bname) return 1;
-									return null
-								}))
-								setSearchAmbassadors(ambassador)
-								if(fetch){
-								postRequest('GET', REQUEST.ALL_EVENTS)
-									.then(events => {
-										setAllEvents(events)
-										postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "role": 'mentor' }))
-											.then(mentors => {
-												setMentors(mentors)
+	useEffect(() => {
+		if (fetch) {
+			if (fetchedUser != null) {
+				const vkID = JSON.stringify({ "vkID": fetchedUser.id })
+				postRequest('POST', REQUEST.ACCESS_FIND, vkID)
+					.then(data => {
+						setProfileInfo(data[0])
+						if (data[0] === undefined) {
+							setActivePanel(ROUTES.ALIENS)
+							setFetch(false)
+						}
+						else if (data[0].vkID === '') {
+							setActivePanel(ROUTES.WORKS)
+							setFetch(false)
+						}
+						else if (data[0].role === 'ambassador') {
+							setAchievementsList(achivementsListReturn(data[0].achievements))
+							postRequest('POST', REQUEST.ACCESS_ROLE, JSON.stringify({ role: "ambassador" }))
+								.then(data => {
+									let filtredUsers = data.filter(function (i, n) { return (i.role === "ambassador" && i.grade) })
+									setAllAmbs(filtredUsers);
+								})
+							postRequest('POST', REQUEST.AMBO_EVENT, JSON.stringify({ "ambassador": data[0].fullName }))
+								.then(events => {
+									if (events.length > 0) {
+										setAmboEvent(events)
+									} else {
+										setAmboEvent(null)
+									}
+									setFetch(false)
+								})
+						}
+						else if (data[0].role === 'staff') {
+							postRequest('POST', REQUEST.ACCESS_ROLE, JSON.stringify({ role: "ambassador" }))
+								.then(ambassador => {
+									setAllAmbs(ambassador.sort(function (a, b) {
+										let aname = a.fullName.toLowerCase(),
+											bname = b.fullName.toLowerCase();
+										if (aname < bname) return -1;
+										if (aname > bname) return 1;
+										return null
+									}))
+									setSearchAmbassadors(ambassador)
+									if (fetch) {
+										postRequest('GET', REQUEST.ALL_EVENTS)
+											.then(events => {
+												setAllEvents(events)
+												postRequest('POST', REQUEST.ACCESS_ROLE, JSON.stringify({ role: "mentor" }))
+													.then(mentors => {
+														setMentors(mentors)
+													})
+													.then(setFetch(false))
+											})
+									}
+								})
+						}
+						else if (data[0].role === 'mentor') {
+							postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "mentor": data[0].fullName }))
+								.then(ambassador => {
+									setAllAmbs(ambassador)
+									setSearchAmbassadors(ambassador)
+									let eventsForMentors = []
+									for (let i = 0; i < ambassador.length; i++) {
+										postRequest('POST', REQUEST.AMBO_EVENT, JSON.stringify({ 'ambassador': ambassador[i].fullName }))
+											.then(events => {
+												for (let i = 0; i < events.length; i++) {
+													eventsForMentors.push(events[i])
+												}
+												setAllEvents(eventsForMentors)
 											})
 											.then(setFetch(false))
-									})}
-							})
-					}
-					else if (data[0].role === 'mentor') {
-						postRequest('POST', REQUEST.ACCESS_FIND, JSON.stringify({ "mentor": data[0].fullName }))
-							.then(ambassador => {
-								setAllAmbs(ambassador)
-								setSearchAmbassadors(ambassador)
-								let eventsForMentors = []
-								for (let i = 0; i < ambassador.length; i++) {
-									postRequest('POST', REQUEST.AMBO_EVENT, JSON.stringify({ 'ambassador': ambassador[i].fullName }))
-										.then(events => {
-											for (let i = 0; i < events.length; i++) {
-												eventsForMentors.push(events[i])
-											}
-											setAllEvents(eventsForMentors)
-										})
-										.then(setFetch(false))
-								}
-							})
-					}
-				})
+									}
+								})
+						}
+					})
+			}
 		}
-	}
+	}, [fetchedUser, fetch])
 
 	const modal = (
 		<ModalRoot
@@ -238,7 +240,7 @@ const App = () => {
 				header={
 					<ModalPageHeader
 						left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}
-						right={<PanelHeaderButton style={{ color: '#fc2c38' }} onMouseUp={modalBack} onClick={go} data-to='editevent' data-id={amboEvent ? amboEvent[eventId]._id : 'empty'}><Icon24Write /></PanelHeaderButton>}>
+						right={<PanelHeaderButton style={{ color: '#2787F5' }} onMouseUp={modalBack} onClick={go} data-to='editevent' data-id={amboEvent ? amboEvent[eventId]._id : 'empty'}><Icon24Write /></PanelHeaderButton>}>
 						{amboEvent ? amboEvent[eventId].nameEvent : 'empty'}
 					</ModalPageHeader>}>
 				<Cell multiline>
@@ -283,7 +285,7 @@ const App = () => {
 				</Cell>
 				<Cell multiline>
 					<InfoRow header="Ссылки">
-						<Link style={{ color: "#fc2c38" }} href={amboEvent ? amboEvent[eventId].publicationLinks : 'empty'} target="_blank"><span href={amboEvent ? amboEvent[eventId].publicationLinks : 'empty'} >{amboEvent ? amboEvent[eventId].publicationLinks : 'empty'}</span></Link>
+						<Link style={{ color: "#2787F5" }} href={amboEvent ? amboEvent[eventId].publicationLinks : 'empty'} target="_blank"><span href={amboEvent ? amboEvent[eventId].publicationLinks : 'empty'} >{amboEvent ? amboEvent[eventId].publicationLinks : 'empty'}</span></Link>
 					</InfoRow>
 				</Cell>
 				<Cell multiline>
@@ -292,7 +294,7 @@ const App = () => {
 					</InfoRow>
 				</Cell>
 				<Separator></Separator>
-				<CellButton style={{ color: "#fc2c38", marginBottom: 50 }} align='center' onClick={() => { setActiveModal(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
+				<CellButton style={{ color: "#2787F5", marginBottom: 50 }} align='center' onClick={() => { setActiveModal(ROUTES.CONFIRMDELETE); }}>Удалить мероприятие</CellButton>
 			</ModalPage>
 
 			<ModalCard
@@ -301,14 +303,14 @@ const App = () => {
 				header={
 					<ModalPageHeader>
 						Удалить мероприятие?
-		</ModalPageHeader>
+					</ModalPageHeader>
 				}
 			>
 				<FormLayout>
 					<FormLayoutGroup>
-						<Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmDelete} > Да </Button>
+						<Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#2787F5', color: 'white' }} onMouseUp={modalBack} onClick={confirmDelete} > Да </Button>
 
-						<Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={() => { setActiveModal(ROUTES.EVENTSINFO); }}> Нет </Button>
+						<Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#2787F5', color: 'white' }} onClick={() => { setActiveModal(ROUTES.EVENTSINFO); }}> Нет </Button>
 					</FormLayoutGroup>
 				</FormLayout>
 			</ModalCard>
@@ -319,14 +321,14 @@ const App = () => {
 				header={
 					<ModalPageHeader>
 						Удалить пользователя?
-		</ModalPageHeader>
+					</ModalPageHeader>
 				}
 			>
 				<FormLayout>
 					<FormLayoutGroup>
-						<Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#fc2c38', color: 'white' }} onMouseUp={modalBack} onClick={confirmDeleteMentor} > Да </Button>
+						<Button mode="secondary" size="xl" id='1' style={{ backgroundColor: '#2787F5', color: 'white' }} onMouseUp={modalBack} onClick={confirmDeleteMentor} > Да </Button>
 
-						<Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#fc2c38', color: 'white' }} onClick={modalBack}> Нет </Button>
+						<Button mode="secondary" size="xl" id='2' style={{ backgroundColor: '#2787F5', color: 'white' }} onClick={modalBack}> Нет </Button>
 					</FormLayoutGroup>
 				</FormLayout>
 			</ModalCard>
@@ -338,7 +340,7 @@ const App = () => {
 					<ModalPageHeader
 						left={<PanelHeaderButton onClick={modalBack}><Icon24Cancel /></PanelHeaderButton>}>
 						Изменить роль
-                    </ModalPageHeader>}>
+					</ModalPageHeader>}>
 				<Group >
 					<Div>
 						<Select onChange={onChangeRole} top="Роль" >
@@ -349,7 +351,7 @@ const App = () => {
 					</Div>
 					<Cell> </Cell>
 					<Div>
-						<Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={modalBack} >Изменить</Button>
+						<Button style={{ backgroundColor: '#2787F5' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={modalBack} >Изменить</Button>
 					</Div>
 				</Group>
 				<Cell> </Cell>

@@ -59,8 +59,8 @@ const InfoEvents = ({ id, go}) => (
 
 		<Epic style={{marginTop: '100px'}}>
                 <Tabbar>
-                    <TabbarItem style={{color:"#fc2c38"}} onClick={go} data-to="events" text="Мероприятия">
-                        <Icon28NewsfeedOutline style={{color:"#fc2c38"}}/>
+                    <TabbarItem style={{color:"#2787F5"}} onClick={go} data-to="events" text="Мероприятия">
+                        <Icon28NewsfeedOutline style={{color:"#2787F5"}}/>
                     </TabbarItem>
     
                     <TabbarItem onClick={go} data-to="achivements" text="Рейтинг">

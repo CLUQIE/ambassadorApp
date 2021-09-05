@@ -11,16 +11,16 @@ const AddEventSecondHelp = ({ id, go }) => {
         <Panel id={id}>
 
             <PanelHeader
-                left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="addeventfirst" />}>
+                left={<PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="addeventfirst" />}>
                 Форма отчета</PanelHeader>
             <Placeholder>
                 Выберите формат мероприятия
             </Placeholder>
             <Div>
-                <Button  style={{backgroundColor: '#fc2c38'}}  size="xl" onClick={go} data-to="addeventhelponl">Онлайн</Button>
+                <Button  style={{backgroundColor: '#2787F5'}}  size="xl" onClick={go} data-to="addeventhelponl">Онлайн</Button>
             </Div>
             <Div>
-                <Button style={{backgroundColor: '#fc2c38'}} size="xl" onClick={go} data-to="addeventhelpoff">Офлайн</Button>
+                <Button style={{backgroundColor: '#2787F5'}} size="xl" onClick={go} data-to="addeventhelpoff">Офлайн</Button>
             </Div>
 
 

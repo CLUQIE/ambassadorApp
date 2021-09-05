@@ -8,10 +8,22 @@ const AddUser = ({ id, go, setFetchApp, mentors }) => {
     const [fullName, setFullName] = React.useState();
     const [town, setTown] = React.useState();
     const [role, setRole] = React.useState('ambassador');
-    const [grade, setGrade] = React.useState(' ');
+    const [grade, setGrade] = React.useState('');
     const [birthday, setBirthday] = React.useState();
-    const [mentor, setMentor] = React.useState(' ');
+    const [mentor, setMentor] = React.useState('');
     const [universityShortly, setUniversityShortly] = React.useState();
+
+    const checkDisabled = () => {
+        if (role === 'ambassador') {
+            return grade.length === 0 || !vk || !fullName || mentor.length === 0
+        } else if (role === 'mentor') {
+            return !vk || !fullName
+        } if (role === 'staff') {
+            return !vk || !fullName
+        } else {
+            return false
+        }
+    }
 
     const onChangeUniversityShortly = (event) => {
         setUniversityShortly(event.target.value)
@@ -49,13 +61,13 @@ const AddUser = ({ id, go, setFetchApp, mentors }) => {
             vkID: vk,
             avatar: " ",
             achievements: " ",
-            birthday: birthday,
             fullName: fullName,
-            town: town,
-            universityShortly: universityShortly,
             mentor: mentor,
             grade: grade,
             role: role,
+            generation: "4",
+            eduEvents: [],
+            coins: '0'
         })
         postRequest('POST', 'https://ambassador-todo.herokuapp.com/access', body)
             .then(setFetchApp(true))
@@ -67,7 +79,7 @@ const AddUser = ({ id, go, setFetchApp, mentors }) => {
         <Panel id={id}>
 
             <PanelHeader
-                left={<PanelHeaderBack style={{ color: "#fc2c38" }} onClick={go} data-to="profilemrg" />}>Добавление пользователя</PanelHeader>
+                left={<PanelHeaderBack style={{ color: "#2787F5" }} onClick={go} data-to="profilemrg" />}>Добавление пользователя</PanelHeader>
             <Group>
                 <FormLayout>
                     <Select onChange={onChangeRole} top="Роль" >
@@ -77,11 +89,8 @@ const AddUser = ({ id, go, setFetchApp, mentors }) => {
                     </Select>
                     <Input onChange={onChangeVk} type="text" name="fullname" top="id Вконтакте" bottom="Только цифры" required />
                     <Input onChange={onChangeFullName} type="text" name="fullname" top="Ф.И.О." required />
-                    <Input onChange={onChangeBirthday} type="date" name="dateofbirth" top="Дата рождения" required />
-                    <Input onChange={onChangeTown} type="text" name="city" top="Город" required />
-                    <Input onChange={onChangeUniversityShortly} type="text" name="university" top="Учебное заведение" bottom="Краткое наименование" required />
                     {role === 'ambassador' ?
-                        <Select onChange={onChangeGrade} top="Grade" placeholder='Выберите grade'required>
+                        <Select onChange={onChangeGrade} top="Grade" placeholder='Выберите grade' required>
                             <option value="Freshman">Freshman</option>
                             <option value="Trainee">Trainee</option>
                             <option value="Junior">Junior</option>
@@ -92,7 +101,7 @@ const AddUser = ({ id, go, setFetchApp, mentors }) => {
                         <Select onChange={onChangeMentor} top="Наставник" placeholder='Выберите наставника' required>
                             {mentors.map((mentor, i) => (<option key={i + Date.now} value={mentor.fullName} >{mentor.fullName}</option>))}
                         </Select> : null}
-                    <Button style={{ backgroundColor: '#fc2c38' }} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profilemrg">Добавить</Button>
+                    <Button style={{ backgroundColor: '#2787F5' }} disabled={checkDisabled()} type='submit' size='xl' onClick={onClickForm} onMouseUp={go} data-to="profilemrg">Добавить</Button>
                 </FormLayout>
             </Group>
 
